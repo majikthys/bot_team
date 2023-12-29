@@ -29,9 +29,9 @@ class ChatGptAgent
   def call
     @response = rest_gateway.call(@chat_gpt_request)
 
-    if @response.function_call.present?
+    if @response.function_call
       call_function
-    elsif @response.message.present?
+    elsif @response.message
       @response.message
     end
   end

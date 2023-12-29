@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'httparty'
+require_relative 'chat_gpt_response'
 
 class RestGateway
   include HTTParty

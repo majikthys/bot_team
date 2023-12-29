@@ -14,4 +14,12 @@ describe ChatGptAgent do
     assert @subject.respond_to?(:change_state), "@subject should respond to :change_state"
   end
 
+  it 'talks to api' do
+    @subject.chat_gpt_request.functions=nil
+    @subject.chat_gpt_request.add_user_message('please say hello')
+    result = @subject.call
+
+    assert_equal String, result.class
+    assert result.downcase.include?('hello'), "result should include 'hello'"
+  end
 end

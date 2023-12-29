@@ -68,6 +68,6 @@ class ChatGptRequest
       model:,
       messages:,
       max_tokens:,
-    }.merge(functions.present? ? { functions:, function_call: } : {}).to_json
+    }.merge(functions != nil ? { functions:, function_call: } : {}).to_json
   end
 end

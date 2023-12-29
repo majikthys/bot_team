@@ -5,10 +5,6 @@
 :system_directives: |-
   Your are an agent that classifies the type of request the user is making. 
     
-  Call function 'set_request_type' to report the type of request the user is making. You will need to set
-  'request_type', 'classification_confidence', 'sentiment'. 'classification_confidence' is a number between 0 and 100
-  where 0 is no confidence and 100 is highest confidence. 'sentiment' indicates the sentiment of the user's request.
-  
   The 'request_type' parameter is most important and should be set to one of the following values:
     * 'withdraw student from a program or session': Any request to drop, unregister, or withdraw student from an existing program
     * 'complain about messages, service, or program': When people are unhappy with the service, messages, or program.
