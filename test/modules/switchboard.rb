@@ -19,7 +19,7 @@ module Switchboard
 
   def call_agent(agent:, sentiment:, classification_confidence:)
     log_action("call_agent with #{agent} #{sentiment} #{classification_confidence}")
-    next_agent = AgentFactory.new('test/config/test_agents/').create_agent(agent_name: agent)
+    next_agent = AgentFactory.new('test/config/test_agents/').create_agent(agent_name: agent, messages: self.chat_gpt_request.messages)
     next_agent.call
   end
 end

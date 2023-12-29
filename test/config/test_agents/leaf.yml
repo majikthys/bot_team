@@ -26,5 +26,5 @@
           :description: the test value
       :required:
         - state
-:function_call:
-  name: set_test_value
+:function_call: auto
+
