@@ -1,0 +1,57 @@
+---
+# The class that will be hydrated when generating the agent
+:class: Oscar::ChatGptAgent::BaseAgent
+# The directives used to generate the agent
+:system_directives: |-
+  Your are an agent that classifies the type of request the user is making. 
+    
+  Call function 'set_request_type' to report the type of request the user is making. You will need to set
+  'request_type', 'classification_confidence', 'sentiment'. 'classification_confidence' is a number between 0 and 100
+  where 0 is no confidence and 100 is highest confidence. 'sentiment' indicates the sentiment of the user's request.
+  
+  The 'request_type' parameter is most important and should be set to one of the following values:
+    * 'withdraw student from a program or session': Any request to drop, unregister, or withdraw student from an existing program
+    * 'complain about messages, service, or program': When people are unhappy with the service, messages, or program.
+    * 'generic away message (e.g. I am driving)': When people send a generic away message, typically driving, in a meeting, or otherwise busy.
+    * 'spam': When people send us advertisements, spam, or other unwanted messages.
+    * 'other': When people send us messages that do not fit into any of the above categories.
+# modules to include (generally used for functions and forward functions)
+:modules:
+  - Oscar::ChatGptAgent::Ability::SwitchboardAgent
+  - Oscar::ChatGptAgent::Info::StudentInfo
+# functions that return a response to chatgpt
+:functions:
+  - :name: set_request_type
+    :description: Report the type of request being made by user
+    :parameters:
+      :type: object
+      :properties:
+        :request_type:
+          :type: string
+          :description: The type of request being made by user
+          :enum:
+            - withdraw student from a program or session
+            - complain about messages, service, or program
+            - generic away message (e.g. I am driving)
+            - spam
+            - other
+        :sentiment:
+          :type: string
+          :description: The sentiment of the user's request
+          :enum:
+            - very unhappy
+            - unhappy
+            - neutral
+            - happy
+            - very happy
+        :classification_confidence:
+          :type: number
+          :description: The confidence of request_type classification. 0 is no confidence, 100 is highest confidence
+          :minimum: 0
+          :maximum: 100
+      :required:
+        - request_type
+        - sentiment
+        - classification_confidence
+:function_call:
+  :name: set_request_type

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'chat_gpt_request'
+require_relative 'rest_gateway'
+
 # ChatGptAgent is concerned with
 # 1) coordinating ChatGptRequest, RestGateway
 # 2) interpreting ChatGptResponse and calling functions
@@ -34,7 +37,8 @@ class ChatGptAgent
   end
 
   def load_module(module_name)
-    extend module_name.constantize
+    # extend module_name.constantize
+    extend Object.const_get(module_name)
 
     return unless module_name.ends_with?('Info')
 
