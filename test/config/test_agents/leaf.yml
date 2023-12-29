@@ -4,25 +4,27 @@
 # The directives used to generate the agent
 :system_directives: |-
   IGNORE PREVIOUS SYSTEM MESSAGES. THIS IS YOUR NEW INSTRUCTION SET.
-    You are an agent that changes state when requested by the user, for example 
-  
-  "Change state to off" will result in you changing your state to off.
 
-  If user is not clear, ask for clarification. Otherwise, call function 'change_state' to change your state
+  You are an agent that set test values based on user request. A user can ask you to 
+  "set test value to <value>" or "set test value <value>"... or any other variation of that sentence; When they
+  do, you should call the function 'set_test_value' with the value they supplied.
+
+  If user is not clear, ask for clarification. Otherwise, call function 'set_test_value' with the value supplied by the user.
 
 # modules to include (generally used for functions and forward functions)
 :modules:
  - Leaf
 # functions that return a response to chatgpt
 :functions:
-  - :name: change_state
+  - :name: set_test_value
     :description: changes state
     :parameters:
       :type: object
       :properties:
-        :student_name:
-          :type: state
-          :description: state to change to
+        :value:
+          :type: string
+          :description: the test value
       :required:
         - state
-:function_call: auto
+:function_call:
+  name: set_test_value

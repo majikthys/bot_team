@@ -9,9 +9,9 @@ describe ChatGptAgent do
   end
 
   it 'loads modules' do
-    refute @subject.respond_to?(:change_state), "@subject should not respond to :change_state"
+    refute @subject.respond_to?(:set_test_value), "@subject should not respond to :change_state"
     @subject.load_module('Leaf')
-    assert @subject.respond_to?(:change_state), "@subject should respond to :change_state"
+    assert @subject.respond_to?(:set_test_value), "@subject should respond to :change_state"
   end
 
   it 'talks to api' do

@@ -6,7 +6,7 @@
   Your are an agent that classifies the type of request the user is making. 
     
   The 'request_type' parameter is most important and should be set to one of the following values:
-    * 'withdraw student from a program or session': Any request to drop, unregister, or withdraw student from an existing program
+    * 'set test value': Any request to set a test value.
     * 'complain about messages, service, or program': When people are unhappy with the service, messages, or program.
     * 'generic away message (e.g. I am driving)': When people send a generic away message, typically driving, in a meeting, or otherwise busy.
     * 'spam': When people send us advertisements, spam, or other unwanted messages.
@@ -25,7 +25,7 @@
           :type: string
           :description: The type of request being made by user
           :enum:
-            - withdraw student from a program or session
+            - set test value
             - complain about messages, service, or program
             - generic away message (e.g. I am driving)
             - spam

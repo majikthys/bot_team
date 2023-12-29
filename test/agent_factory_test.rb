@@ -14,7 +14,6 @@ describe AgentFactory do
   it 'should create leaf agent' do
     agent = @subject.create_agent(agent_name: 'leaf')
     assert_equal 'gpt-3.5-turbo-0613', agent.chat_gpt_request.model
-    assert_equal 'auto', agent.chat_gpt_request.function_call
     assert_equal 80, agent.chat_gpt_request.max_tokens
     assert_equal 1, agent.chat_gpt_request.messages.count
     assert_equal 1, agent.chat_gpt_request.functions.count
@@ -28,4 +27,14 @@ describe AgentFactory do
     assert_equal 1, agent.chat_gpt_request.messages.count
     assert_equal 1, agent.chat_gpt_request.functions.count
   end
+
+  it 'should create switchboard agent' do
+    agent = @subject.create_agent(agent_name: 'switchboard')
+    agent.chat_gpt_request.add_user_message("set test value to 99")
+    puts agent.chat_gpt_request.to_json
+
+    result = agent.call
+    assert_equal "EXPECTED VALUE", result
+  end
+
 end
