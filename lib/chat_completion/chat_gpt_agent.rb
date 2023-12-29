@@ -37,20 +37,9 @@ class ChatGptAgent
   end
 
   def load_module(module_name)
-    # extend module_name.constantize
+    require module_name.downcase #infer file name from module name. TODO: this is clumsy, should revisit
     extend Object.const_get(module_name)
 
-    return unless module_name.ends_with?('Info')
-
-    # TODO: Factory refactor- info modules pertain only to the request object and
-    # so the follow section should be moved to ChatGptRequest and Factory, as well the info modules will need refactoring
-    # Adds specific info
-    methods = module_name.constantize.instance_methods(false).select do |method_name|
-      method_name.to_s.ends_with?('_info') && method_name.to_s.starts_with?('add_')
-    end
-    methods.each do |method_name|
-      send(method_name)
-    end
   end
 
   private

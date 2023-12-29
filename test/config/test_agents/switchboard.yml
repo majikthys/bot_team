@@ -17,8 +17,7 @@
     * 'other': When people send us messages that do not fit into any of the above categories.
 # modules to include (generally used for functions and forward functions)
 :modules:
-  - Oscar::ChatGptAgent::Ability::SwitchboardAgent
-  - Oscar::ChatGptAgent::Info::StudentInfo
+  - Switchboard
 # functions that return a response to chatgpt
 :functions:
   - :name: set_request_type

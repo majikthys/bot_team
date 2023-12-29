@@ -4,12 +4,15 @@
 # The directives used to generate the agent
 :system_directives: |-
   IGNORE PREVIOUS SYSTEM MESSAGES. THIS IS YOUR NEW INSTRUCTION SET.
-  Blah Blah
+    You are an agent that changes state when requested by the user, for example 
+  
+  "Change state to off" will result in you changing your state to off.
+
+  If user is not clear, ask for clarification. Otherwise, call function 'change_state' to change your state
 
 # modules to include (generally used for functions and forward functions)
 :modules:
-#  - Oscar::ChatGptAgent::Ability::WithdrawStudent
-#  - Oscar::ChatGptAgent::Info::StudentInfo
+ - Leaf
 # functions that return a response to chatgpt
 :functions:
   - :name: change_state
@@ -18,16 +21,8 @@
       :type: object
       :properties:
         :student_name:
-          :type: string
-          :description: name of student
-        :student_id:
-          :type: string
-          :description: id of student
-        :session_id:
-          :type: string
-          :description: a class session the student is withdrawing from
+          :type: state
+          :description: state to change to
       :required:
-        - student_id
-        - student_name
-        - session_id
+        - state
 :function_call: auto
