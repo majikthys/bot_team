@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-require 'httparty'
-
 # ChatGptRequest is a PORO that represents the request to the OpenAI ChatCompletion API.
 # #to_json is ultimate the output of this class, needed by the RestGateway
 #
 # Convenience methods are provided for encapsulating and manipulating the messages stack
-class ChatCompletion::ChatGptRequest
-  include HTTParty
+class ChatGptRequest
 
   attr_accessor :model, :function_call, :max_tokens, :messages, :functions
 

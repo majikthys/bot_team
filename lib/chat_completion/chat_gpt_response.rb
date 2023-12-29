@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # A friendly version of Chat Object response https://platform.openai.com/docs/api-reference/chat/object
-class ChatCompletion::ChatGptResponse
+class ChatGptResponse
   attr_accessor :source_id, :created, :object, :model, :system_fingerprint, :usage, :choices
 
   def initialize(attributes = {})

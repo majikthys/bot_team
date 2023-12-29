@@ -2,7 +2,7 @@
 
 require 'httparty'
 
-class ChatCompletion::RestGateway
+class RestGateway
   include HTTParty
 
   def api_key
@@ -24,6 +24,6 @@ class ChatCompletion::RestGateway
     response = HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers, timeout: 45)
     raise response['error']['message'] unless response.code == 200
 
-    ChatCompletion::ChatGptResponse.create_from_json(response)
+    ChatGptResponse.create_from_json(response)
   end
 end
