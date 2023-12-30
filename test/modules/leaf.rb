@@ -1,6 +1,6 @@
 
 module Leaf
   def set_test_value(value:)
-    "EXPECTED VALUE"
+    "OUTPUT FROM THE LEAF FUNCTION"
   end
 end

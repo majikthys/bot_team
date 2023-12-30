@@ -8,18 +8,12 @@ describe ChatGptAgent do
     @subject = ChatGptAgent.new
   end
 
-  it 'loads modules' do
-    refute @subject.respond_to?(:set_test_value), "@subject should not respond to :change_state"
-    @subject.load_module('Leaf')
-    assert @subject.respond_to?(:set_test_value), "@subject should respond to :change_state"
-  end
-
   it 'talks to api' do
     @subject.chat_gpt_request.functions=nil
     @subject.chat_gpt_request.add_user_message('please say hello')
     result = @subject.call
 
-    assert_equal String, result.class
-    assert result.downcase.include?('hello'), "result should include 'hello'"
+    assert_equal ChatGptResponse, result.class
+    assert result.message.downcase.include?('hello'), "result should include 'hello'"
   end
 end

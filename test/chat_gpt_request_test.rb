@@ -15,7 +15,6 @@ describe ChatGptRequest do
     assert_equal [], @subject.functions
   end
 
-
   it 'should replace system directives' do
     @subject.add_system_message('MESSAGE1')
     @subject.add_user_message('STAYS IN PLACE')
@@ -35,7 +34,6 @@ describe ChatGptRequest do
     @subject.add_system_message('TEST2')
     assert_equal [{ content: "TEST", role: "system" }, { content: "TEST2", role: "system" }], @subject.messages.select { |c| c[:role] == 'system' }
   end
-
 
   it 'should add agent message' do
     @subject.add_agent_message('TEST')
