@@ -8,7 +8,7 @@ require_relative 'rest_gateway'
 # 2) returning ChatGptResponse
 class ChatGptAgent
 
-  attr_reader :messages, :functions, :response, :rest_gateway, :chat_gpt_request, :max_tokens, :function_call
+  attr_reader :response, :rest_gateway, :chat_gpt_request
 
   def initialize(chat_gpt_request: nil, rest_gateway: nil)
     @rest_gateway = rest_gateway || RestGateway.new
