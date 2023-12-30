@@ -20,7 +20,7 @@ class AgentRunner
   end
 
   def run_agent(agent_name:, messages: nil)
-    @current_agent = create_agent(agent_name: agent_name, messages: messages)
+    create_agent(agent_name: agent_name, messages: messages)
     response = @current_agent.call
 
     return response.message if response&.message
@@ -34,7 +34,26 @@ class AgentRunner
     function_name = response.function_call['name']
     params = response.function_arguments
 
-    send(function_name, **params.transform_keys(&:to_sym))
+    if @current_agent_config[:state_map] && @current_agent_config[:state_map][:function_name] == function_name.to_sym
+      # handle state_map function_call
+      argument_name = @current_agent_config[:state_map][:argument_name].to_s
+      lookup_value = params[argument_name].to_sym
+      action_type, action_val = @current_agent_config[:state_map][:values_map][lookup_value].first
+      case action_type
+      when :agent
+        # Hmm... what to do with the params? This seems like it needs more thought
+        call_agent(agent: action_val, **params.reject{|k,v| k == argument_name}.transform_keys(&:to_sym))
+      when :function
+        # send function along but with the map argument removed from the params
+        send(action_val, **params.reject{|k,v| k == argument_name}.transform_keys(&:to_sym))
+      when :ignore
+        ignore(reason: action_val, **params.reject{|k,v| k == argument_name}.transform_keys(&:to_sym))
+      else
+        raise "Unknown action type #{action_type}"
+      end
+    else
+      send(function_name, **params.transform_keys(&:to_sym)) #vanilla function call
+    end
   end
 
   def create_agent(agent_name:, messages: nil)
@@ -43,7 +62,7 @@ class AgentRunner
     chat_gpt_agent.chat_gpt_request.messages = messages if messages&.any?
     chat_gpt_agent.chat_gpt_request.initialize_from_config(@current_agent_config)
 
-    chat_gpt_agent
+    @current_agent = chat_gpt_agent
   end
 
   def load_modules(modules)
@@ -55,6 +74,12 @@ class AgentRunner
     log_action("call_agent with #{agent} #{sentiment} #{classification_confidence}")
     run_agent(agent_name: agent, messages: @current_agent.chat_gpt_request.messages)
   end
+
+  def ignore(reason:, sentiment: nil, classification_confidence: nil)
+    log_action("IGNORE FUNCTION REASON: #{reason} SENTIMENT: #{sentiment} CONFIDENCE: #{classification_confidence}")
+    return nil
+  end
+
   def log_action(message)
     puts  "ACTION -> #{message}"
   end

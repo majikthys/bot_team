@@ -18,6 +18,22 @@ describe AgentRunner do
     assert_equal "OUTPUT FROM THE LEAF FUNCTION", result
   end
 
+  it 'should call module function' do
+    @subject.initial_agent_name = 'switchboard'
+    @subject.initial_messages = [{role: 'user', content: 'THANKS!!!'}]
+    result = @subject.run_team
+
+    assert_match /^OUTPUT FROM THE SB THANKS FUNCTION SENTIMENT/, result
+  end
+
+  it 'should call ignore function' do
+    @subject.initial_agent_name = 'switchboard'
+    @subject.initial_messages = [{role: 'user', content: 'IGNORE ME'}]
+    result = @subject.run_team
+
+    assert_nil result
+  end
+
   it 'should run single agent' do
     result = @subject.run_agent(agent_name: 'leaf', messages: [{role: 'user', content: 'set test value to 99'}])
     assert_equal "OUTPUT FROM THE LEAF FUNCTION", result

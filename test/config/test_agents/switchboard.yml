@@ -7,8 +7,7 @@
     
   The 'request_type' parameter is most important and should be set to one of the following values:
     * 'set test value': Any request to set a test value.
-    * 'complain about messages, service, or program': When people are unhappy with the service, messages, or program.
-    * 'generic away message (e.g. I am driving)': When people send a generic away message, typically driving, in a meeting, or otherwise busy.
+    * 'thanks and appreciation': When people are thankful or appreciative of the service or recent messages.
     * 'spam': When people send us advertisements, spam, or other unwanted messages.
     * 'other': When people send us messages that do not fit into any of the above categories.
 # modules to include (generally used for functions and forward functions)
@@ -26,8 +25,7 @@
           :description: The type of request being made by user
           :enum:
             - set test value
-            - complain about messages, service, or program
-            - generic away message (e.g. I am driving)
+            - thanks and appreciation
             - spam
             - other
         :sentiment:
@@ -50,3 +48,15 @@
         - classification_confidence
 :function_call:
   :name: set_request_type
+:state_map:
+  :function_name: :set_request_type
+  :argument_name: :request_type
+  :values_map:
+    :set test value:
+      :agent: :leaf
+    :thanks and appreciation:
+      :function: :thanks
+    :spam:
+      :ignore: :spam
+    :other:
+      :ignore: :other
