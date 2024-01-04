@@ -8,6 +8,26 @@ class ChatGptRequest
 
   attr_accessor :model, :function_call, :max_tokens, :messages, :functions
 
+  ROLES = %i[user assistant system function].freeze
+
+  def self.request_messages(role_message_map:)
+    if role_message_map.keys.any? { |role| !ROLES.include?(role) }
+      raise "Invalid role: #{role}. Must be one of #{ROLES}"
+    end
+
+    role_message_map.map do |role, content|
+      { role:, content: }
+    end
+  end
+
+  def self.request_messages_with_functions(role_message_map:)
+    raise "Invalid Role. Must be one of: #{ROLES}" if role_message_map.keys.any? { |role| !ROLES.include?(role) }
+
+    role_message_map.map do |role, content|
+      { role:, content: }
+    end
+  end
+
   def initialize
     @model = 'gpt-3.5-turbo-0613'
     @function_call = 'auto'
