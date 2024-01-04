@@ -7,3 +7,4 @@ require_relative '../lib/chat_completion'
 
 require 'modules/leaf'
 require 'modules/switchboard'
+require 'modules/product'
