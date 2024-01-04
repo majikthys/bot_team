@@ -25,6 +25,6 @@
           :type: string
           :description: the test value
       :required:
-        - state
+        - value
 :function_call: auto
 
