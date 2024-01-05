@@ -51,9 +51,9 @@ OpenAI API Terms of Note:
    2) a Chat Completion Response with Message/Function Call
  * **Team**: A chain of Agents, to process a single user message and ultimately producing a single response (or possibly none).
  * **Config**: A hash structure containing configuration info used to create a Chat Completion, significantly including:
-  * **System Directive**: Prompt/System Message, which may have tokens that will be replaced by via interpolation.
-  * **Tools/Function Definition**: Tools/Function Messages
-  * **State Map**: A mechanism to define 'switchboard' or state machine logic within a config (rather than in code).
+   * **System Directive**: Prompt/System Message, which may have tokens that will be replaced by via interpolation.
+   * **Tools/Function Definition**: Tools/Function Messages
+   * **State Map**: A mechanism to define 'switchboard' or state machine logic within a config (rather than in code).
   * And various facets of Chat Completion Requests, such as model, temperature, etc.
  * **Interpolations**: This is the mechanism by which one can insert user and session specific information into a System Directive at runtime. It is a map of keys and values/lamdas that will be used to replace tokens in a System Directive. 
  * **Ability Modules**: Modules containing functions that are made available to ChatGPT to call. These are passed into TeamRunner at instantiation and must be defined in the agent's config in the ```functions``` section.
@@ -63,7 +63,21 @@ Note about the term "**_Function_**": Function is obviously an overloaded term. 
 
 
 # How To Use
+## Hello World
+> TODO: 
+> * Add example directory with hello world-ish sample
+> * Reference here
 
+## Config
+> TODO: 
+>  * outline config sections
+>  * yaml file locations
+ 
+### System Directive & Interpolations
+> TODO: simple example with both lambda and string interpolation
+
+### Config Errata
+> TODO: model, tokens, etc.
 
 ## Ability Modules and Functions
 Modules passed into TeamRunner at instantiation are available for use by agents when also defined in the agent's config in the ```functions``` section.
@@ -76,6 +90,9 @@ The output of function will be rendered to user and may be text or nil.
 >>>  1. return text (rendered to user) 
 >>>  2. return nil (no response to user) 
 >>>  3. return a jsonable object non-text, which would be added as a ```tools/function``` message to Chat Completion Request and then current agent would be called again.  **<-- This is missing from our implementation.**
+
+
+> TODO: Example module.rb and passing into Team Runner
 
 
 ### example:
@@ -203,3 +220,5 @@ But, if the value of `request_type` is `other` then special ignore function will
 Only one function can be described in a config's `state_map`. 
 
 **Avoid Infinite Loops!** It is possible to create an infinite loop with state maps; So don't do it.
+
+
