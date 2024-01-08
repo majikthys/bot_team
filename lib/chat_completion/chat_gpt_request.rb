@@ -8,16 +8,16 @@ class ChatGptRequest
 
   attr_accessor :model, :function_call, :max_tokens, :messages, :functions
 
-  ROLES = %i[user assistant system function].freeze
+  ROLES = %w[user assistant system function].freeze
 
-  def self.request_messages(role_message_map:)
-    if role_message_map.keys.any? { |role| !ROLES.include?(role) }
-      raise "Invalid role: #{role}. Must be one of #{ROLES}"
-    end
+  def self.message(role, message)
+    raise "Invalid role: #{role}. Must be one of #{ROLES}" unless ROLES.include?(role.to_s)
 
-    role_message_map.map do |role, content|
-      { role:, content: }
-    end
+    { role: role.to_s, content: message.to_s }
+  end
+
+  def self.request_messages(role_message_maps:)
+    role_message_maps.map(&:to_a).flatten.each_slice(2).map { |role, message| message(role, message) }
   end
 
   def self.request_messages_with_functions(role_message_map:)
@@ -61,7 +61,7 @@ class ChatGptRequest
     end
   end
 
-  def add_agent_message(content)
+  def add_assistant_message(content)
     add_message('assistant', content)
   end
 
@@ -70,7 +70,7 @@ class ChatGptRequest
   end
 
   def add_message(role, content)
-    messages.append({ role:, content: })
+    messages.append(ChatGptRequest.message(role, content))
   end
 
   def initialize_from_config(config)

@@ -34,7 +34,7 @@ describe ChatGptRequest do
   end
 
   it 'should add agent message' do
-    subject.add_agent_message('TEST')
+    subject.add_assistant_message('TEST')
     assert_equal({ role: 'assistant', content: 'TEST' }, subject.messages.last)
   end
 
@@ -58,5 +58,23 @@ describe ChatGptRequest do
     assert_equal %w[function1 function2 forward_function1 forward_function2], subject.functions
     assert_equal 'function_call', subject.function_call
     assert_equal [{ role: 'system', content: 'system_directives' }], subject.messages
+  end
+
+  it 'converts messages to request hash' do
+    role_message_maps = [{ system: 'message1' }, { user: 'message2' }, { assistant: 'message3' }, { system: 'message4' }]
+    assert_equal ChatGptRequest.request_messages(role_message_maps:), [
+      { role: 'system', content: 'message1' },
+      { role: 'user', content: 'message2' },
+      { role: 'assistant', content: 'message3' },
+      { role: 'system', content: 'message4' }
+    ]
+
+    role_message_maps = [%w[system message1], %w[user message2], %w[assistant message3], %w[system message4]]
+    assert_equal ChatGptRequest.request_messages(role_message_maps:), [
+      { role: 'system', content: 'message1' },
+      { role: 'user', content: 'message2' },
+      { role: 'assistant', content: 'message3' },
+      { role: 'system', content: 'message4' }
+    ]
   end
 end

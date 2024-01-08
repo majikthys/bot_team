@@ -9,7 +9,7 @@ describe TeamRunner do
   subject do
     TeamRunner.new(
       agent_name: 'switchboard',
-      messages: { user: 'set test value to 99' },
+      messages: [{ user: 'set test value to 99' }],
       modules: [Switchboard, Leaf]
     ).tap do |runner|
       runner.config_root = 'test/config/test_agents/'

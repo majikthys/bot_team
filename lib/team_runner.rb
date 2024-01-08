@@ -10,8 +10,11 @@ class TeamRunner
 
   ROLES = ChatGptRequest::ROLES
 
-  # @param messages Hash of messages, with role as key and message as value. Role must be one of ROLES
-  # eg{system: 'blah', user: 'blah', assistant: 'blah'}
+  # @param messages Array of pairs, with role as key and message as value. Role must be one of ROLES
+  #    eg:
+  #      [{system: 'blah'}, {user: 'blah'}, {assistant: 'blah'}]
+  #    or
+  #      [['system', 'blah'], ['user', 'blah'], ['assistant', 'blah']]
   def initialize(
     agent_name:,
     messages:,
@@ -19,7 +22,7 @@ class TeamRunner
     interpolations: []
   )
     @agent_name = agent_name
-    @messages = ChatGptRequest.request_messages(role_message_map: messages)
+    @messages = ChatGptRequest.request_messages(role_message_maps: messages)
     @modules = modules
     @interpolations = interpolations
     @config_root = config_root
