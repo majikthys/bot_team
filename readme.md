@@ -1,9 +1,38 @@
 
-# Why
-Bot Team? is a library to make it easier to facilitate openai GPT Chat Completion scenarios that
-benefit from multiple passes with Chat Completion.
+# What is MagicTeam?
+MagicTeam is a library to make it easier to facilitate openai GPT Chat Completion scenarios that benefit from decomposing a large adventure into small tasks which can be each be completed by a series of GPT Assistants.
 
-## Benefits of Progression through Narrow Scoped Agents
+A MagicTeam is comprised of multiple instances of different Chat Completion GPT Assistants, each with a unique role, which work together to complete an objective. 
+
+_**CharacterSheets**_ are how we describe each individual GPT Assistant's role, background information, and capabilities. It is also where we specify which other MagicTeam GPT Assistants it may hand off to.
+
+Once processed by one of the GPT Assistants, a completed task consists of three things:
+    1. A request to the GPT Assistant (from the local application) which contains instructions, messages, and any context information necessary.
+    2. The response from the GPT Assistant (to the local application) which will contain either request for function execution or an end user message.
+    3. The result of the local application interpreting the response; This could mean executing a function, handing off to another GPT Assistant, or simply responding with text.
+
+Sequencing multiple GPT Assistants, each doing small tasks, is how a MagicTeam reliably completes a complicated or multistep task. 
+
+## CharacterSheets In More Detail
+
+CharacterSheets are where we define several important things:
+1) Role Name: The name of the role being defined (eg: customer_service, switchboard_operator, product_info_agent)
+2) Task Directives: We describe what the task is and how to accomplish the task. This is where 'prompt engineering' happens.
+3) Functions: What functions are available to the GPT Assistant to accomplish the task.
+4) TeamMap: Defines how one GPT Assistant hands off to another.
+5) Chat Completion Tuning: Various settings optimize the GPT Assistant associated with this character sheet, can specify specific models, tokens, etc.  
+
+
+---
+^^^^ NEW STUFF
+
+vvv OLD STUFF
+
+---
+
+# Why?
+
+## Benefits of Progression through Narrow Scoped GPT Assistants
 1) Narrowly scoped assistant prompts are easier to test and refine.
 2) Curtail the assistant's access to data to only information required for the topic at hand, which can prevent PII leaks.
 3) Curtail the assistant's access to functions to only those required to fulfill the objective
@@ -11,6 +40,7 @@ benefit from multiple passes with Chat Completion.
 5) Novel multipass solution architectures, like true Chain of Thought
 
 ## A Typical Scenario
+
 A typical example usage example would be to run a user message through several exchanges with chat gpt such as:
 
 [//]: # (THIS SHOULD REALLY HAVE A STATEMACHNINE DIAGRAM)
@@ -45,6 +75,77 @@ OpenAI API Terms of Note:
   
   * **Assistant**: Note: Unfortunately, this an overloaded term. It may refer to the execution context within a Chat Completion exchange (as mentioned in above 'Role' definition) or it might refer to a [beta feature/api](https://platform.openai.com/docs/assistants/overview) which is similar but different enough to cause confusion.
  
+### Different words for Agent:
+Conveying the request-response pairing:
+ - Exchange 
+ - Pass 
+ - Session
+
+Vague Verby:
+ - Jaunt 
+ - Hop 
+ - Step
+
+Military 
+ - Sally
+ - Sortie
+
+ChatCompletion-sh
+ - CompletionStep 
+ - CompletionExchange 
+ - CompletionSession
+
+Personified
+- Bot
+- 
+
+
+### Different words for Config:
+ - Definition 
+ - Description
+ - Outline
+ - Specification
+ - Spec
+ - Scaffold 
+ - Step 
+ - StepDefinition
+ - StepDef
+ - StepSpecification
+ - StepSpec
+ - Mission
+ - MissionBrief
+ - SideQuest
+ - PlayerSheet
+ - Assignment
+ - Task
+
+Maybe video game is the way to go here..
+
+So Campaign, Mission, Quest, Side Quest, Task, Objective, Goal, Assignment
+
+Quest: 
+CharacterSheet (goals, spells, stats)
+Spellbooks (function modules)
+Knowledge (substitutions interpolations)
+Task (request, response, result)
+
+
+
+
+
+
+
+
+
+
+
+
+TODO: 
+* Need better term for agent
+* Missing this idea: Concept of config system directive +  interpolation + functions + modules to define a ___Thing____
+* Config is a bad name. Could be the anchor concept if named correctly.
+* Interpolation is a bad name. 
+
  Gem Terms of 
  * **Agent**: A single session of Chat Completion. This includes:
    1) a Chat Completion Request with Messages/Prompts
