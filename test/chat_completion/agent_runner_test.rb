@@ -63,20 +63,20 @@ describe AgentRunner do
   end
 
   it 'should create leaf agent' do
-    agent = subject.create_agent(agent_name: 'leaf')
-    assert_equal 'gpt-3.5-turbo-0613', agent.chat_gpt_request.model
-    assert_equal 80, agent.chat_gpt_request.max_tokens
-    assert_equal 1, agent.chat_gpt_request.messages.count
-    assert_equal 1, agent.chat_gpt_request.functions.count
+    request = subject.create_request(agent_name: 'leaf')
+    assert_equal 'gpt-3.5-turbo-0613', request.model
+    assert_equal 80, request.max_tokens
+    assert_equal 1, request.messages.count
+    assert_equal 1, request.functions.count
   end
 
   it 'should create switchboard agent' do
-    agent = subject.create_agent(agent_name: 'switchboard')
-    assert_equal 'gpt-3.5-turbo-0613', agent.chat_gpt_request.model
-    assert_equal ({:name=>"set_request_type"}), agent.chat_gpt_request.function_call
-    assert_equal 80, agent.chat_gpt_request.max_tokens
-    assert_equal 1, agent.chat_gpt_request.messages.count
-    assert_equal 1, agent.chat_gpt_request.functions.count
+    request = subject.create_request(agent_name: 'switchboard')
+    assert_equal 'gpt-3.5-turbo-0613', request.model
+    assert_equal ({:name=>"set_request_type"}), request.function_call
+    assert_equal 80, request.max_tokens
+    assert_equal 1, request.messages.count
+    assert_equal 1, request.functions.count
   end
 
   it 'should interpolate config system_directives' do

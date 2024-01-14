@@ -7,15 +7,4 @@ require_relative 'rest_gateway'
 # 1) coordinating ChatGptRequest, RestGateway
 # 2) returning ChatGptResponse
 class ChatGptAgent
-
-  attr_reader :response, :rest_gateway, :chat_gpt_request
-
-  def initialize(chat_gpt_request: nil, rest_gateway: nil)
-    @rest_gateway = rest_gateway || RestGateway.new
-    @chat_gpt_request = chat_gpt_request || ChatGptRequest.new
-  end
-
-  def call
-    @response = rest_gateway.call(@chat_gpt_request)
-  end
 end

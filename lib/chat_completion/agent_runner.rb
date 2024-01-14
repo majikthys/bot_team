@@ -8,6 +8,7 @@ class AgentRunner
   attr_reader :current_agent_config, :current_agent, :interpolations
 
   def initialize(config_root:, modules: [], interpolations: [], initial_agent_name: nil, initial_messages: nil)
+    @rest_gateway = RestGateway.new
     @config_root = config_root
     @initial_agent_name = initial_agent_name
     @initial_messages = initial_messages
@@ -20,8 +21,8 @@ class AgentRunner
   end
 
   def run_agent(agent_name:, messages: nil)
-    create_agent(agent_name: agent_name, messages: messages)
-    response = @current_agent.call
+    create_request(agent_name: agent_name, messages: messages)
+    response = @rest_gateway.call(@chat_gpt_request)
 
     return response.message if response&.message
 
@@ -56,13 +57,12 @@ class AgentRunner
     end
   end
 
-  def create_agent(agent_name:, messages: nil)
+  def create_request(agent_name:, messages: nil)
     @current_agent_config = load_config(agent_name)
-    chat_gpt_agent = ChatGptAgent.new
-    chat_gpt_agent.chat_gpt_request.messages = messages if messages&.any?
-    chat_gpt_agent.chat_gpt_request.initialize_from_config(@current_agent_config)
-
-    @current_agent = chat_gpt_agent
+    @chat_gpt_request = ChatGptRequest.new
+    @chat_gpt_request.messages = messages if messages&.any?
+    @chat_gpt_request.initialize_from_config(@current_agent_config)
+    @chat_gpt_request
   end
 
   def load_config(agent_name)
@@ -84,7 +84,7 @@ class AgentRunner
   # Functions called by modules
   def call_agent(agent:, sentiment: nil, classification_confidence: nil)
     log_action("call_agent with #{agent} #{sentiment} #{classification_confidence}")
-    run_agent(agent_name: agent, messages: @current_agent.chat_gpt_request.messages)
+    run_agent(agent_name: agent, messages: @chat_gpt_request.messages)
   end
 
   def ignore(reason:, sentiment: nil, classification_confidence: nil)
@@ -93,6 +93,6 @@ class AgentRunner
   end
 
   def log_action(message)
-    puts  "ACTION -> #{message}"
+    puts  "ACTION -> #{message}" if ENV['DEBUG']
   end
 end
