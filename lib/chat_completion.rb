@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pry'
+
 require_relative 'chat_completion/agent_runner'
 require_relative 'chat_completion/chat_gpt_agent'
 require_relative 'chat_completion/chat_gpt_request'
