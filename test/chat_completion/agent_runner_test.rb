@@ -107,8 +107,8 @@ describe AgentRunner do
     )
 
     # Agent is created with interpolated values
-    agent = runner.create_agent(agent_name: 'interpolation')
-    system_message = agent.chat_gpt_request.messages.select { |message| message[:role] == 'system' }.first[:content]
+    request = runner.create_request(agent_name: 'interpolation')
+    system_message = request.messages.select { |message| message[:role] == 'system' }.first[:content]
 
     assert_match /Session 141241/, system_message, 'strings should be directly replaced'
     assert_match /{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/,
@@ -118,8 +118,8 @@ describe AgentRunner do
     # Demonstrate lamda, is not called until create_agent interpolation is called
     refute_match /{\n {4}"name": "stuff",\n {4}"id": 42\n {2}}/, system_message, 'values do not exist yet'
     products << { name: 'stuff', id: 42 }
-    agent = runner.create_agent(agent_name: 'interpolation')
-    system_message = agent.chat_gpt_request.messages.select { |message| message[:role] == 'system' }.first[:content]
+    request = runner.create_request(agent_name: 'interpolation')
+    system_message = request.messages.select { |message| message[:role] == 'system' }.first[:content]
     assert_match /{\n {4}"name": "stuff",\n {4}"id": 42\n {2}}/,
                  system_message,
                  'values exist now (and are in calling context)'

@@ -5,7 +5,7 @@ require_relative 'chat_gpt_agent'
 
 class AgentRunner
   attr_accessor :config_root, :initial_agent_name, :initial_messages
-  attr_reader :current_agent_config, :current_agent, :interpolations
+  attr_reader :current_agent_config, :interpolations
 
   def initialize(config_root:, modules: [], interpolations: [], initial_agent_name: nil, initial_messages: nil)
     @rest_gateway = RestGateway.new
@@ -13,6 +13,7 @@ class AgentRunner
     @initial_agent_name = initial_agent_name
     @initial_messages = initial_messages
     @interpolations = interpolations
+    @agent_configs = {}
     load_modules(modules)
   end
 
@@ -66,7 +67,8 @@ class AgentRunner
   end
 
   def load_config(agent_name)
-    config = YAML.load_file("#{@config_root}#{agent_name}.yml")
+    config = agent_config(agent_name).dup
+    config[:system_directives] = config[:system_directives].dup
     @interpolations.each do |key, val|
       if val.is_a?(Proc)
         config[:system_directives].gsub!("%{#{key}}", val.call)
@@ -75,6 +77,16 @@ class AgentRunner
       end
     end
     config
+  end
+
+  def agent_config(agent_name)
+    key = agent_name.to_s
+    return @agent_configs[key] if @agent_configs[key]
+
+    path = "#{config_root}#{key}.yml"
+    raise "No config found for agent #{key} at #{path}" unless File.exist?(path)
+
+    @agent_configs[key] = YAML.load_file("#{config_root}#{key}.yml")
   end
 
   def load_modules(modules)
