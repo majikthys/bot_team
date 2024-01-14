@@ -5,13 +5,13 @@ require_relative 'chat_gpt_agent'
 
 class AgentRunner
   attr_accessor :config_root, :initial_agent_name, :initial_messages
-  attr_reader :current_agent_config
-  attr_reader :current_agent
+  attr_reader :current_agent_config, :current_agent, :interpolations
 
-  def initialize(config_root:, modules: [], initial_agent_name: nil, initial_messages: nil)
+  def initialize(config_root:, modules: [], interpolations: [], initial_agent_name: nil, initial_messages: nil)
     @config_root = config_root
     @initial_agent_name = initial_agent_name
     @initial_messages = initial_messages
+    @interpolations = interpolations
     load_modules(modules)
   end
 
@@ -57,12 +57,24 @@ class AgentRunner
   end
 
   def create_agent(agent_name:, messages: nil)
-    @current_agent_config = YAML.load_file("#{@config_root}#{agent_name}.yml")
+    @current_agent_config = load_config(agent_name)
     chat_gpt_agent = ChatGptAgent.new
     chat_gpt_agent.chat_gpt_request.messages = messages if messages&.any?
     chat_gpt_agent.chat_gpt_request.initialize_from_config(@current_agent_config)
 
     @current_agent = chat_gpt_agent
+  end
+
+  def load_config(agent_name)
+    config = YAML.load_file("#{@config_root}#{agent_name}.yml")
+    @interpolations.each do |key, val|
+      if val.is_a?(Proc)
+        config[:system_directives].gsub!("%{#{key}}", val.call)
+      else
+        config[:system_directives].gsub!("%{#{key}}", val.to_s)
+      end
+    end
+    config
   end
 
   def load_modules(modules)
