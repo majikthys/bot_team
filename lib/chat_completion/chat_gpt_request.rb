@@ -8,11 +8,17 @@ class ChatGptRequest
 
   attr_accessor :model, :function_call, :max_tokens, :messages, :functions
 
-  def initialize
+  def initialize(agent: nil, messages: [])
+    if agent
+      self.messages = messages
+      initialize_from_agent(agent)
+      return
+    end
+
     @model = 'gpt-3.5-turbo-0613'
     @function_call = 'auto'
     @max_tokens = 80
-    @messages = []
+    @messages = messages
     @functions = []
   end
 

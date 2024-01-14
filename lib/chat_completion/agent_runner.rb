@@ -7,7 +7,7 @@ class AgentRunner
   attr_accessor :config_root, :initial_agent_name, :initial_messages
   attr_reader :current_agent_config, :interpolations
 
-  def initialize(config_root:, modules: [], interpolations: [], initial_agent_name: nil, initial_messages: nil)
+  def initialize(config_root: nil, modules: [], interpolations: [], initial_agent_name: nil, initial_messages: nil)
     @rest_gateway = RestGateway.new
     @config_root = config_root
     @initial_agent_name = initial_agent_name
@@ -15,6 +15,10 @@ class AgentRunner
     @interpolations = interpolations
     @agents = {}
     load_modules(modules)
+  end
+
+  def add_agent(agent_name, agent)
+    @agents[agent_name.to_s] = agent
   end
 
   def run_team
@@ -58,12 +62,9 @@ class AgentRunner
     end
   end
 
-  def create_request(agent_name:, messages: nil)
+  def create_request(agent_name:, messages: [])
     @current_agent = agent(agent_name)
-    @chat_gpt_request = ChatGptRequest.new
-    @chat_gpt_request.messages = messages if messages&.any?
-    @chat_gpt_request.initialize_from_agent(@current_agent)
-    @chat_gpt_request
+    @chat_gpt_request = ChatGptRequest.new(agent: @current_agent, messages:)
   end
 
   def agent(agent_name)
