@@ -53,14 +53,14 @@ class ChatGptRequest
     messages.append({ role:, content: })
   end
 
-  def initialize_from_config(config)
-    self.model = config[:model] if config[:model]
-    self.max_tokens = config[:max_tokens] if config[:max_tokens]
-    self.functions = config[:functions] if config[:functions]
-    self.functions += config[:forward_functions] if config[:forward_functions]
-    self.function_call = config[:function_call] if config[:function_call]
+  def initialize_from_agent(agent)
+    self.model = agent.model if agent.model
+    self.max_tokens = agent.max_tokens if agent.max_tokens
+    self.functions = agent.functions if agent.functions
+    self.functions += agent.forward_functions if agent.forward_functions
+    self.function_call = agent.function_call if agent.function_call
 
-    replace_system_directives(config[:system_directives]) if config[:system_directives]
+    replace_system_directives(agent.system_directives) if agent.system_directives
   end
 
   def to_json

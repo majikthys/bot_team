@@ -13,7 +13,7 @@ class AgentRunner
     @initial_agent_name = initial_agent_name
     @initial_messages = initial_messages
     @interpolations = interpolations
-    @agent_configs = {}
+    @agents = {}
     load_modules(modules)
   end
 
@@ -36,11 +36,11 @@ class AgentRunner
     function_name = response.function_call['name']
     params = response.function_arguments
 
-    if @current_agent_config[:state_map] && @current_agent_config[:state_map][:function_name] == function_name.to_sym
+    if @current_agent.state_map && @current_agent.state_map[:function_name] == function_name.to_sym
       # handle state_map function_call
-      argument_name = @current_agent_config[:state_map][:argument_name].to_s
+      argument_name = @current_agent.state_map[:argument_name].to_s
       lookup_value = params[argument_name].to_sym
-      action_type, action_val = @current_agent_config[:state_map][:values_map][lookup_value].first
+      action_type, action_val = @current_agent.state_map[:values_map][lookup_value].first
       case action_type
       when :agent
         # Hmm... what to do with the params? This seems like it needs more thought
@@ -59,34 +59,34 @@ class AgentRunner
   end
 
   def create_request(agent_name:, messages: nil)
-    @current_agent_config = load_config(agent_name)
+    @current_agent = agent(agent_name)
     @chat_gpt_request = ChatGptRequest.new
     @chat_gpt_request.messages = messages if messages&.any?
-    @chat_gpt_request.initialize_from_config(@current_agent_config)
+    @chat_gpt_request.initialize_from_agent(@current_agent)
     @chat_gpt_request
   end
 
-  def load_config(agent_name)
-    config = agent_config(agent_name).dup
-    config[:system_directives] = config[:system_directives].dup
+  def agent(agent_name)
+    agent = agent_config(agent_name).dup
+    agent.system_directives = agent.system_directives.dup
     @interpolations.each do |key, val|
       if val.is_a?(Proc)
-        config[:system_directives].gsub!("%{#{key}}", val.call)
+        agent.system_directives.gsub!("%{#{key}}", val.call)
       else
-        config[:system_directives].gsub!("%{#{key}}", val.to_s)
+        agent.system_directives.gsub!("%{#{key}}", val.to_s)
       end
     end
-    config
+    agent
   end
 
   def agent_config(agent_name)
     key = agent_name.to_s
-    return @agent_configs[key] if @agent_configs[key]
+    return @agents[key] if @agents[key]
 
     path = "#{config_root}#{key}.yml"
     raise "No config found for agent #{key} at #{path}" unless File.exist?(path)
 
-    @agent_configs[key] = YAML.load_file("#{config_root}#{key}.yml")
+    @agents[key] = ChatGptAgent.new(config_path: "#{config_root}#{key}.yml")
   end
 
   def load_modules(modules)

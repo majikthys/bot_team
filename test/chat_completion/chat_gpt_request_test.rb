@@ -43,16 +43,18 @@ describe ChatGptRequest do
     assert_equal({ role: 'user', content: 'TEST' }, subject.messages.last)
   end
 
-  it 'should initialize from config' do
-    config = {
-      model: 'model',
-      max_tokens: 100,
-      functions: %w[function1 function2],
-      forward_functions: %w[forward_function1 forward_function2],
-      function_call: 'function_call',
-      system_directives: 'system_directives'
-    }
-    subject.initialize_from_config(config)
+  it 'should initialize from agent' do
+    agent = ChatGptAgent.new(
+      config: {
+        model: 'model',
+        max_tokens: 100,
+        functions: %w[function1 function2],
+        forward_functions: %w[forward_function1 forward_function2],
+        function_call: 'function_call',
+        system_directives: 'system_directives'
+      }
+    )
+    subject.initialize_from_agent(agent)
     assert_equal 'model', subject.model
     assert_equal 100, subject.max_tokens
     assert_equal %w[function1 function2 forward_function1 forward_function2], subject.functions

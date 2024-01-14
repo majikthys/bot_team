@@ -91,8 +91,8 @@ describe AgentRunner do
     )
 
     # Config has interpolation
-    config = runner.load_config('interpolation')
-    assert_match /{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/, config[:system_directives]
+    agent = runner.agent('interpolation')
+    assert_match /{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/, agent.system_directives
   end
 
   it 'should interpolate when creating agent' do
