@@ -26,7 +26,7 @@ class AgentRunner
   end
 
   def run_agent(agent_name:, messages: nil)
-    create_request(agent_name: agent_name, messages: messages)
+    create_request(agent_name:, messages:)
     response = @rest_gateway.call(@chat_gpt_request)
 
     return response.message if response&.message
