@@ -54,14 +54,6 @@ describe AgentRunner do
     assert subject.respond_to?(:set_test_value), "subject should respond to :change_state"
   end
 
-  it 'loads modules' do
-    runner = AgentRunner.new(config_root: 'test/config/test_agents/')
-
-    refute runner.respond_to?(:set_test_value), "subject should not respond to :change_state"
-    runner.load_modules([Leaf])
-    assert runner.respond_to?(:set_test_value), "subject should respond to :change_state"
-  end
-
   it 'should create leaf agent' do
     request = subject.create_request(agent_name: 'leaf')
     assert_equal 'gpt-3.5-turbo-0613', request.model
@@ -124,4 +116,13 @@ describe AgentRunner do
                  system_message,
                  'values exist now (and are in calling context)'
   end
+
+  it 'loads modules' do
+    runner = AgentRunner.new(config_root: 'test/config/test_agents/')
+
+    refute runner.respond_to?(:set_test_value), "subject should not respond to :change_state"
+    runner.load_modules([Leaf])
+    assert runner.respond_to?(:set_test_value), "subject should respond to :change_state"
+  end
+
 end
