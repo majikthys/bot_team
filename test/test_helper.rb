@@ -4,6 +4,7 @@ require 'minitest/autorun'
 require 'minitest/focus'
 
 require_relative '../lib/chat_completion'
+# require_relative '../lib'
 
 require 'modules/leaf'
 require 'modules/switchboard'

@@ -19,7 +19,7 @@ class AgentRunner
     run_agent(agent_name: initial_agent_name, messages: initial_messages)
   end
 
-  def run_agent(agent_name:, messages: nil)
+def run_agent(agent_name:, messages: nil)
     create_agent(agent_name: agent_name, messages: messages)
     response = @current_agent.call
 
