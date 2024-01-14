@@ -60,20 +60,21 @@ class ChatGptRequest
   end
 
   def initialize_from_agent(agent)
-    self.model = agent.model if agent.model
-    self.max_tokens = agent.max_tokens if agent.max_tokens
-    self.functions = agent.functions if agent.functions
-    self.functions += agent.forward_functions if agent.forward_functions
-    self.function_call = agent.function_call if agent.function_call
+    # Do the simple attribute copy first
+    %i[model max_tokens functions function_call].each do |key|
+      send("#{key}=", agent.send(key)) if agent.send(key)
+    end
+    # Leave functions nil if possible
+    self.functions = (functions || []) + agent.forward_functions if agent.forward_functions&.any?
 
     replace_system_directives(agent.system_directives) if agent.system_directives
   end
 
-  def to_json
+  def to_json(*_args)
     {
       model:,
       messages:,
       max_tokens:,
-    }.merge(functions != nil ? { functions:, function_call: } : {}).to_json
+    }.merge(!functions.nil? ? { functions:, function_call: } : {}).to_json
   end
 end

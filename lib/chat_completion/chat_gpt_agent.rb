@@ -29,8 +29,8 @@ class ChatGptAgent
     @function_call = 'auto'
     @max_tokens = 80
     @modules = []
-    @functions = []
-    @forward_functions = []
+    @functions = nil
+    @forward_functions = nil
   end
 
   def initialize_from_config(config)
