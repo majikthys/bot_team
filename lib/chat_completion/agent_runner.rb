@@ -36,10 +36,10 @@ class AgentRunner
   end
 
   def call_function(response)
-    function_name = response.function_call['name'].to_sym
+    function_name = response.function_name.to_sym
     params = response.function_arguments
 
-    if @current_agent.state_map && @current_agent.state_map[:function_name] == function_name
+    if @current_agent.state_function == function_name
       # handle state_map function_call
       argument_name = @current_agent.state_map[:argument_name].to_s
       lookup_value = params[argument_name].to_sym

@@ -27,6 +27,12 @@ class ChatGptAgent
     function_names_from_functions + function_names_from_state_map
   end
 
+  def state_function
+    return nil unless state_map
+
+    state_map[:function_name]
+  end
+
   private
 
   def intiailize_defaults
@@ -69,11 +75,5 @@ class ChatGptAgent
       .filter { |hash_thing| hash_thing.key?(:function) }
       .map(&:values)
       .flatten
-  end
-
-  def state_function
-    return nil unless state_map
-
-    state_map[:function_name]
   end
 end
