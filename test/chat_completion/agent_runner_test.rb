@@ -100,7 +100,7 @@ describe AgentRunner do
     )
 
     # Config has interpolation
-    agent = runner.runnable_agent('interpolation')
+    agent = runner.agent_config('interpolation').runnable(interpolations: interpolations)
     assert_match /{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/, agent.system_directives
   end
 

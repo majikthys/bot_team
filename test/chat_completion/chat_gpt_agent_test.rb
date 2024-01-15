@@ -20,4 +20,16 @@ describe ChatGptAgent do
       _(agent.implied_functions.sort).must_equal %i[set_test_value]
     end
   end
+
+  describe 'runnable' do
+    it 'returns a runnable agent with expected interpolations' do
+      agent = ChatGptAgent.new(
+        config: {
+          system_directives: 'You are a bot that repeats what the user says while incorporating the phrase "%{required_word}"',
+        }
+      )
+      runnable = agent.runnable(interpolations: {required_word: 'meow'})
+      _(runnable.system_directives).must_match(/incorporating the phrase "meow"$/)
+    end
+  end
 end

@@ -23,6 +23,12 @@ class ChatGptAgent
     initialize_from_config(config)
   end
 
+  def runnable(interpolations: {})
+    dup.tap do |runnable|
+      runnable.system_directives = apply_interpolations(interpolations)
+    end
+  end
+
   def implied_functions
     function_names_from_functions + function_names_from_state_map
   end
@@ -75,5 +81,13 @@ class ChatGptAgent
       .filter { |hash_thing| hash_thing.key?(:function) }
       .map(&:values)
       .flatten
+  end
+
+  def apply_interpolations(interpolations)
+    result = system_directives.dup
+    interpolations.each do |key, val|
+      result.gsub!("%{#{key}}", val.is_a?(Proc) ? val.call : val.to_s)
+    end
+    result
   end
 end

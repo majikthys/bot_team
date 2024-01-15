@@ -63,14 +63,8 @@ class AgentRunner
   end
 
   def create_request(agent_name:, messages: [])
-    @current_agent = runnable_agent(agent_name)
+    @current_agent = agent_config(agent_name).runnable(interpolations:)
     @chat_gpt_request = ChatGptRequest.new(agent: @current_agent, messages:)
-  end
-
-  def runnable_agent(agent_name)
-    agent = agent_config(agent_name).dup
-    agent.system_directives = apply_interpolations(agent.system_directives)
-    agent
   end
 
   def agent_config(agent_name)
@@ -83,14 +77,6 @@ class AgentRunner
     agent = ChatGptAgent.new(config_path: "#{config_root}#{key}.yml")
     cache_functions(agent)
     @agents[key] = agent
-  end
-
-  def apply_interpolations(system_directives)
-    result = system_directives.dup
-    @interpolations.each do |key, val|
-      result.gsub!("%{#{key}}", val.is_a?(Proc) ? val.call : val.to_s)
-    end
-    result
   end
 
   def cache_functions(agent)
