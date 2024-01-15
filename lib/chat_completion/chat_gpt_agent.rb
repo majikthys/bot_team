@@ -22,6 +22,10 @@ class ChatGptAgent
     initialize_from_config(config)
   end
 
+  def implied_functions
+    function_names_from_functions + function_names_from_state_map
+  end
+
   private
 
   def intiailize_defaults
@@ -44,5 +48,30 @@ class ChatGptAgent
 
       send("#{key}=", config[key])
     end
+  end
+
+  def function_names_from_functions
+    return [] unless functions
+
+    functions
+      .map { |func_def| func_def[:name] }
+      .reject { |func_name| func_name == state_function.to_s }
+      .map(&:to_sym) || []
+  end
+
+  def function_names_from_state_map
+    return [] unless state_map
+
+    state_map[:values_map]
+      .values
+      .filter { |hash_thing| hash_thing.key?(:function) }
+      .map(&:values)
+      .flatten
+  end
+
+  def state_function
+    return nil unless state_map
+
+    state_map[:function_name]
   end
 end
