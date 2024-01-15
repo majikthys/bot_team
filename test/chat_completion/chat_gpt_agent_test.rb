@@ -25,11 +25,59 @@ describe ChatGptAgent do
     it 'returns a runnable agent with expected interpolations' do
       agent = ChatGptAgent.new(
         config: {
-          system_directives: 'You are a bot that repeats what the user says while incorporating the phrase "%{required_word}"',
+          system_directives: 'You are a bot that repeats what the user says '\
+            'while incorporating the phrase "%{required_word}"',
         }
       )
       runnable = agent.runnable(interpolations: {required_word: 'meow'})
       _(runnable.system_directives).must_match(/incorporating the phrase "meow"$/)
+    end
+  end
+
+  describe 'run' do
+    let(:report_behavior_function_directive) do
+      'You have to report if the user is being nice or mean'
+    end
+    let(:report_behavior_function_def) do
+      {
+        name: 'report_behavior',
+        description: 'reports if the user is being nice or mean',
+        parameters: {
+          type: 'object',
+          properties: {
+            behavior: {
+              type: 'string',
+              description: 'the behavior the user is exhibiting',
+              enum: %w[nice mean]
+            }
+          },
+          required: ['behavior']
+        }
+      }
+    end
+
+    it 'will run a non-state map function' do
+      result = nil
+      agent = ChatGptAgent.new(
+        config: {
+          system_directives: report_behavior_function_directive,
+          functions: [report_behavior_function_def],
+          function_call: {
+            name: 'report_behavior'
+          },
+          function_procs: {
+            report_behavior: ->(behavior:) { result = behavior }
+          }
+        }
+      )
+      msg = "I wanted you to know that I really appreciate you and I'm glad you're here"\
+        ' and I hope you have a great day. Would you like a piece of cake?'
+      agent.run(messages: [{role: 'user', content: msg}])
+      _(result).must_equal 'nice'
+      result = nil
+      msg = "You're a terrible person and I hate you. I hope you get a bad headache."
+      agent.run(messages: [{role: 'user', content: msg}])
+      _(result).must_equal 'mean'
     end
   end
 end

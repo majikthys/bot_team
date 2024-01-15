@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 ## ChatGptAgent stores the configuration for a single-task agent's behavior and settings
-class ChatGptAgent
+class ChatGptAgent # rubocop:disable Metrics/ClassLength
   attr_accessor \
+    :callbacks,
     :forward_functions,
     :function_call,
     :function_procs,
@@ -13,12 +14,13 @@ class ChatGptAgent
     :system_directives,
     :state_map
 
-  def initialize(config_path: nil, config: nil)
+  def initialize(config_path: nil, config: nil, callbacks: {})
     raise ArgumentError, 'config_path or config must be provided' unless config_path || config
     raise ArgumentError, 'config_path and config cannot both be provided' if config_path && config
 
     config = YAML.load_file(config_path) if config_path
 
+    @callbacks = callbacks
     intiailize_defaults
     initialize_from_config(config)
   end
@@ -27,6 +29,13 @@ class ChatGptAgent
     dup.tap do |runnable|
       runnable.system_directives = apply_interpolations(interpolations)
     end
+  end
+
+  def run(messages:, interpolations: {}, gateway: RestGateway.new)
+    agent = runnable(interpolations:)
+    request = ChatGptRequest.new(agent:, messages:)
+    response = gateway.call(request)
+    process_response(response)
   end
 
   def implied_functions
@@ -87,7 +96,7 @@ class ChatGptAgent
   def initialize_from_config(config)
     valid_keys = %i[
       model max_tokens
-      functions forward_functions function_call
+      functions forward_functions function_call function_procs
       system_directives state_map modules
     ]
     config.keys.map(&:to_sym).each do |key|
@@ -122,5 +131,31 @@ class ChatGptAgent
       result.gsub!("%{#{key}}", val.is_a?(Proc) ? val.call : val.to_s)
     end
     result
+  end
+
+  def process_response(response)
+    return response.message if response&.message
+
+    raise 'No useful response from agent' unless response&.function_call
+
+    process_function_response(response)
+  end
+
+  def process_function_response(response)
+    params = response.function_arguments.transform_keys(&:to_sym)
+    return function_procs[response.function_name.to_sym].call(**params) if state_function != response.function_name.to_sym
+
+    process_state_function_response(
+      state_function_action_type(params),
+      state_function_action_value(params),
+      state_function_action_params(params)
+    )
+  end
+
+  def process_state_function_response(action_type:, action_val:, params:)
+    return function_procs[action_val].call(**params) if action_type == :function
+    return unless callbacks[action_type]
+
+    callbacks[action_type].call(action_val, **params)
   end
 end
