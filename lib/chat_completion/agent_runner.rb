@@ -70,7 +70,6 @@ class AgentRunner
   def runnable_agent(agent_name)
     agent = agent_config(agent_name).dup
     agent.system_directives = apply_interpolations(agent.system_directives)
-    cache_functions(agent)
     agent
   end
 
@@ -81,7 +80,9 @@ class AgentRunner
     path = "#{config_root}#{key}.yml"
     raise "No config found for agent #{key} at #{path}" unless File.exist?(path)
 
-    @agents[key] = ChatGptAgent.new(config_path: "#{config_root}#{key}.yml")
+    agent = ChatGptAgent.new(config_path: "#{config_root}#{key}.yml")
+    cache_functions(agent)
+    @agents[key] = agent
   end
 
   def apply_interpolations(system_directives)
