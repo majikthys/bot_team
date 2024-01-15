@@ -63,11 +63,11 @@ class AgentRunner
   end
 
   def create_request(agent_name:, messages: [])
-    @current_agent = agent(agent_name)
+    @current_agent = runnable_agent(agent_name)
     @chat_gpt_request = ChatGptRequest.new(agent: @current_agent, messages:)
   end
 
-  def agent(agent_name)
+  def runnable_agent(agent_name)
     agent = agent_config(agent_name).dup
     agent.system_directives = apply_interpolations(agent.system_directives)
     cache_functions(agent)
