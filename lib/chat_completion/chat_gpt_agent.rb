@@ -5,6 +5,7 @@ class ChatGptAgent
   attr_accessor \
     :forward_functions,
     :function_call,
+    :function_procs,
     :functions,
     :max_tokens,
     :model,
@@ -35,6 +36,7 @@ class ChatGptAgent
     @modules = []
     @functions = nil
     @forward_functions = nil
+    @function_procs = {}
   end
 
   def initialize_from_config(config)

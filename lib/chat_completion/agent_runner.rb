@@ -13,7 +13,6 @@ class AgentRunner
     @initial_messages = initial_messages
     @interpolations = interpolations
     @agents = {}
-    @functions = {}
     load_modules(modules)
   end
 
@@ -52,14 +51,14 @@ class AgentRunner
         call_agent(agent: action_val, **params_to_send)
       when :function
         # send function along but with the map argument removed from the params
-        functions[action_val].call(**params_to_send)
+        @current_agent.function_procs[action_val].call(**params_to_send)
       when :ignore
         ignore(reason: action_val, **params_to_send)
       else
         raise "Unknown action type #{action_type}"
       end
     else
-      functions[function_name].call(**params.transform_keys(&:to_sym))
+      @current_agent.function_procs[function_name].call(**params.transform_keys(&:to_sym))
     end
   end
 
@@ -97,7 +96,7 @@ class AgentRunner
     agent
       .implied_functions
       .each do |function_name|
-        functions[function_name.to_sym] = method(function_name.to_sym)
+        agent.function_procs[function_name.to_sym] = method(function_name.to_sym)
       end
   end
 
