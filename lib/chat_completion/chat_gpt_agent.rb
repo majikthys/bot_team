@@ -36,7 +36,40 @@ class ChatGptAgent
   def state_function
     return nil unless state_map
 
-    state_map[:function_name]
+    state_map[:function_name].to_sym
+  end
+
+  def state_function_argument
+    return nil unless state_map
+
+    state_map[:argument_name].to_sym
+  end
+
+  def state_function_argument_value(response_params)
+    return nil unless state_map
+
+    (
+      response_params[state_function_argument] ||
+      response_params[state_function_argument.to_s]
+    ).to_sym
+  end
+
+  def state_function_action_type(response_params)
+    return nil unless state_map
+
+    state_map[:values_map][state_function_argument_value(response_params)].first.first
+  end
+
+  def state_function_action_value(response_params)
+    return nil unless state_map
+
+    state_map[:values_map][state_function_argument_value(response_params)].first.last
+  end
+
+  def state_function_action_params(response_params)
+    return nil unless state_map
+
+    response_params.reject { |k, _v| k.to_sym == state_function_argument }.transform_keys(&:to_sym)
   end
 
   private

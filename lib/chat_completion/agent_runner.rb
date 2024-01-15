@@ -37,15 +37,13 @@ class AgentRunner
 
   def call_function(response)
     function_name = response.function_name.to_sym
-    params = response.function_arguments
+    params = response.function_arguments.transform_keys(&:to_sym)
 
     if @current_agent.state_function == function_name
       # handle state_map function_call
-      argument_name = @current_agent.state_map[:argument_name].to_s
-      lookup_value = params[argument_name].to_sym
-      action_type, action_val = @current_agent.state_map[:values_map][lookup_value].first
-      params_to_send = params.reject{|k,v| k == argument_name}.transform_keys(&:to_sym)
-      case action_type
+      action_val = @current_agent.state_function_action_value(params)
+      params_to_send = @current_agent.state_function_action_params(params)
+      case @current_agent.state_function_action_type(params)
       when :agent
         # Hmm... what to do with the params? This seems like it needs more thought
         call_agent(agent: action_val, **params_to_send)
@@ -55,10 +53,10 @@ class AgentRunner
       when :ignore
         ignore(reason: action_val, **params_to_send)
       else
-        raise "Unknown action type #{action_type}"
+        raise "Unknown action type #{action_type} in state_map for agent"
       end
     else
-      @current_agent.function_procs[function_name].call(**params.transform_keys(&:to_sym))
+      @current_agent.function_procs[function_name].call(**params)
     end
   end
 
