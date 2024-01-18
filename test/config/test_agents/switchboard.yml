@@ -1,6 +1,4 @@
 ---
-# The class that will be hydrated when generating the agent
-:class: Oscar::ChatGptAgent::BaseAgent
 # The directives used to generate the agent
 :system_directives: |-
   Your are an agent that classifies the type of request the user is making. 

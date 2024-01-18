@@ -8,11 +8,17 @@ class ChatGptRequest
 
   attr_accessor :model, :function_call, :max_tokens, :messages, :functions
 
-  def initialize
+  def initialize(agent: nil, messages: [])
+    if agent
+      self.messages = messages
+      initialize_from_agent(agent)
+      return
+    end
+
     @model = 'gpt-3.5-turbo-0613'
     @function_call = 'auto'
     @max_tokens = 80
-    @messages = []
+    @messages = messages
     @functions = []
   end
 
@@ -53,21 +59,22 @@ class ChatGptRequest
     messages.append({ role:, content: })
   end
 
-  def initialize_from_config(config)
-    self.model = config[:model] if config[:model]
-    self.max_tokens = config[:max_tokens] if config[:max_tokens]
-    self.functions = config[:functions] if config[:functions]
-    self.functions += config[:forward_functions] if config[:forward_functions]
-    self.function_call = config[:function_call] if config[:function_call]
+  def initialize_from_agent(agent)
+    # Do the simple attribute copy first
+    %i[model max_tokens functions function_call].each do |key|
+      send("#{key}=", agent.send(key)) if agent.send(key)
+    end
+    # Leave functions nil if possible
+    self.functions = (functions || []) + agent.forward_functions if agent.forward_functions&.any?
 
-    replace_system_directives(config[:system_directives]) if config[:system_directives]
+    replace_system_directives(agent.system_directives) if agent.system_directives
   end
 
-  def to_json
+  def to_json(*_args)
     {
       model:,
       messages:,
       max_tokens:,
-    }.merge(functions != nil ? { functions:, function_call: } : {}).to_json
+    }.merge(!functions.nil? ? { functions:, function_call: } : {}).to_json
   end
 end

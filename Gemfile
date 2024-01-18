@@ -9,4 +9,6 @@ gem 'guard-minitest'
 gem 'minitest'
 gem 'minitest-focus'
 gem 'pry-byebug'
-gem 'rubocop'
+gem 'rubocop', require: false
+gem 'rubocop-minitest', require: false
+gem 'ruby-lsp'
