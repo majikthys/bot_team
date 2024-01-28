@@ -15,7 +15,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     :state_map,
     :temperature
 
-  def initialize(config_path: nil, config: nil, callbacks: {})
+  def initialize(config_path: nil, config: nil, callbacks: {}, ignore_unknown_configs: false)
     raise ArgumentError, 'config_path or config must be provided' unless config_path || config
     raise ArgumentError, 'config_path and config cannot both be provided' if config_path && config
 
@@ -23,7 +23,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
     @callbacks = callbacks
     intiailize_defaults
-    initialize_from_config(config)
+    initialize_from_config(config, ignore_unknown_configs: ignore_unknown_configs)
   end
 
   def runnable(interpolations: {})
@@ -95,16 +95,18 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     @function_procs = {}
   end
 
-  def initialize_from_config(config)
+  def initialize_from_config(config, ignore_unknown_configs:)
     valid_keys = %i[
       model max_tokens
       functions forward_functions function_call function_procs
       system_directives state_map modules temperature
     ]
     config.keys.map(&:to_sym).each do |key|
-      raise ArgumentError, "Unknown key #{key} in config" unless valid_keys.include?(key)
-
-      send("#{key}=", config[key])
+      if valid_keys.include?(key)
+        send("#{key}=", config[key])
+      elsif !ignore_unknown_configs
+        raise ArgumentError, "Unknown key #{key} in config"
+      end
     end
   end
 
