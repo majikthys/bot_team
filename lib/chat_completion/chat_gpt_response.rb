@@ -41,4 +41,16 @@ class ChatGptResponse
   def message
     choices[0]&.dig('message', 'content')
   end
+
+  def to_hash
+    {
+      source_id: source_id,
+      created: created,
+      object: object,
+      model: model,
+      system_fingerprint: system_fingerprint,
+      usage: usage,
+      choices: choices
+    }
+  end
 end

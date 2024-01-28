@@ -11,6 +11,8 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     :max_tokens,
     :model,
     :modules,
+    :request,
+    :response,
     :system_directives,
     :state_map,
     :temperature
@@ -34,8 +36,8 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   def run(messages:, interpolations: {}, gateway: RestGateway.new)
     agent = runnable(interpolations:)
-    request = ChatGptRequest.new(agent:, messages:)
-    response = gateway.call(request)
+    @request = ChatGptRequest.new(agent:, messages:)
+    @response = gateway.call(request)
     process_response(response)
   end
 

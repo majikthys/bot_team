@@ -71,11 +71,16 @@ class ChatGptRequest
     replace_system_directives(agent.system_directives) if agent.system_directives
   end
 
-  def to_json(*_args)
+  def to_hash(*_args)
     {
       model:,
       messages:,
       max_tokens:,
-    }.merge(!functions.nil? ? { functions:, function_call: } : {}).to_json
+      temperature:,
+    }.merge(!functions.nil? ? { functions:, function_call: } : {})
+  end
+
+  def to_json(*_args)
+    to_hash.to_json
   end
 end
