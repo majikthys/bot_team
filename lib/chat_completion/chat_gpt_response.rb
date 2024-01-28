@@ -20,7 +20,7 @@ class ChatGptResponse
       created: json['created'],
       object: json['object'],
       model: json['model'],
-      system_fingerprint: json['system_fingerprint'] ? Time.utc(json['system_fingerprint']) : nil,
+      system_fingerprint: json['system_fingerprint'],
       usage: json['usage'],
       choices: json['choices']
     )
