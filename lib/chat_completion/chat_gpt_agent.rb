@@ -12,7 +12,8 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     :model,
     :modules,
     :system_directives,
-    :state_map
+    :state_map,
+    :temperature
 
   def initialize(config_path: nil, config: nil, callbacks: {})
     raise ArgumentError, 'config_path or config must be provided' unless config_path || config
@@ -88,6 +89,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     @function_call = 'auto'
     @max_tokens = 80
     @modules = []
+    @temperature = 0.9
     @functions = nil
     @forward_functions = nil
     @function_procs = {}
@@ -97,7 +99,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     valid_keys = %i[
       model max_tokens
       functions forward_functions function_call function_procs
-      system_directives state_map modules
+      system_directives state_map modules temperature
     ]
     config.keys.map(&:to_sym).each do |key|
       raise ArgumentError, "Unknown key #{key} in config" unless valid_keys.include?(key)
