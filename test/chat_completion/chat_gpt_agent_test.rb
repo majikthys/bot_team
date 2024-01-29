@@ -106,5 +106,15 @@ describe ChatGptAgent do
       agent.run(messages: [{role: 'user', content: msg}])
       _(result).must_equal 'mean'
     end
+
+    it 'can ask for multiple choices' do
+      agent = ChatGptAgent.new(
+        config: {
+          num_choices: 3
+        }
+      )
+      agent.run(messages: [{role: 'user', content: 'Give me a good name for a very cute puppy'}])
+      _(agent.response.choices.size).must_equal 3
+    end
   end
 end

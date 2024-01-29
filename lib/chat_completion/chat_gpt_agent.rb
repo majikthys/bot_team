@@ -11,6 +11,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     :max_tokens,
     :model,
     :modules,
+    :num_choices,
     :request,
     :response,
     :system_directives,
@@ -118,6 +119,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     @function_call = 'auto'
     @max_tokens = 80
     @modules = []
+    @num_choices = 1
     @temperature = 0.9
     @functions = nil
     @forward_functions = nil
@@ -126,7 +128,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   def initialize_from_config(config, ignore_unknown_configs:)
     valid_keys = %i[
-      model max_tokens
+      model max_tokens num_choices
       functions forward_functions function_call function_procs
       system_directives state_map modules temperature
     ]
