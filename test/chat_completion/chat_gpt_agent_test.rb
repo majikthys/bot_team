@@ -79,5 +79,42 @@ describe ChatGptAgent do
       agent.run(messages: [{role: 'user', content: msg}])
       _(result).must_equal 'mean'
     end
+
+    it 'can define configs and functions through assignment' do
+      result = nil
+      agent = ChatGptAgent.new
+      agent.system_directives = report_behavior_function_directive
+      agent.add_function(
+        'report_behavior',
+        description: 'reports if the user is being nice or mean',
+        required: true
+      ) do |behavior:|
+        result = behavior
+      end
+      agent.define_parameter('report_behavior', 'behavior', type: 'string', enum: %w[nice mean], required: true, description: 'the behavior the user is exhibiting')
+      _(agent.function_call).must_equal({name: 'report_behavior'})
+      _(agent.function_procs.keys).must_equal([:report_behavior])
+      _(agent.function_procs[:report_behavior]).must_be_kind_of(Proc)
+      _(agent.functions).must_equal([report_behavior_function_def])
+
+      msg = "I wanted you to know that I really appreciate you and I'm glad you're here"\
+        ' and I hope you have a great day. Would you like a piece of cake?'
+      agent.run(messages: [{role: 'user', content: msg}])
+      _(result).must_equal 'nice'
+      result = nil
+      msg = "You're a terrible person and I hate you. I hope you get a bad headache."
+      agent.run(messages: [{role: 'user', content: msg}])
+      _(result).must_equal 'mean'
+    end
+
+    it 'can ask for multiple choices' do
+      agent = ChatGptAgent.new(
+        config: {
+          num_choices: 3
+        }
+      )
+      agent.run(messages: [{role: 'user', content: 'Give me a good name for a very cute puppy'}])
+      _(agent.response.choices.size).must_equal 3
+    end
   end
 end

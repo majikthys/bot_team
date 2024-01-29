@@ -11,18 +11,21 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     :max_tokens,
     :model,
     :modules,
+    :num_choices,
+    :request,
+    :response,
     :system_directives,
-    :state_map
+    :state_map,
+    :temperature
 
-  def initialize(config_path: nil, config: nil, callbacks: {})
-    raise ArgumentError, 'config_path or config must be provided' unless config_path || config
+  def initialize(config_path: nil, config: nil, callbacks: {}, ignore_unknown_configs: false)
     raise ArgumentError, 'config_path and config cannot both be provided' if config_path && config
 
     config = YAML.load_file(config_path) if config_path
 
     @callbacks = callbacks
     intiailize_defaults
-    initialize_from_config(config)
+    initialize_from_config(config, ignore_unknown_configs:) if config
   end
 
   def runnable(interpolations: {})
@@ -33,13 +36,41 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   def run(messages:, interpolations: {}, gateway: RestGateway.new)
     agent = runnable(interpolations:)
-    request = ChatGptRequest.new(agent:, messages:)
-    response = gateway.call(request)
+    @request = ChatGptRequest.new(agent:, messages:)
+    @response = gateway.call(request)
     process_response(response)
   end
 
   def implied_functions
     function_names_from_functions + function_names_from_state_map
+  end
+
+  def add_function(name, description: nil, required: false, &block)
+    @functions ||= []
+    function = { name: name.to_s }
+    function[:description] = description if description
+    @functions << function
+    @function_procs[name.to_sym] = block if block
+    return function unless required
+
+    msg = "Cannot set required function when function_call is already defined (current value: #{function_call})"
+    raise ArgumentError, msg unless function_call == 'auto'
+
+    @function_call = { name: name.to_s }
+    function
+  end
+
+  def define_parameter(function, name, type:, description: nil, required: false, enum: nil) # rubocop:disable Metrics/ParameterLists
+    function = functions.find { |func| func[:name] == function }
+    raise ArgumentError, "No function defined with name #{name}" unless function
+
+    params = function[:parameters] ||= { type: 'object', properties: {}, required: [] }
+
+    params[:required] << name.to_s if required
+    prop = params[:properties][name.to_sym] = { type: }
+    prop[:description] = description if description
+    prop[:enum] = enum if enum
+    prop
   end
 
   def state_function
@@ -88,21 +119,25 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     @function_call = 'auto'
     @max_tokens = 80
     @modules = []
+    @num_choices = 1
+    @temperature = 0.9
     @functions = nil
     @forward_functions = nil
     @function_procs = {}
   end
 
-  def initialize_from_config(config)
+  def initialize_from_config(config, ignore_unknown_configs:)
     valid_keys = %i[
-      model max_tokens
+      model max_tokens num_choices
       functions forward_functions function_call function_procs
-      system_directives state_map modules
+      system_directives state_map modules temperature
     ]
     config.keys.map(&:to_sym).each do |key|
-      raise ArgumentError, "Unknown key #{key} in config" unless valid_keys.include?(key)
-
-      send("#{key}=", config[key])
+      if valid_keys.include?(key)
+        send("#{key}=", config[key])
+      elsif !ignore_unknown_configs
+        raise ArgumentError, "Unknown key #{key} in config"
+      end
     end
   end
 

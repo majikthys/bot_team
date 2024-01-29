@@ -2,9 +2,10 @@
 
 # A friendly version of Chat Object response https://platform.openai.com/docs/api-reference/chat/object
 class ChatGptResponse
-  attr_accessor :source_id, :created, :object, :model, :system_fingerprint, :usage, :choices
+  attr_accessor :attributes, :source_id, :created, :object, :model, :system_fingerprint, :usage, :choices
 
   def initialize(attributes = {})
+    @attributes = attributes
     @source_id = attributes[:source_id]
     @created = attributes[:created]
     @object = attributes[:object]
@@ -20,7 +21,7 @@ class ChatGptResponse
       created: json['created'],
       object: json['object'],
       model: json['model'],
-      system_fingerprint: json['system_fingerprint'] ? Time.utc(json['system_fingerprint']) : nil,
+      system_fingerprint: json['system_fingerprint'],
       usage: json['usage'],
       choices: json['choices']
     )
@@ -40,5 +41,17 @@ class ChatGptResponse
 
   def message
     choices[0]&.dig('message', 'content')
+  end
+
+  def to_hash
+    {
+      source_id: source_id,
+      created: created,
+      object: object,
+      model: model,
+      system_fingerprint: system_fingerprint,
+      usage: usage,
+      choices: choices
+    }
   end
 end

@@ -6,7 +6,7 @@
 # Convenience methods are provided for encapsulating and manipulating the messages stack
 class ChatGptRequest
 
-  attr_accessor :model, :function_call, :max_tokens, :messages, :functions
+  attr_accessor :model, :function_call, :max_tokens, :messages, :functions, :temperature, :num_choices
 
   def initialize(agent: nil, messages: [])
     if agent
@@ -19,6 +19,7 @@ class ChatGptRequest
     @function_call = 'auto'
     @max_tokens = 80
     @messages = messages
+    @temperature = 0.9
     @functions = []
   end
 
@@ -61,7 +62,7 @@ class ChatGptRequest
 
   def initialize_from_agent(agent)
     # Do the simple attribute copy first
-    %i[model max_tokens functions function_call].each do |key|
+    %i[model max_tokens num_choices functions function_call temperature].each do |key|
       send("#{key}=", agent.send(key)) if agent.send(key)
     end
     # Leave functions nil if possible
@@ -70,11 +71,17 @@ class ChatGptRequest
     replace_system_directives(agent.system_directives) if agent.system_directives
   end
 
-  def to_json(*_args)
+  def to_hash(*_args)
     {
       model:,
       messages:,
       max_tokens:,
-    }.merge(!functions.nil? ? { functions:, function_call: } : {}).to_json
+      n: num_choices,
+      temperature:,
+    }.merge(!functions.nil? ? { functions:, function_call: } : {})
+  end
+
+  def to_json(*_args)
+    to_hash.to_json
   end
 end
