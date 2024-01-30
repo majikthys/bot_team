@@ -177,7 +177,13 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
   end
 
   def process_function_response(response)
-    params = response.function_arguments.transform_keys(&:to_sym)
+    args = response.function_arguments
+    if args.nil?
+      $stderr.puts "Warning: got no arguments for function #{response.function_call} - JSON may have failed to parse – skipping"
+      return
+    end
+
+    params = args.transform_keys(&:to_sym)
     return function_procs[response.function_name.to_sym].call(**params) if state_function != response.function_name.to_sym
 
     process_state_function_response(
