@@ -31,12 +31,33 @@ class ChatGptResponse
     choices[0]&.dig('message', 'function_call')
   end
 
+  def multiple_function_calls
+    choices.map { |choice| choice['message']['function_call'] }
+  end
+
   def function_name
     function_call['name']
   end
 
+  def multiple_function_names
+    multiple_function_calls.map { |function_call| function_call['name'] }
+  end
+
   def function_arguments
-    JSON.parse(function_call['arguments'])
+    parse_function_arguments(function_call['arguments'])
+  end
+
+  def multiple_function_arguments
+    multiple_function_calls.map do |function_call|
+      parse_function_arguments(function_call['arguments'])
+    end.compact
+  end
+
+  def parse_function_arguments(arguments)
+    JSON.parse(arguments)
+  rescue JSON::ParserError => e
+    $stderr.puts "Error parsing JSON: #{e.message}"
+    nil
   end
 
   def message
