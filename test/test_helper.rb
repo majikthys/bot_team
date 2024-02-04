@@ -3,7 +3,7 @@
 require 'minitest/autorun'
 require 'minitest/focus'
 
-require_relative '../lib/chat_completion'
+require_relative '../lib/bot_team'
 
 require 'modules/leaf'
 require 'modules/switchboard'
