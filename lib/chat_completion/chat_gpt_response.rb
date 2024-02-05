@@ -27,6 +27,15 @@ class ChatGptResponse
     )
   end
 
+  def function_calls
+    choices.map do |choice|
+      f_call = choice.dig('message', 'function_call')
+      next unless f_call
+
+      Struct.new(:name, :arguments).new(f_call['name'], JSON.parse(f_call['arguments'], symbolize_names: true))
+    end.compact
+  end
+
   def function_call
     choices[0]&.dig('message', 'function_call')
   end
