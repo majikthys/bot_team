@@ -18,6 +18,20 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     :state_map,
     :temperature
 
+  CONFIG_KEYS = %i[
+    forward_functions
+    function_call
+    function_procs
+    functions
+    num_choices
+    max_tokens
+    model
+    modules
+    state_map
+    system_directives
+    temperature
+  ].freeze
+
   def initialize(config_path: nil, config: nil, callbacks: {}, ignore_unknown_configs: false)
     raise ArgumentError, 'config_path and config cannot both be provided' if config_path && config
 
@@ -127,13 +141,8 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
   end
 
   def initialize_from_config(config, ignore_unknown_configs:)
-    valid_keys = %i[
-      model max_tokens num_choices
-      functions forward_functions function_call function_procs
-      system_directives state_map modules temperature
-    ]
     config.keys.map(&:to_sym).each do |key|
-      if valid_keys.include?(key)
+      if CONFIG_KEYS.include?(key)
         send("#{key}=", config[key])
       elsif !ignore_unknown_configs
         raise ArgumentError, "Unknown key #{key} in config"
@@ -184,19 +193,23 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     end
 
     params = args.transform_keys(&:to_sym)
-    return function_procs[response.function_name.to_sym].call(**params) if state_function != response.function_name.to_sym
 
-    process_state_function_response(
-      state_function_action_type(params),
-      state_function_action_value(params),
-      state_function_action_params(params)
-    )
+    if state_function == response.function_name.to_sym
+      return process_state_function_response(state_function_action_params(params))
+    end
+
+    response.function_calls.each do |function_call|
+      function_procs[function_call.name.to_sym].call(**function_call.arguments)
+    end
   end
 
-  def process_state_function_response(action_type:, action_val:, params:)
-    return function_procs[action_val].call(**params) if action_type == :function
+  def process_state_function_response(params:)
+    action_type = state_function_action_type(params)
+    action_val = state_function_action_value(params)
+    action_params = state_function_action_params(params)
+    return function_procs[action_val].call(**action_params) if action_type == :function
     return unless callbacks[action_type]
 
-    callbacks[action_type].call(action_val, **params)
+    callbacks[action_type].call(action_val, **action_params)
   end
 end

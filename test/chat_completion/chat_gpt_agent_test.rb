@@ -91,7 +91,14 @@ describe ChatGptAgent do
       ) do |behavior:|
         result = behavior
       end
-      agent.define_parameter('report_behavior', 'behavior', type: 'string', enum: %w[nice mean], required: true, description: 'the behavior the user is exhibiting')
+      agent.define_parameter(
+        'report_behavior',
+        'behavior',
+        type: 'string',
+        enum: %w[nice mean],
+        required: true,
+        description: 'the behavior the user is exhibiting'
+      )
       _(agent.function_call).must_equal({name: 'report_behavior'})
       _(agent.function_procs.keys).must_equal([:report_behavior])
       _(agent.function_procs[:report_behavior]).must_be_kind_of(Proc)
@@ -115,6 +122,21 @@ describe ChatGptAgent do
       )
       agent.run(messages: [{role: 'user', content: 'Give me a good name for a very cute puppy'}])
       _(agent.response.choices.size).must_equal 3
+    end
+
+    it 'will run the function_proc for each choice' do
+      result = []
+      agent = ChatGptAgent.new(
+        config: {
+          num_choices: 3
+        }
+      )
+      agent.add_function('suggest_puppy_name', required: true) do |puppy_name:|
+        result << puppy_name
+      end
+      agent.define_parameter('suggest_puppy_name', 'puppy_name', type: 'string', required: true)
+      agent.run(messages: [{role: 'user', content: 'Come up with a good name for a very cute puppy and suggest it by calling suggest_puppy_name'}])
+      _(result.size).must_equal 3
     end
   end
 end
