@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'httparty'
+
 require_relative 'chat_gpt_response'
 
 class RestGateway
@@ -22,9 +23,22 @@ class RestGateway
   end
 
   def call(chat_completion_request)
-    response = HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers, timeout: 45)
-    raise response['error']['message'] unless response.code == 200
+    response = try_http_request(chat_completion_request)
+    return ChatGptResponse.create_from_json(response) if response.code == 200
 
-    ChatGptResponse.create_from_json(response)
+    $stderr.puts "==========================================="
+    $stderr.puts "=== Unsuccessful response from OpenAI API ==="
+    $stderr.puts "Error: #{JSON.pretty_generate(response)}"
+    raise response['error']['message']
+  end
+
+  def try_http_request(chat_completion_request)
+    HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers, timeout: 45)
+  rescue Net::ReadTimeout
+    delay ||= 2
+    $stderr.puts "Timeout error. Waiting #{delay} seconds then retrying..."
+    sleep delay
+    delay *= delay
+    retry if delay < 60
   end
 end
