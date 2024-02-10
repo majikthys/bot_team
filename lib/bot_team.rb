@@ -2,8 +2,8 @@
 
 require 'pry'
 
-require_relative 'chat_completion/agent_runner'
-require_relative 'chat_completion/chat_gpt_agent'
-require_relative 'chat_completion/chat_gpt_request'
-require_relative 'chat_completion/chat_gpt_response'
-require_relative 'chat_completion/rest_gateway'
+require_relative 'bot_team/agent_runner'
+require_relative 'bot_team/chat_gpt_agent'
+require_relative 'bot_team/chat_gpt_request'
+require_relative 'bot_team/chat_gpt_response'
+require_relative 'bot_team/rest_gateway'
