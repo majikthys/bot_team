@@ -5,7 +5,6 @@
 #
 # Convenience methods are provided for encapsulating and manipulating the messages stack
 class ChatGptRequest
-
   attr_accessor :model, :function_call, :max_tokens, :messages, :functions, :temperature, :num_choices
 
   def initialize(agent: nil, messages: [])
@@ -16,7 +15,6 @@ class ChatGptRequest
     end
 
     @model = 'gpt-3.5-turbo-0613'
-    @function_call = 'auto'
     @max_tokens = 80
     @messages = messages
     @temperature = 0.9
@@ -78,10 +76,31 @@ class ChatGptRequest
       max_tokens:,
       n: num_choices,
       temperature:,
-    }.merge(!functions.nil? ? { functions:, function_call: } : {})
+    }.merge(functions&.any? ? tools : {})
   end
 
   def to_json(*_args)
     to_hash.to_json
+  end
+
+  private
+
+  def tools
+    {
+      tools: functions.map do |function|
+        { type: 'function', function: function }
+      end,
+      tool_choice:
+    }
+  end
+
+  def tool_choice
+    if function_call.nil?
+      functions.any? ? 'auto' : 'none'
+    elsif %w[auto none].include?(function_call)
+      function_call
+    else
+      { type: 'function', function: function_call }
+    end
   end
 end

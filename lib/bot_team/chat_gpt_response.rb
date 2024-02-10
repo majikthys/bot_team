@@ -28,20 +28,27 @@ class ChatGptResponse
   end
 
   def function_calls
-    choices.map do |choice|
-      f_call = choice.dig('message', 'function_call')
-      next unless f_call
-
-      Struct.new(:name, :arguments).new(f_call['name'], JSON.parse(f_call['arguments'], symbolize_names: true))
-    end.compact
+    choices\
+      .map { |choice| choice.dig('message', 'tool_calls') }\
+      .flatten\
+      .map { |tool_call| tool_call['function'] }\
+      .map do |f_call|
+        Struct.new(:name, :arguments).new(
+          f_call['name'],
+          JSON.parse(f_call['arguments'], symbolize_names: true)
+        )
+      end
   end
 
   def function_call
-    choices[0]&.dig('message', 'function_call')
+    choices[0]&.dig('message', 'tool_calls', 0, 'function')
   end
 
   def multiple_function_calls
-    choices.map { |choice| choice['message']['function_call'] }
+    choices\
+      .map { |choice| choice['message']['tool_calls'] }\
+      .map { |tool_calls| tool_calls.map { |tool_call| tool_call['function'] } }\
+      .flatten
   end
 
   def function_name
@@ -56,6 +63,8 @@ class ChatGptResponse
     parse_function_arguments(function_call['arguments'])
   end
 
+  # Why does this function exist?
+  # That 'compact' could get the size out of sync with the multiple_function_names
   def multiple_function_arguments
     multiple_function_calls.map do |function_call|
       parse_function_arguments(function_call['arguments'])
@@ -65,7 +74,7 @@ class ChatGptResponse
   def parse_function_arguments(arguments)
     JSON.parse(arguments)
   rescue JSON::ParserError => e
-    $stderr.puts "Error parsing JSON: #{e.message}"
+    $stderr.puts "Error parsing JSON function arguments: #{e.message}"
     nil
   end
 
