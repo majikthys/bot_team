@@ -129,14 +129,15 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
   private
 
   def intiailize_defaults
-    @model = 'gpt-3.5-turbo-0613'
-    @function_call = 'auto'
-    @max_tokens = 80
+    @model = BotTeam.configuration.model
+    @max_tokens = BotTeam.configuration.max_tokens
     @modules = []
-    @num_choices = 1
-    @temperature = 0.9
-    @functions = nil
+    @num_choices = BotTeam.configuration.num_choices
+    @temperature = BotTeam.configuration.temperature
+
     @forward_functions = nil
+    @functions = nil
+    @function_call = 'auto'
     @function_procs = {}
   end
 

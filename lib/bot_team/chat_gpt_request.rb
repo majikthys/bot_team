@@ -8,16 +8,17 @@ class ChatGptRequest
   attr_accessor :model, :function_call, :max_tokens, :messages, :functions, :temperature, :num_choices
 
   def initialize(agent: nil, messages: [])
+    self.messages = messages
     if agent
-      self.messages = messages
       initialize_from_agent(agent)
       return
     end
 
-    @model = 'gpt-3.5-turbo-0613'
-    @max_tokens = 80
-    @messages = messages
-    @temperature = 0.9
+    @max_tokens = BotTeam.configuration.max_tokens
+    @model = BotTeam.configuration.model
+    @num_choices = BotTeam.configuration.num_choices
+    @temperature = BotTeam.configuration.temperature
+
     @functions = []
   end
 

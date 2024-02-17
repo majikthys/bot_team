@@ -6,7 +6,7 @@ describe ChatGptRequest do
   subject { ChatGptRequest.new }
 
   it 'should initialize with defaults' do
-    assert_equal 'gpt-3.5-turbo-0613', subject.model
+    assert_equal 'gpt-3.5-turbo', subject.model
     assert_equal 80, subject.max_tokens
     assert_equal [], subject.messages
     assert_equal [], subject.functions
