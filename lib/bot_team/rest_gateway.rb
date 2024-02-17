@@ -5,6 +5,8 @@ require 'httparty'
 require_relative 'chat_gpt_response'
 
 class RestGateway
+  class NoResponseError < StandardError; end
+
   include HTTParty
 
   def api_key
@@ -24,10 +26,12 @@ class RestGateway
 
   def call(chat_completion_request)
     response = try_http_request(chat_completion_request)
-    return ChatGptResponse.create_from_json(response) if response.code == 200
+    return ChatGptResponse.create_from_json(response) if response&.code == 200
 
     $stderr.puts "==========================================="
     $stderr.puts "=== Unsuccessful response from OpenAI API ==="
+    raise NoResponseError unless response
+
     $stderr.puts "Error: #{JSON.pretty_generate(response)}"
     raise response['error']['message']
   end
