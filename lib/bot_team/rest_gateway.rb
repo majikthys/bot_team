@@ -37,12 +37,13 @@ class RestGateway
   end
 
   def try_http_request(chat_completion_request)
-    HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers, timeout: 45)
+    HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers, timeout: BotTeam.configuration.request_timeout)
   rescue Net::ReadTimeout
-    delay ||= 2
+    exponent = [1.001, BotTeam.configuration.retry_rolloff_exponent].max
+    delay ||= exponent
     $stderr.puts "Timeout error. Waiting #{delay} seconds then retrying..."
     sleep delay
-    delay *= delay
-    retry if delay < 60
+    delay **= exponent
+    retry if delay <= BotTeam.configuration.retry_longest_wait
   end
 end
