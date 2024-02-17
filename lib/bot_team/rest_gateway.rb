@@ -8,7 +8,7 @@ class RestGateway
   include HTTParty
 
   def api_key
-    ENV['OPENAI_API_KEY']
+    BotTeam.configuration.api_key
   end
 
   def api_url
