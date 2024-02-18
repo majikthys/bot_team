@@ -14,6 +14,7 @@ class AgentRunner
     @interpolations = interpolations
     @agents = {}
     load_modules(modules)
+    @logger = BotTeam.logger
   end
 
   def add_agent(agent_name, agent)
@@ -101,6 +102,6 @@ class AgentRunner
   end
 
   def log_action(message)
-    puts  "ACTION -> #{message}" if ENV['DEBUG']
+    @logger.debug "ACTION -> #{message}"
   end
 end

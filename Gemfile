@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '3.1.2'
 
 gem 'httparty'
+gem 'logger'
 
 gem 'guard'
 gem 'guard-minitest'

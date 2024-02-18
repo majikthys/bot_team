@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'logger'
 require 'pry'
 
 require_relative 'bot_team/agent_runner'
@@ -17,6 +18,10 @@ module BotTeam
 
     def configure
       yield(configuration)
+    end
+
+    def logger
+      configuration.logger
     end
   end
 end

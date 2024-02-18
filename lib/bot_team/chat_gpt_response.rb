@@ -13,6 +13,7 @@ class ChatGptResponse
     @system_fingerprint = attributes[:system_fingerprint]
     @usage = attributes[:usage]
     @choices = attributes[:choices]
+    @logger = BotTeam.logger
   end
 
   def self.create_from_json(json)
@@ -74,7 +75,7 @@ class ChatGptResponse
   def parse_function_arguments(arguments)
     JSON.parse(arguments)
   rescue JSON::ParserError => e
-    $stderr.puts "Error parsing JSON function arguments: #{e.message}"
+    @logger.error "Error parsing JSON function arguments: #{e.message}"
     nil
   end
 

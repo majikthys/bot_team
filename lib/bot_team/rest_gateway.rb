@@ -9,6 +9,10 @@ class RestGateway
 
   include HTTParty
 
+  def initialize
+    @logger = BotTeam.logger
+  end
+
   def api_key
     BotTeam.configuration.api_key
   end
@@ -28,11 +32,11 @@ class RestGateway
     response = try_http_request(chat_completion_request)
     return ChatGptResponse.create_from_json(response) if response&.code == 200
 
-    $stderr.puts "==========================================="
-    $stderr.puts "=== Unsuccessful response from OpenAI API ==="
+    @logger.error "==========================================="
+    @logger.error "=== Unsuccessful response from OpenAI API ==="
     raise NoResponseError unless response
 
-    $stderr.puts "Error: #{JSON.pretty_generate(response)}"
+    @logger.error "Error: #{JSON.pretty_generate(response)}"
     raise response['error']['message']
   end
 
@@ -41,7 +45,7 @@ class RestGateway
   rescue Net::ReadTimeout
     exponent = [1.001, BotTeam.configuration.retry_rolloff_exponent].max
     delay ||= exponent
-    $stderr.puts "Timeout error. Waiting #{delay} seconds then retrying..."
+    @logger.info "Timeout error. Waiting #{delay} seconds then retrying..."
     sleep delay
     delay **= exponent
     retry if delay <= BotTeam.configuration.retry_longest_wait
