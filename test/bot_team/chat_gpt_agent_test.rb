@@ -3,6 +3,14 @@
 require 'test_helper'
 
 describe ChatGptAgent do
+  def setup
+    VCR.insert_cassette('chat_gpt_agent')
+  end
+
+  def teardown
+    VCR.eject_cassette
+  end
+
   it 'initializes from config' do
     agent = ChatGptAgent.new(config_path: 'test/config/test_agents/switchboard.yml')
     _(agent.model).must_equal 'gpt-3.5-turbo'

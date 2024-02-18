@@ -3,6 +3,14 @@
 require 'test_helper'
 
 describe AgentRunner do
+  def setup
+    VCR.insert_cassette('agent_runner')
+  end
+
+  def teardown
+    VCR.eject_cassette
+  end
+
   $LOAD_PATH << 'test/modules' unless $LOAD_PATH.include?('test/modules')
 
   products = [

@@ -13,3 +13,5 @@ gem 'pry-byebug'
 gem 'rubocop', require: false
 gem 'rubocop-minitest', require: false
 gem 'ruby-lsp'
+gem 'vcr'
+gem 'webmock'

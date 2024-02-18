@@ -18,7 +18,8 @@ module BotTeam
 
     def initialize
       @api_key = ENV['OPENAI_API_KEY']
-      @logger = Logger.new($stdout)
+      @log_level = :info
+      @logger = Logger.new($stdout).tap { |l| l.level = @log_level }
       @max_tokens = 80
       @model = 'gpt-3.5-turbo'
       @num_choices = 1
