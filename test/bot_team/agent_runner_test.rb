@@ -3,6 +3,14 @@
 require 'test_helper'
 
 describe AgentRunner do
+  def setup
+    VCR.insert_cassette('agent_runner')
+  end
+
+  def teardown
+    VCR.eject_cassette
+  end
+
   $LOAD_PATH << 'test/modules' unless $LOAD_PATH.include?('test/modules')
 
   products = [
@@ -57,7 +65,7 @@ describe AgentRunner do
 
     it 'should create leaf agent' do
       request = subject.create_request(agent_name: 'leaf')
-      assert_equal 'gpt-3.5-turbo-0613', request.model
+      assert_equal BotTeam.configuration.model, request.model
       assert_equal 80, request.max_tokens
       assert_equal 1, request.messages.count
       assert_equal 1, request.functions.count
@@ -65,7 +73,7 @@ describe AgentRunner do
 
     it 'should create switchboard agent' do
       request = subject.create_request(agent_name: 'switchboard')
-      assert_equal 'gpt-3.5-turbo-0613', request.model
+      assert_equal BotTeam.configuration.model, request.model
       assert_equal ({:name=>"set_request_type"}), request.function_call
       assert_equal 80, request.max_tokens
       assert_equal 1, request.messages.count

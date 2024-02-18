@@ -40,6 +40,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     @callbacks = callbacks
     intiailize_defaults
     initialize_from_config(config, ignore_unknown_configs:) if config
+    @logger = BotTeam.logger
   end
 
   def runnable(interpolations: {})
@@ -129,14 +130,15 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
   private
 
   def intiailize_defaults
-    @model = 'gpt-3.5-turbo-0613'
-    @function_call = 'auto'
-    @max_tokens = 80
+    @model = BotTeam.configuration.model
+    @max_tokens = BotTeam.configuration.max_tokens
     @modules = []
-    @num_choices = 1
-    @temperature = 0.9
-    @functions = nil
+    @num_choices = BotTeam.configuration.num_choices
+    @temperature = BotTeam.configuration.temperature
+
     @forward_functions = nil
+    @functions = nil
+    @function_call = 'auto'
     @function_procs = {}
   end
 
@@ -188,7 +190,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
   def process_function_response(response)
     args = response.function_arguments
     if args.nil?
-      $stderr.puts "Warning: got no arguments for function #{response.function_call} - JSON may have failed to parse – skipping"
+      @logger.error "Warning: got no arguments for function #{response.function_call} - JSON may have failed to parse – skipping"
       return
     end
 

@@ -3,6 +3,14 @@
 require 'test_helper'
 
 describe RestGateway do
+  def setup
+    VCR.insert_cassette('rest_gateway')
+  end
+
+  def teardown
+    VCR.eject_cassette
+  end
+
   subject { RestGateway.new }
 
   it 'talks to api' do

@@ -1,0 +1,103 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"please
+        say hello"}],"max_tokens":80,"n":1,"temperature":0.9}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 18 Feb 2024 01:16:07 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, must-revalidate
+      Openai-Model:
+      - gpt-3.5-turbo-0125
+      Openai-Organization:
+      - user-2tengpgl0r7srjx251kymz2a
+      Openai-Processing-Ms:
+      - '229'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '80000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '79915'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 63ms
+      X-Request-Id:
+      - req_4364636fc48a2ae2cf18c96614966f78
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=z9HfumTGqsSt7FDQOzH_cev8u_Lk7di1Vbg5.TNc9Zc-1708218967-1.0-AfbYvl9RkkBTTOSOlJYKHrS6WFTxbuq1sXnMnPLXP1rmvIksXI6zOrxX3hgdT2VxakC+cPEP3pOy1ddzdVr/wJg=;
+        path=/; expires=Sun, 18-Feb-24 01:46:07 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=g9V1asBXPpWCycajqAKMHvsjVpqyE5pEhXbyZeREul0-1708218967095-0.0-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 85726c3e4f8dec60-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-8tQ4kL5MOz5P8MdN1FLBtDIg4l8OS",
+          "object": "chat.completion",
+          "created": 1708218966,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "Hello! How can I assist you today?"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 10,
+            "completion_tokens": 9,
+            "total_tokens": 19
+          },
+          "system_fingerprint": "fp_69829325d0"
+        }
+  recorded_at: Sun, 18 Feb 2024 01:16:07 GMT
+recorded_with: VCR 6.2.0
