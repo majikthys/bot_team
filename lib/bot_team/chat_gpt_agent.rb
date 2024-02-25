@@ -197,7 +197,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     params = args.transform_keys(&:to_sym)
 
     if state_function == response.function_name.to_sym
-      return process_state_function_response(state_function_action_params(params))
+      return process_state_function_response(params:)
     end
 
     response.function_calls.each do |function_call|
