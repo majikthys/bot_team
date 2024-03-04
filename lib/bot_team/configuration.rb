@@ -4,6 +4,7 @@ module BotTeam
   class Configuration
     attr_accessor \
       :api_key,
+      :api_url,
       :logger,
       :max_tokens,
       :model,
@@ -16,8 +17,9 @@ module BotTeam
     attr_reader \
       :log_level
 
-    def initialize
+    def initialize # rubocop:disable Metrics/MethodLength
       @api_key = ENV['OPENAI_API_KEY']
+      @api_url = 'https://api.openai.com/v1/chat/completions'
       @log_level = :info
       @logger = Logger.new($stdout).tap { |l| l.level = @log_level }
       @max_tokens = 80

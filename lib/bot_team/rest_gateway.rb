@@ -18,7 +18,7 @@ class RestGateway
   end
 
   def api_url
-    'https://api.openai.com/v1/chat/completions'
+    BotTeam.configuration.api_url
   end
 
   def http_headers
