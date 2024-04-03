@@ -60,29 +60,30 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     function_names_from_functions + function_names_from_state_map
   end
 
-  def add_function(name, description: nil, required: false, &block)
-    @functions ||= []
-    function = { name: name.to_s }
-    function[:description] = description if description
-    @functions << function
-    @function_procs[name.to_sym] = block if block
-    return function unless required
+  def add_function(name = nil, description: nil, required: false, method: nil, &block)
+    proc = pick_proc(method, block)
+    function = build_and_add_function(name:, description:, proc:)
+    name = function[:name].to_sym
+    @function_procs[name] = proc if proc
+    set_function_call(name) if required
+    build_parameters_from_proc(function, proc)
 
-    msg = "Cannot set required function when function_call is already defined (current value: #{function_call})"
-    raise ArgumentError, msg unless function_call == 'auto'
-
-    @function_call = { name: name.to_s }
     function
   end
 
-  def define_parameter(function, name, type:, description: nil, required: false, enum: nil) # rubocop:disable Metrics/ParameterLists
+  # This method can be used to define parameters for tools functions
+  # when the function wasn't initialized with a block or method. Or if
+  # it was, this allows you to set type, description, and enum
+  def define_parameter(function, name, type: nil, description: nil, required: false, enum: nil) # rubocop:disable Metrics/ParameterLists
     function = functions.find { |func| func[:name] == function }
     raise ArgumentError, "No function defined with name #{name}" unless function
 
-    params = function[:parameters] ||= { type: 'object', properties: {}, required: [] }
+    params = function[:parameters] ||= default_parameters
 
     params[:required] << name.to_s if required
-    prop = params[:properties][name.to_sym] = { type: }
+    params[:required].uniq!
+    prop = params[:properties][name.to_sym] ||= { }
+    prop[:type] = type if type
     prop[:description] = description if description
     prop[:enum] = enum if enum
     prop
@@ -129,6 +130,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   private
 
+  #### Initialization and Configuration ####
   def intiailize_defaults
     @model = BotTeam.configuration.model
     @max_tokens = BotTeam.configuration.max_tokens
@@ -150,6 +152,59 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
         raise ArgumentError, "Unknown key #{key} in config"
       end
     end
+  end
+
+  #### Function and Parameter Definition ####
+  def pick_proc(method, block)
+    raise ArgumentError, 'Can only provide one of either a method or a block' if method && block
+    method || block
+  end
+
+  def build_and_add_function(name: nil, description: nil, proc: nil)
+    name = proc.name if name.nil? && proc && proc.respond_to?(:name)
+    raise ArgumentError, "No name provided for function" unless name
+
+    function = { name: name.to_s }
+    function[:description] = description if description
+    @functions ||= []
+    @functions << function
+
+    function
+  end
+
+  def set_function_call(name)
+    msg = "Cannot set required function when function_call is already defined (current value: #{function_call})"
+    raise ArgumentError, msg unless function_call == 'auto'
+
+    @function_call = { name: name.to_s }
+  end
+
+  def build_parameters_from_proc(function, proc)
+    return unless proc
+
+    proc.parameters.each do |param|
+      case param[0]
+      when :keyreq
+        create_parameter(function, param[1], required: true)
+      when :key
+        create_parameter(function, param[1])
+      when :keyrest
+        # do nothing
+      when :req, :opt, :rest, :block
+        raise ArgumentError, "Positional arguments, splats, and blocks are not allowed in tool function, use keyword args and double splat only"
+      end
+    end
+  end
+
+  def create_parameter(function, name, required: false)
+    params = function[:parameters] ||= default_parameters
+
+    params[:required] << name.to_s if required
+    params[:properties][name.to_sym] = { type: 'string' }
+  end
+
+  def default_parameters
+    { type: 'object', properties: {}, required: [] }
   end
 
   def function_names_from_functions
