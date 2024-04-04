@@ -10,6 +10,8 @@ require_relative 'bot_team/chat_gpt_response'
 require_relative 'bot_team/configuration'
 require_relative 'bot_team/rest_gateway'
 
+require_relative 'bot_team/agent'
+
 module BotTeam
   class << self
     def configuration
