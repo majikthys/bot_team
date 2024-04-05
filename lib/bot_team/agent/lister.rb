@@ -24,7 +24,7 @@ class Agent::Lister < ChatGptAgent
     set_function_with_parameters(method || block, descriptions:)
   end
 
-  def run(messages:, interpolations: {}, gateway: RestGateway.new)
+  def run(message = nil, **_args)
     raise "You must set item_function before running Lister" unless @function
 
     set_system_directives_from_options

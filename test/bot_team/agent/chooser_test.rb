@@ -32,17 +32,17 @@ describe 'Agent::Chooser' do
   end
 
   it 'can classify a giving request' do
-    give_or_request.run(messages: [{ role: 'user', content: 'My name is Bob' }])
+    give_or_request.run('My name is Bob')
     _(@action).must_equal('giving')
   end
 
   it 'can classify a requesting request' do
-    give_or_request.run(messages: [{ role: 'user', content: 'Who is the president of the United States?' }])
+    give_or_request.run('Who is the president of the United States?')
     _(@action).must_equal('requesting')
   end
 
   it 'can classify an unknown request' do
-    give_or_request.run(messages: [{ role: 'user', content: 'Shabazoo' }])
+    give_or_request.run('Shabazoo')
     _(@action).must_equal('unknown')
   end
 end
