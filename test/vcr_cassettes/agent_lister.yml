@@ -1,0 +1,223 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nYou
+        are a chef who knows many recipies and when the user tells you somwthing they
+        want to make, you give them the ingredient list\n\nYour response will be a
+        JSON array of objects. Here are the attributes the object in the array can
+        have:\n\n - \"ingredient\": (required) \n - \"amount\": (optional) \n\nPlease
+        ensure that the JSON you return is parsable and that each contained object
+        has every required attribute or this operation will fail.\n\nI''ll repeat
+        this because it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN
+        WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL
+        BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"Cookies"}],"max_tokens":300,"n":1,"temperature":0.9}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 Apr 2024 14:04:12 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, must-revalidate
+      Openai-Model:
+      - gpt-3.5-turbo-0125
+      Openai-Organization:
+      - user-2tengpgl0r7srjx251kymz2a
+      Openai-Processing-Ms:
+      - '2272'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '160000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '159539'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 172ms
+      X-Request-Id:
+      - req_9751f925048e825547a837aa07d92885
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=tMC9.G9XFdy7FBsWmC28O8DwGbORh_fQRcEB99LnlRo-1712325852-1.0.1.1-bcizJmxJwDiPu5DT09Ul20hKKw75tqDbKd4e6fKuo042HB8mQTw0YAZHmtnwjDM4KcAmxUSuO99kcG11tva1wA;
+        path=/; expires=Fri, 05-Apr-24 14:34:12 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=1kFBzcEO6vy2MZpReS1XTQK5B8KuHJdrr.fAxVpGeB0-1712325852955-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 86fa15f57f84c4b1-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-9AeSotl8EW6ogY4A1ZMZaaFyw6E2n",
+          "object": "chat.completion",
+          "created": 1712325850,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "[\n    {\"ingredient\": \"flour\", \"amount\": \"2 cups\"},\n    {\"ingredient\": \"sugar\", \"amount\": \"1 cup\"},\n    {\"ingredient\": \"butter\", \"amount\": \"1 cup\"},\n    {\"ingredient\": \"eggs\", \"amount\": \"2\"},\n    {\"ingredient\": \"vanilla extract\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"baking soda\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"salt\", \"amount\": \"1/2 tsp\"},\n    {\"ingredient\": \"chocolate chips\", \"amount\": \"1 cup\"}\n]"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 158,
+            "completion_tokens": 125,
+            "total_tokens": 283
+          },
+          "system_fingerprint": "fp_b28b39ffa8"
+        }
+  recorded_at: Fri, 05 Apr 2024 14:04:13 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nYou
+        are a puppy finder that scans text and finds puppies.\n\nYour response will
+        be a JSON array of objects. Here are the attributes the object in the array
+        can have:\n\n - \"name\": (required) The name of the puppy you found in the
+        text\n - \"color\": (required) The color of the puppy you are reporting having
+        found\n\nPlease ensure that the JSON you return is parsable and that each
+        contained object has every required attribute or this operation will fail.\n\nI''ll
+        repeat this because it''s important: THE JSON YOU RETURN MUST PARSE. WHAT
+        YOU RETURN WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN
+        WILL BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"In the
+        kingdom of fluffypup, there was a doggy day care atop a hill overlooking the
+        village.\nEveryday blue Jeremy would bring his sweet little brown dog Dingo
+        to play with the other little guys.\nDingo''s favorite friend was young Rosa,
+        a red retreiver the same age as Dingo.\nThey loved to romp and play all day.\n"}],"max_tokens":300,"n":1,"temperature":0.2}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 05 Apr 2024 14:04:14 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, must-revalidate
+      Openai-Model:
+      - gpt-3.5-turbo-0125
+      Openai-Organization:
+      - user-2tengpgl0r7srjx251kymz2a
+      Openai-Processing-Ms:
+      - '947'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '160000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '159458'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 203ms
+      X-Request-Id:
+      - req_e4b115207ad4aad37027e310e7da3fd0
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=xXBdIEsChjjiobzeUaC5K7AG.e4n_TtZe7oi40dpuKo-1712325854-1.0.1.1-jOD_aro.bxIw16Dj40PhHfCzIEPE4vSpCfEB4fI5o8UxbvGX4mg44JwX_oD8roLAP20MsOgb2X9Dt6jEdawqVw;
+        path=/; expires=Fri, 05-Apr-24 14:34:14 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=W4xpsuw9pbWxrtrr6OMQFhxeIhrIFumbFD4Vmaokuyc-1712325854233-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 86fa1605ebe9ec6c-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-9AeSrhpfJAU4mBQ11jKSpvvnkMzbL",
+          "object": "chat.completion",
+          "created": 1712325853,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "[\n    {\n        \"name\": \"Dingo\",\n        \"color\": \"brown\"\n    },\n    {\n        \"name\": \"Rosa\",\n        \"color\": \"red\"\n    }\n]"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 234,
+            "completion_tokens": 40,
+            "total_tokens": 274
+          },
+          "system_fingerprint": "fp_b28b39ffa8"
+        }
+  recorded_at: Fri, 05 Apr 2024 14:04:14 GMT
+recorded_with: VCR 6.1.0
