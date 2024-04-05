@@ -3,3 +3,4 @@
 module Agent; end
 
 require_relative 'agent/chooser'
+require_relative 'agent/lister'

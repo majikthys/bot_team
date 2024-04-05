@@ -132,16 +132,16 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   #### Initialization and Configuration ####
   def intiailize_defaults
-    @model = BotTeam.configuration.model
-    @max_tokens = BotTeam.configuration.max_tokens
-    @modules = []
-    @num_choices = BotTeam.configuration.num_choices
-    @temperature = BotTeam.configuration.temperature
+    @model ||= BotTeam.configuration.model
+    @max_tokens ||= BotTeam.configuration.max_tokens
+    @modules ||= []
+    @num_choices ||= BotTeam.configuration.num_choices
+    @temperature ||= BotTeam.configuration.temperature
 
-    @forward_functions = nil
-    @functions = nil
-    @function_call = 'auto'
-    @function_procs = {}
+    @forward_functions ||= nil
+    @functions ||= nil
+    @function_call ||= 'auto'
+    @function_procs ||= {}
   end
 
   def initialize_from_config(config, ignore_unknown_configs:)
