@@ -33,7 +33,7 @@ describe 'Agent::Lister' do
         Dingo's favorite friend was young Rosa, a red retreiver the same age as Dingo.
         They loved to romp and play all day.
       TEXT
-      puppy_finder.run(messages: [{ role: 'user', content: text }])
+      puppy_finder.run(text)
       _(@puppies.count).must_equal(2)
       _(@puppies).must_include({ name: 'Dingo', color: 'brown' })
       _(@puppies).must_include({ name: 'Rosa', color: 'red' })

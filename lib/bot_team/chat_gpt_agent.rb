@@ -49,7 +49,10 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def run(messages:, interpolations: {}, gateway: RestGateway.new)
+  # Supply message (String) to send a single user message
+  # Use messages (Array of Hashes) to send a history
+  def run(message = nil, messages: nil, interpolations: {}, gateway: RestGateway.new)
+    messages = setup_messages_for_run(message, messages)
     agent = runnable(interpolations:)
     @request = ChatGptRequest.new(agent:, messages:)
     @response = gateway.call(request)
@@ -216,6 +219,14 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
       .map(&:to_sym) || []
   end
 
+  def setup_messages_for_run(message, messages)
+    raise "run must be supplied with either message or messages" unless message || messages
+
+    messages ||= []
+    messages << { role: 'user', content: message } if message
+    messages
+  end
+
   def function_names_from_state_map
     return [] unless state_map
 
@@ -255,7 +266,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
       return process_state_function_response(state_function_action_params(params))
     end
 
-    response.function_calls.each do |function_call|
+    response.function_calls.map do |function_call|
       function_procs[function_call.name.to_sym].call(**function_call.arguments)
     end
   end

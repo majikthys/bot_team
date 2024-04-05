@@ -16,7 +16,7 @@ class Agent::Chooser < ChatGptAgent
     @options[name] = { description: description, method: method }
   end
 
-  def run(messages:, interpolations: {}, gateway: RestGateway.new)
+  def run(message = nil, **_rest)
     setup_agent_config_from_options
     super
   end

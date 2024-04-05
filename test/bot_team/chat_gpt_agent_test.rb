@@ -92,7 +92,10 @@ describe ChatGptAgent do
       )
       msg = "I wanted you to know that I really appreciate you and I'm glad you're here"\
         ' and I hope you have a great day. Would you like a piece of cake?'
-      agent.run(messages: [{role: 'user', content: msg}])
+      agent.run(messages: [{ role: 'user', content: msg }])
+      _(result).must_equal 'nice'
+      result = nil
+      agent.run(msg)
       _(result).must_equal 'nice'
       result = nil
       msg = "You're a terrible person and I hate you. I hope you get a bad headache."
