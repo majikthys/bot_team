@@ -36,7 +36,7 @@ class AgentRunner
     call_function(response) # function can may 'call_agent()' results in 'run_agent()' being executed
   end
 
-  def call_function(response)
+  def call_function(response) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     function_name = response.function_name.to_sym
     params = response.function_arguments.transform_keys(&:to_sym)
 
@@ -98,7 +98,7 @@ class AgentRunner
 
   def ignore(reason:, sentiment: nil, classification_confidence: nil)
     log_action("IGNORE FUNCTION REASON: #{reason} SENTIMENT: #{sentiment} CONFIDENCE: #{classification_confidence}")
-    return nil
+    nil
   end
 
   def log_action(message)

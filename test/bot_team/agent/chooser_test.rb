@@ -24,10 +24,14 @@ describe 'Agent::Chooser' do
   end
 
   let(:give_or_request) do
-    Agent::Chooser.new(config: {temperature: 0.2}).tap do |c|
+    Agent::Chooser.new(config: { temperature: 0.2 }).tap do |c|
       c.add_option('giving', description: 'User is giving some information', method: method(:giving_info))
       c.add_option('requesting', description: 'User is requesting some information', method: method(:requesting_info))
-      c.add_option('unknown', description: 'The input is incomprehensible or the user is neither requesting nor offering information', method: method(:unknown))
+      c.add_option(
+        'unknown',
+        description: 'The input is incomprehensible or the user is neither requesting nor offering information',
+        method: method(:unknown)
+      )
     end
   end
 

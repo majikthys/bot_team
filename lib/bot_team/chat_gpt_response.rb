@@ -29,10 +29,10 @@ class ChatGptResponse
   end
 
   def function_calls
-    choices\
-      .map { |choice| choice.dig('message', 'tool_calls') }\
-      .flatten\
-      .map { |tool_call| tool_call['function'] }\
+    choices
+      .map { |choice| choice.dig('message', 'tool_calls') }
+      .flatten
+      .map { |tool_call| tool_call['function'] }
       .map do |f_call|
         Struct.new(:name, :arguments).new(
           f_call['name'],
@@ -46,9 +46,9 @@ class ChatGptResponse
   end
 
   def multiple_function_calls
-    choices\
-      .map { |choice| choice['message']['tool_calls'] }\
-      .map { |tool_calls| tool_calls.map { |tool_call| tool_call['function'] } }\
+    choices
+      .map { |choice| choice['message']['tool_calls'] }
+      .map { |tool_calls| tool_calls.map { |tool_call| tool_call['function'] } }
       .flatten
   end
 
@@ -85,13 +85,13 @@ class ChatGptResponse
 
   def to_hash
     {
-      source_id: source_id,
-      created: created,
-      object: object,
-      model: model,
-      system_fingerprint: system_fingerprint,
-      usage: usage,
-      choices: choices
+      source_id:,
+      created:,
+      object:,
+      model:,
+      system_fingerprint:,
+      usage:,
+      choices:
     }
   end
 end

@@ -18,7 +18,7 @@ module BotTeam
       :log_level
 
     def initialize # rubocop:disable Metrics/MethodLength
-      @api_key = ENV['OPENAI_API_KEY']
+      @api_key = ENV.fetch('OPENAI_API_KEY', nil)
       @api_url = 'https://api.openai.com/v1/chat/completions'
       @log_level = :info
       @logger = Logger.new($stdout).tap { |l| l.level = @log_level }

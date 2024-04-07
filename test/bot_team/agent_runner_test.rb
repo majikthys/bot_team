@@ -31,7 +31,7 @@ describe AgentRunner do
 
     it 'should run team of agents' do
       subject.initial_agent_name = 'switchboard'
-      subject.initial_messages = [{role: 'user', content: 'set test value to 99'}]
+      subject.initial_messages = [{ role: 'user', content: 'set test value to 99' }]
       result = subject.run_team
 
       # Demonstrates that switchboard called leaf
@@ -40,31 +40,33 @@ describe AgentRunner do
 
     it 'should call module function' do
       subject.initial_agent_name = 'switchboard'
-      subject.initial_messages = [{role: 'user', content: 'THANKS!!!'}]
+      subject.initial_messages = [{ role: 'user', content: 'THANKS!!!' }]
       result = subject.run_team
 
-      assert_match /^OUTPUT FROM THE SB THANKS FUNCTION SENTIMENT/, result
+      assert_match(/^OUTPUT FROM THE SB THANKS FUNCTION SENTIMENT/, result)
     end
 
     it 'should call ignore function' do
       subject.initial_agent_name = 'switchboard'
-      subject.initial_messages = [{role: 'user', content: 'IGNORE ME'}]
+      subject.initial_messages = [{ role: 'user', content: 'IGNORE ME' }]
       result = subject.run_team
 
       assert_nil result
     end
 
     it 'should run single agent' do
-      result = subject.run_agent(agent_name: 'leaf', messages: [{role: 'user', content: 'set test value to 99'}])
+      result = subject.run_agent(agent_name: 'leaf', messages: [{ role: 'user', content: 'set test value to 99' }])
+
       assert_equal "OUTPUT FROM THE LEAF FUNCTION", result
     end
 
     it 'should be instantiated with modules' do
-      assert subject.respond_to?(:set_test_value), "subject should respond to :change_state"
+      assert_respond_to subject, :set_test_value, "subject should respond to :change_state"
     end
 
     it 'should create leaf agent' do
       request = subject.create_request(agent_name: 'leaf')
+
       assert_equal BotTeam.configuration.model, request.model
       assert_equal 80, request.max_tokens
       assert_equal 1, request.messages.count
@@ -73,8 +75,9 @@ describe AgentRunner do
 
     it 'should create switchboard agent' do
       request = subject.create_request(agent_name: 'switchboard')
+
       assert_equal BotTeam.configuration.model, request.model
-      assert_equal ({:name=>"set_request_type"}), request.function_call
+      assert_equal ({ name: "set_request_type" }), request.function_call
       assert_equal 80, request.max_tokens
       assert_equal 1, request.messages.count
       assert_equal 1, request.functions.count
@@ -108,8 +111,9 @@ describe AgentRunner do
     )
 
     # Config has interpolation
-    agent = runner.agent_config('interpolation').runnable(interpolations: interpolations)
-    assert_match /{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/, agent.system_directives
+    agent = runner.agent_config('interpolation').runnable(interpolations:)
+
+    assert_match(/{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/, agent.system_directives)
   end
 
   it 'should interpolate when creating agent' do
@@ -127,27 +131,28 @@ describe AgentRunner do
     request = runner.create_request(agent_name: 'interpolation')
     system_message = request.messages.select { |message| message[:role] == 'system' }.first[:content]
 
-    assert_match /Session 141241/, system_message, 'strings should be directly replaced'
-    assert_match /{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/,
+    assert_match(/Session 141241/, system_message, 'strings should be directly replaced')
+    assert_match(/{\n {4}"name": "self-watering plant pot",\n {4}"id": 789023\n {2}}/,
                  system_message,
-                 'lambda should be called'
+                 'lambda should be called')
 
     # Demonstrate lamda, is not called until create_agent interpolation is called
-    refute_match /{\n {4}"name": "stuff",\n {4}"id": 42\n {2}}/, system_message, 'values do not exist yet'
+    refute_match(/{\n {4}"name": "stuff",\n {4}"id": 42\n {2}}/, system_message, 'values do not exist yet')
     products << { name: 'stuff', id: 42 }
     request = runner.create_request(agent_name: 'interpolation')
     system_message = request.messages.select { |message| message[:role] == 'system' }.first[:content]
-    assert_match /{\n {4}"name": "stuff",\n {4}"id": 42\n {2}}/,
+
+    assert_match(/{\n {4}"name": "stuff",\n {4}"id": 42\n {2}}/,
                  system_message,
-                 'values exist now (and are in calling context)'
+                 'values exist now (and are in calling context)')
   end
 
   it 'loads modules' do
     runner = AgentRunner.new(config_root: 'test/config/test_agents/')
 
-    refute runner.respond_to?(:set_test_value), "subject should not respond to :change_state"
+    refute_respond_to runner, :set_test_value, "subject should not respond to :change_state"
     runner.load_modules([Leaf])
-    assert runner.respond_to?(:set_test_value), "subject should respond to :change_state"
-  end
 
+    assert_respond_to runner, :set_test_value, "subject should respond to :change_state"
+  end
 end

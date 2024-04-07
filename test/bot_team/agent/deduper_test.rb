@@ -23,7 +23,7 @@ describe 'Agent::Lister' do
         { name: "Charles Avery" },
         { name: "Jenn Jordan" },
         { name: "James Morris" },
-        { name: "Jeffery Mcdaniels" },
+        { name: "Jeffery Mcdaniels" }
       ]
     end
 
@@ -35,7 +35,7 @@ describe 'Agent::Lister' do
           [{ name: "Charles Avery" }],
           [{ name: "James Morris" }, { name: "Jim Morris" }],
           [{ name: "Jeff McDaniels" }, { name: "Jeffery Mcdaniels" }],
-          [{ name: "Jenn Jordan" }],
+          [{ name: "Jenn Jordan" }]
         ]
       )
     end

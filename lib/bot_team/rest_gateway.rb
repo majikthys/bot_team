@@ -22,7 +22,7 @@ class RestGateway
   end
 
   def http_headers
-    http_headers = {
+    {
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer #{api_key}"
     }
@@ -41,7 +41,8 @@ class RestGateway
   end
 
   def try_http_request(chat_completion_request)
-    HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers, timeout: BotTeam.configuration.request_timeout)
+    HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers,
+                           timeout: BotTeam.configuration.request_timeout)
   rescue Net::ReadTimeout
     exponent = [1.001, BotTeam.configuration.retry_rolloff_exponent].max
     delay ||= exponent

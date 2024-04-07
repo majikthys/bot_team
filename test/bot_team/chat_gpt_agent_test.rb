@@ -45,11 +45,12 @@ describe ChatGptAgent do
     it 'returns a runnable agent with expected interpolations' do
       agent = ChatGptAgent.new(
         config: {
-          system_directives: 'You are a bot that repeats what the user says '\
-            'while incorporating the phrase "%{required_word}"',
+          system_directives:
+            'You are a bot that repeats what the user says ' \
+            'while incorporating the phrase "%{required_word}"', # rubocop:disable Style/FormatStringToken
         }
       )
-      runnable = agent.runnable(interpolations: {required_word: 'meow'})
+      runnable = agent.runnable(interpolations: { required_word: 'meow' })
       _(runnable.system_directives).must_match(/incorporating the phrase "meow"$/)
     end
   end
@@ -90,8 +91,8 @@ describe ChatGptAgent do
           }
         }
       )
-      msg = "I wanted you to know that I really appreciate you and I'm glad you're here"\
-        ' and I hope you have a great day. Would you like a piece of cake?'
+      msg = "I wanted you to know that I really appreciate you and I'm glad you're here " \
+            'and I hope you have a great day. Would you like a piece of cake?'
       agent.run(messages: [{ role: 'user', content: msg }])
       _(result).must_equal 'nice'
       result = nil
@@ -99,7 +100,7 @@ describe ChatGptAgent do
       _(result).must_equal 'nice'
       result = nil
       msg = "You're a terrible person and I hate you. I hope you get a bad headache."
-      agent.run(messages: [{role: 'user', content: msg}])
+      agent.run(messages: [{ role: 'user', content: msg }])
       _(result).must_equal 'mean'
     end
 
@@ -122,7 +123,7 @@ describe ChatGptAgent do
         required: true,
         description: 'the behavior the user is exhibiting'
       )
-      _(agent.function_call).must_equal({name: 'report_behavior'})
+      _(agent.function_call).must_equal({ name: 'report_behavior' })
       _(agent.function_procs.keys).must_equal([:report_behavior])
       _(agent.function_procs[:report_behavior]).must_be_kind_of(Proc)
       _(agent.functions).must_equal([report_behavior_function_def])
@@ -133,13 +134,13 @@ describe ChatGptAgent do
       _(behavior[:enum]).must_equal(%w[nice mean])
       _(behavior[:description]).must_equal('the behavior the user is exhibiting')
 
-      msg = "I wanted you to know that I really appreciate you and I'm glad you're here"\
-        ' and I hope you have a great day. Would you like a piece of cake?'
-      agent.run(messages: [{role: 'user', content: msg}])
+      msg = "I wanted you to know that I really appreciate you and I'm glad you're here " \
+            'and I hope you have a great day. Would you like a piece of cake?'
+      agent.run(messages: [{ role: 'user', content: msg }])
       _(result).must_equal 'nice'
       result = nil
       msg = "You're a terrible person and I hate you. I hope you get a bad headache."
-      agent.run(messages: [{role: 'user', content: msg}])
+      agent.run(messages: [{ role: 'user', content: msg }])
       _(result).must_equal 'mean'
     end
 
@@ -149,7 +150,7 @@ describe ChatGptAgent do
           num_choices: 3
         }
       )
-      agent.run(messages: [{role: 'user', content: 'Give me a good name for a very cute puppy'}])
+      agent.run(messages: [{ role: 'user', content: 'Give me a good name for a very cute puppy' }])
       _(agent.response.choices.size).must_equal 3
     end
 
@@ -164,7 +165,7 @@ describe ChatGptAgent do
         result << puppy_name
       end
       agent.define_parameter('suggest_puppy_name', 'puppy_name', type: 'string', required: true)
-      agent.run(messages: [{role: 'user', content: 'Come up with a good name for a very cute puppy and suggest it by calling suggest_puppy_name'}])
+      agent.run('Come up with a good name for a very cute puppy and suggest it by calling suggest_puppy_name')
       _(result.size).must_equal 3
     end
   end
@@ -201,15 +202,15 @@ describe ChatGptAgent do
 
   it "will raise an error if the method has positional arguments" do
     agent = ChatGptAgent.new
-    _{
+    _ do
       agent.add_function('bad_proc') { |positional| positional }
-    }.must_raise(ArgumentError)
+    end.must_raise(ArgumentError)
   end
 
   it "will raise an error if no name is given and the method is a proc" do
     agent = ChatGptAgent.new
-    _{
+    _ do
       agent.add_function { |bar:| bar }
-    }.must_raise(ArgumentError)
+    end.must_raise(ArgumentError)
   end
 end
