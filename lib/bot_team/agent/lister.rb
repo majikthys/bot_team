@@ -4,7 +4,7 @@ module Agent
   class Lister < ChatGptAgent
     attr_reader :items
 
-    attr_accessor :list_prompt
+    attr_accessor :descriptions, :list_prompt
 
     def initialize(**args) # rubocop:disable Metrics/MethodLength
       # Set default agent configs before calling super so that
@@ -16,7 +16,7 @@ module Agent
         args.delete(:list_prompt) ||
         "The user will make a request and expect a list in response"
       item_function_arg = args.delete(:item_function)
-      descriptions = args.delete(:item_function_parameters) || {}
+      @descriptions = args.delete(:descriptions) || {}
       item_function(item_function_arg, descriptions:) if item_function_arg
       super(**args)
       @items = nil
@@ -27,19 +27,16 @@ module Agent
       raise "Must supply either a method or a block to item_function" unless method || block
       raise "Only one of method or block can be supplied to item_function" if method && block
 
+      @descriptions = descriptions.merge(@descriptions)
       set_function_with_parameters(method || block, descriptions:)
     end
 
     def run(message = nil, **_args)
-      raise "You must set item_function before running Lister" unless @function
-
       set_system_directives_from_options
       @result = super
-      @result = @result.gsub(/^```.*/, '')
-      JSON.parse(@result).each do |obj|
-        obj = obj.transform_keys(&:to_sym)
-        @function.call(**obj)
-      end
+      @result = JSON.parse(@result.gsub(/^```.*/, '')).map { |obj| obj.transform_keys(&:to_sym) }
+      @result.each { |obj| @function.call(**obj) } if @function
+      @result
     end
 
     private
@@ -77,12 +74,26 @@ module Agent
 
         Your response will be a JSON array of objects. Here are the attributes the object in the array can have:
 
-        #{@parameters.map { |name, attrs| " - \"#{name}\": #{attrs[:required] ? '(required)' : '(optional)'} #{attrs[:description]}" }.join("\n")}
+        #{attributes_list}
 
         Please ensure that the JSON you return is parsable and that each contained object has every required attribute or this operation will fail.
 
         I'll repeat this because it's important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL BE VERY SAD IF IT DOESN'T PARSE
       LIST_DIRECTIVES
+    end
+
+    def attributes_list # rubocop:disable Metrics/MethodLength
+      if @function
+        @parameters.map do |name, attrs|
+          " - \"#{name}\": #{attrs[:required] ? '(required)' : '(optional)'} #{attrs[:description]}"
+        end.join("\n")
+      elsif @descriptions.count.positive?
+        @descriptions.map do |name, desc|
+          " - \"#{name}\": #{desc}"
+        end.join("\n")
+      else
+        "Whichever attributes will best answer the user's request"
+      end
     end
   end
 end

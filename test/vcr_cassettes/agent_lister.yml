@@ -328,4 +328,112 @@ http_interactions:
           "system_fingerprint": "fp_b28b39ffa8"
         }
   recorded_at: Sun, 07 Apr 2024 22:39:28 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nYou
+        are a Marx Brothers fan who is listing the brothers\n\nYour response will
+        be a JSON array of objects. Here are the attributes the object in the array
+        can have:\n\n - \"name\": The first name of a Marx Brother\n\nPlease ensure
+        that the JSON you return is parsable and that each contained object has every
+        required attribute or this operation will fail.\n\nI''ll repeat this because
+        it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN WILL BE PUT
+        DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL BE VERY SAD
+        IF IT DOESN''T PARSE\n"},{"role":"user","content":"Give me the first names
+        of the Marx Brothers"}],"max_tokens":300,"n":1,"temperature":0.9}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 07 Apr 2024 23:54:32 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, must-revalidate
+      Openai-Model:
+      - gpt-3.5-turbo-0125
+      Openai-Organization:
+      - user-2tengpgl0r7srjx251kymz2a
+      Openai-Processing-Ms:
+      - '656'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '160000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '159550'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 168ms
+      X-Request-Id:
+      - req_f423e5cd2f167469de11d772733913a0
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=lVUuODajrLMyKRRxSYQ3hibBWAkVocVPdD8dLlOyG_k-1712534072-1.0.1.1-8HRGFdrukS0d4obt8fnCS7zB.6zwJEuC2Y4Ux7G3zqzIJ4CEJ7t4WDgAZlsOaT7H6PajHa5ZedBx7sp9Nvr.tg;
+        path=/; expires=Mon, 08-Apr-24 00:24:32 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=83Gb9k2oSkQRxIefeSXTsrbhybihs10IIip9bNyLYmg-1712534072265-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 870df17a6ab1ec84-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-9BWdDRJWvFRwRxmwMnPedCGEQ3T68",
+          "object": "chat.completion",
+          "created": 1712534071,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "```json\n[\n    {\"name\": \"Groucho\"},\n    {\"name\": \"Harpo\"},\n    {\"name\": \"Chico\"},\n    {\"name\": \"Zeppo\"}\n]\n```"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 144,
+            "completion_tokens": 39,
+            "total_tokens": 183
+          },
+          "system_fingerprint": "fp_b28b39ffa8"
+        }
+  recorded_at: Sun, 07 Apr 2024 23:54:32 GMT
 recorded_with: VCR 6.2.0

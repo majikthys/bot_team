@@ -59,4 +59,28 @@ describe 'Agent::Lister' do
       _(@ingredients.keys.map(&:downcase)).must_include('salt')
     end
   end
+
+  describe 'when listing Marx Brothers' do
+    let(:marx_brothers) do
+      Agent::Lister.new(
+        list_prompt: "You are a Marx Brothers fan who is listing the brothers",
+        descriptions: { name: "The first name of a Marx Brother" }
+      )
+    end
+
+    it 'states the list of attributes from descriptions' do
+      marx_brothers.run("Give me the first names of the Marx Brothers")
+      _(marx_brothers.system_directives).must_include(' - "name": The first name of a Marx Brother')
+    end
+
+    it 'can list the Marx Brothers' do
+      @brothers = marx_brothers.run("Give me the first names of the Marx Brothers")
+
+      assert_operator(@brothers.count, :>=, 4)
+      _(@brothers.map { |b| b[:name] }).must_include('Groucho')
+      _(@brothers.map { |b| b[:name] }).must_include('Chico')
+      _(@brothers.map { |b| b[:name] }).must_include('Harpo')
+      _(@brothers.map { |b| b[:name] }).must_include('Zeppo')
+    end
+  end
 end
