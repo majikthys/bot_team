@@ -6,16 +6,21 @@ module Agent
 
     attr_accessor :list_prompt
 
-    def initialize(**args)
+    def initialize(**args) # rubocop:disable Metrics/MethodLength
       # Set default agent configs before calling super so that
       # they can still be overridden by initialization args
       self.max_tokens = 300
-      super
+      @parameters = {}
+      # Pull out subclass settings / set defaults
+      @list_prompt =
+        args.delete(:list_prompt) ||
+        "The user will make a request and expect a list in response"
+      item_function_arg = args.delete(:item_function)
+      descriptions = args.delete(:item_function_parameters) || {}
+      item_function(item_function_arg, descriptions:) if item_function_arg
+      super(**args)
       @items = nil
       @result = nil
-      @list_prompt = "The user will make a request and expect a list in response"
-      @function = nil
-      @parameters = {}
     end
 
     def item_function(method = nil, descriptions: {}, &block)

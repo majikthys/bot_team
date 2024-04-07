@@ -13,7 +13,7 @@ describe 'Agent::Lister' do
 
   describe 'when looking at names' do
     let(:deduper) do
-      Agent::Deduper.new(config: { temperature: 0.2 })
+      Agent::Deduper.new(temperature: 0.2)
     end
 
     let(:names) do

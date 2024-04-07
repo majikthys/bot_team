@@ -23,7 +23,7 @@ describe 'Agent::Lister' do
         color: "The color of the puppy you are reporting having found"
       }
       puppy_finder =
-        Agent::Lister.new(config: { temperature: 0.2 }).tap do |c|
+        Agent::Lister.new(temperature: 0.2).tap do |c|
           c.list_prompt = "You are a puppy finder that scans text and finds puppies."
           c.item_function(method(:add_puppy), descriptions:)
         end
@@ -42,14 +42,14 @@ describe 'Agent::Lister' do
 
   describe 'when making cookies and sending a block' do
     let(:recipie_maker) do
-      Agent::Lister.new.tap do |r|
-        r.list_prompt =
+      Agent::Lister.new(
+        list_prompt:
           "You are a chef who knows many recipies and when the user tells you something they want to make, " \
-          "you give them the ingredient list"
-        r.item_function do |ingredient:, amount: nil|
+          "you give them the ingredient list",
+        item_function: proc do |ingredient:, amount: nil|
           @ingredients[ingredient] = amount
         end
-      end
+      )
     end
 
     it 'can list cookie ingredients' do

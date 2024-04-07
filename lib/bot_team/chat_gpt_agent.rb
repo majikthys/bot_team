@@ -32,14 +32,16 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     temperature
   ].freeze
 
-  def initialize(config_path: nil, config: nil, callbacks: {}, ignore_unknown_configs: false)
-    raise ArgumentError, 'config_path and config cannot both be provided' if config_path && config
+  def initialize(**args)
+    config_path = args.delete(:config_path)
+    callbacks = args.delete(:callbacks) || {}
+    ignore_unknown_configs = args.delete(:ignore_unknown_configs)
 
-    config = YAML.load_file(config_path) if config_path
+    config = config_path ? YAML.load_file(config_path) : {}
 
     @callbacks = callbacks
     intiailize_defaults
-    initialize_from_config(config, ignore_unknown_configs:) if config
+    initialize_from_config(config.merge(args), ignore_unknown_configs:) if config
     @logger = BotTeam.logger
   end
 

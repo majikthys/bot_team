@@ -89,9 +89,7 @@ describe AgentRunner do
 
     it 'sets up and runs a single agent' do
       pirate = ChatGptAgent.new(
-        config: {
-          system_directives: 'You are a bot that repeats what the user says in the voice of a pirate',
-        }
+        system_directives: 'You are a bot that repeats what the user says in the voice of a pirate'
       )
       subject.add_agent('pirate', pirate)
       result = subject.run_agent(agent_name: 'pirate', messages: [{ role: 'user', content: 'Hello there' }])

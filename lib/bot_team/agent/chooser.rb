@@ -7,9 +7,15 @@ module Agent
     attr_reader :options, :result
 
     def initialize(**args)
-      super
-      @choice_prompt = "Please choose from the following options:"
-      @options = {}
+      # Pull out subclass settings / set defaults
+      @choice_prompt =
+        args.delete(:choice_prompt) ||
+        "Please choose from the following options:"
+      @options = initialize_options(
+        (args.delete(:descriptions) || {}),
+        (args.delete(:methods) || {})
+      )
+      super(**args)
       @result = nil
     end
 
@@ -23,6 +29,13 @@ module Agent
     end
 
     private
+
+    def initialize_options(descriptions, methods)
+      @options = Hash.new { |hash, key| hash[key] = {} }
+      descriptions.each { |opt, desc| @options[opt][:description] = desc }
+      methods.each { |opt, meth| @options[opt][:method] = meth }
+      @options
+    end
 
     def classify_request(result:, **_rest)
       @result = result

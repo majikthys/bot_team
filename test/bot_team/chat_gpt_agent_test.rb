@@ -29,6 +29,12 @@ describe ChatGptAgent do
     end
   end
 
+  it 'initializes with configs that override config_file' do
+    agent = ChatGptAgent.new(config_path: 'test/config/test_agents/switchboard.yml', model: 'switch_model')
+    _(agent.system_directives).must_match(/^Your are an agent that classifies/)
+    _(agent.model).must_match('switch_model')
+  end
+
   describe 'implied_functions' do
     it 'returns expected functions for switchboard' do
       agent = ChatGptAgent.new(config_path: 'test/config/test_agents/switchboard.yml')
@@ -44,11 +50,9 @@ describe ChatGptAgent do
   describe 'runnable' do
     it 'returns a runnable agent with expected interpolations' do
       agent = ChatGptAgent.new(
-        config: {
-          system_directives:
-            'You are a bot that repeats what the user says ' \
-            'while incorporating the phrase "%{required_word}"', # rubocop:disable Style/FormatStringToken
-        }
+        system_directives:
+          'You are a bot that repeats what the user says ' \
+          'while incorporating the phrase "%{required_word}"' # rubocop:disable Style/FormatStringToken
       )
       runnable = agent.runnable(interpolations: { required_word: 'meow' })
       _(runnable.system_directives).must_match(/incorporating the phrase "meow"$/)
@@ -80,15 +84,13 @@ describe ChatGptAgent do
     it 'will run a non-state map function' do
       result = nil
       agent = ChatGptAgent.new(
-        config: {
-          system_directives: report_behavior_function_directive,
-          functions: [report_behavior_function_def],
-          function_call: {
-            name: 'report_behavior'
-          },
-          function_procs: {
-            report_behavior: ->(behavior:) { result = behavior }
-          }
+        system_directives: report_behavior_function_directive,
+        functions: [report_behavior_function_def],
+        function_call: {
+          name: 'report_behavior'
+        },
+        function_procs: {
+          report_behavior: ->(behavior:) { result = behavior }
         }
       )
       msg = "I wanted you to know that I really appreciate you and I'm glad you're here " \
@@ -145,22 +147,14 @@ describe ChatGptAgent do
     end
 
     it 'can ask for multiple choices' do
-      agent = ChatGptAgent.new(
-        config: {
-          num_choices: 3
-        }
-      )
+      agent = ChatGptAgent.new(num_choices: 3)
       agent.run(messages: [{ role: 'user', content: 'Give me a good name for a very cute puppy' }])
       _(agent.response.choices.size).must_equal 3
     end
 
     it 'will run the function_proc for each choice' do
       result = []
-      agent = ChatGptAgent.new(
-        config: {
-          num_choices: 3
-        }
-      )
+      agent = ChatGptAgent.new(num_choices: 3)
       agent.add_function('suggest_puppy_name', required: true) do |puppy_name:|
         result << puppy_name
       end

@@ -57,14 +57,12 @@ describe ChatGptRequest do
 
   it 'should initialize from agent' do
     agent = ChatGptAgent.new(
-      config: {
-        model: 'model',
-        max_tokens: 100,
-        functions: %w[function1 function2],
-        forward_functions: %w[forward_function1 forward_function2],
-        function_call: 'function_call',
-        system_directives: 'system_directives'
-      }
+      model: 'model',
+      max_tokens: 100,
+      functions: %w[function1 function2],
+      forward_functions: %w[forward_function1 forward_function2],
+      function_call: 'function_call',
+      system_directives: 'system_directives'
     )
     subject.initialize_from_agent(agent)
 
