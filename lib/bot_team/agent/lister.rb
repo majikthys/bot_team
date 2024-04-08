@@ -2,9 +2,11 @@
 
 module Agent
   class Lister < ChatGptAgent
-    attr_reader :items
+    attr_reader :items, :multiple_choices
 
     attr_accessor :descriptions, :list_prompt
+
+    VALID_MULTIPLE_CHOICES = %i[concat dedupe separate].freeze
 
     def initialize(**args) # rubocop:disable Metrics/MethodLength
       # Set default agent configs before calling super so that
@@ -15,6 +17,7 @@ module Agent
       @list_prompt =
         args.delete(:list_prompt) ||
         "The user will make a request and expect a list in response"
+      @multiple_choices = args.delete(:multiple_choices)&.to_sym
       item_function_arg = args.delete(:item_function)
       @descriptions = args.delete(:descriptions) || {}
       item_function(item_function_arg, descriptions:) if item_function_arg
@@ -33,13 +36,26 @@ module Agent
 
     def run(message = nil, **_args)
       set_system_directives_from_options
-      @result = super
-      @result = JSON.parse(@result.gsub(/^```.*/, '')).map { |obj| obj.transform_keys(&:to_sym) }
-      @result.each { |obj| @function.call(**obj) } if @function
-      @result
+      multiple_choices_ok?
+      super
+      @result = listify_results(response.choices)
+      if @function
+        @result.each do |list|
+          list.each { |obj| @function.call(**obj) }
+        end
+      end
+      @result = restructure_results(@result)
     end
 
     private
+
+    def multiple_choices_ok?
+      return true if num_choices == 1
+      return true if VALID_MULTIPLE_CHOICES.include?(@multiple_choices)
+
+      raise "When num_choices > 1, multiple_choices directive must be set. " \
+            "Options: #{VALID_MULTIPLE_CHOICES.join(', ')}"
+    end
 
     def set_function_with_parameters(proc, descriptions:) # rubocop:disable Metrics/MethodLength
       @function = proc
@@ -93,6 +109,24 @@ module Agent
         end.join("\n")
       else
         "Whichever attributes will best answer the user's request"
+      end
+    end
+
+    def listify_results(choices)
+      choices.map do |choice|
+        JSON.parse(choice.dig('message', 'content').gsub(/^```.*/, '')).map { |obj| obj.transform_keys(&:to_sym) }
+      end
+    end
+
+    def restructure_results(nested_results)
+      if num_choices == 1
+        nested_results[0]
+      elsif multiple_choices == :concat
+        nested_results.flatten
+      elsif multiple_choices == :dedupe
+        Agent::Deduper.new.run(nested_results.flatten)
+      else
+        nested_results
       end
     end
   end

@@ -83,4 +83,45 @@ describe 'Agent::Lister' do
       _(@brothers.map { |b| b[:name] }).must_include('Zeppo')
     end
   end
+
+  describe 'multiple_choices' do
+    it 'raises error when requesting multiple choices but doesnt specify handling' do
+      lister = Agent::Lister.new(num_choices: 2)
+      _(proc { lister.run("List some colors that go with green") }).must_raise
+    end
+
+    it 'will unify the result when multiple_choices = concat' do
+      lister = Agent::Lister.new(
+        num_choices: 2,
+        multiple_choices: :concat,
+        descriptions: { color: 'Lower case common name of a color' }
+      )
+      result = lister.run("Give me exactly three different varieties of blue")
+      _(result.count).must_equal(6)
+    end
+
+    it 'will return results separately when multiple_choices = separate' do
+      lister = Agent::Lister.new(
+        num_choices: 2,
+        multiple_choices: :separate,
+        descriptions: { color: 'Lower case common name of a color' }
+      )
+      result = lister.run("Give me exactly three different varieties of blue")
+      _(result.count).must_equal(2)
+      _(result[0].count).must_equal(3)
+      _(result[1].count).must_equal(3)
+    end
+
+    it 'will dedupe results when multiple_choices = dedupe' do
+      lister = Agent::Lister.new(
+        num_choices: 2,
+        multiple_choices: :dedupe,
+        descriptions: { color: 'Lower case common name of a color' }
+      )
+      result = lister.run("Give me exactly three different varieties of blue")
+
+      assert_operator(result.count, :<, 6)
+      assert_operator(result.count, :>, 3)
+    end
+  end
 end

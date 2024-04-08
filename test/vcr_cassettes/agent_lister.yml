@@ -436,4 +436,235 @@ http_interactions:
           "system_fingerprint": "fp_b28b39ffa8"
         }
   recorded_at: Sun, 07 Apr 2024 23:54:32 GMT
-recorded_with: VCR 6.2.0
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nThe
+        user will make a request and expect a list in response\n\nYour response will
+        be a JSON array of objects. Here are the attributes the object in the array
+        can have:\n\n - \"color\": Lower case common name of a color\n\nPlease ensure
+        that the JSON you return is parsable and that each contained object has every
+        required attribute or this operation will fail.\n\nI''ll repeat this because
+        it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN WILL BE PUT
+        DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL BE VERY SAD
+        IF IT DOESN''T PARSE\n"},{"role":"user","content":"Give me exactly three different
+        varieties of blue"}],"max_tokens":300,"n":2,"temperature":0.9}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 08 Apr 2024 00:37:52 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, must-revalidate
+      Openai-Model:
+      - gpt-3.5-turbo-0125
+      Openai-Organization:
+      - user-2tengpgl0r7srjx251kymz2a
+      Openai-Processing-Ms:
+      - '476'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '160000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '159248'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 282ms
+      X-Request-Id:
+      - req_ea11c2eef11c03fe013f4ad2d23cf230
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=YnKkT_BFIHzHCD5gmU0Uy_MZbEMljBb60HP9FfAu5.s-1712536672-1.0.1.1-53GYwDppcUYmT9mwLuyuccfOjySkb2nfmqUf1oW9_7G9ZUD8PemxMT3iQgZLAVr8CFUF_O2aV2ErdNowl8.OHQ;
+        path=/; expires=Mon, 08-Apr-24 01:07:52 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=6zSH_Ep27diuFoxDYjNAP8YTmC.beKqY.vBkukD6SLM-1712536672389-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 870e30f63f783076-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-9BXJ9Nou7s9R8WDJTm6KQzHxfconb",
+          "object": "chat.completion",
+          "created": 1712536671,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "[\n    {\"color\": \"azure\"},\n    {\"color\": \"sky blue\"},\n    {\"color\": \"cobalt blue\"}\n]"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            },
+            {
+              "index": 1,
+              "message": {
+                "role": "assistant",
+                "content": "[\n    { \"color\": \"blue\" },\n    { \"color\": \"sky blue\" },\n    { \"color\": \"royal blue\" }\n]"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 144,
+            "completion_tokens": 58,
+            "total_tokens": 202
+          },
+          "system_fingerprint": "fp_b28b39ffa8"
+        }
+  recorded_at: Mon, 08 Apr 2024 00:37:52 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"You
+        are a duplicate detector. The user will give you a JSON array of objects.
+        There may be duplicates in the array. Your job is to return a JSON array of
+        objects with the duplicates removed. You can consider two objects to be duplicates
+        if they refer to the same thing.\n\nFor example, if two objects both have
+        an address attribute that is not identical, but means the same thing, you
+        can consider them duplicates.\n\nYour response should be an array of objects
+        that uses the most standard, proper, or error-free version of all the duplicates''
+        attributes. You should add an \"originals\" attribute that is an array of
+        all the original objects.\n\nPlease ensure that the JSON you return is parsable
+        and that each contained object has every required attribute or this operation
+        will fail.\n\nI''ll repeat this because it''s important: THE JSON YOU RETURN
+        MUST PARSE. WHAT YOU RETURN WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS
+        OF VERY CUTE CHILDREN WILL BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"[{\"color\":\"azure\"},{\"color\":\"sky
+        blue\"},{\"color\":\"cobalt blue\"},{\"color\":\"blue\"},{\"color\":\"sky
+        blue\"},{\"color\":\"royal blue\"}]"}],"max_tokens":1000,"n":1,"temperature":0.9}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 08 Apr 2024 00:53:02 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, must-revalidate
+      Openai-Model:
+      - gpt-3.5-turbo-0125
+      Openai-Organization:
+      - user-2tengpgl0r7srjx251kymz2a
+      Openai-Processing-Ms:
+      - '1436'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '160000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '158723'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 478ms
+      X-Request-Id:
+      - req_967547879412c4066f6bdc7c781d7847
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=YBszpzl0h62ClKafAcXe3HZmBrnbLZJPDwb9kHdtPus-1712537582-1.0.1.1-XOOjSIjUBLiH_qjOVv3zrcC77jwO1HUGvLZvPVQzenMQ9Ukrw59F7b4wq6OW2QrjDYCZz1iLtVaz6KoRjpgYkQ;
+        path=/; expires=Mon, 08-Apr-24 01:23:02 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=H2STRs3xIo2oXreu0LwdQNwvYsAWc8wINTcvZfJf2mQ-1712537582211-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 870e47272e1e6840-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-9BXXohDuWCtXEOm7TCSOBvUAohkqo",
+          "object": "chat.completion",
+          "created": 1712537580,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "[\n    {\n        \"color\": \"azure\",\n        \"originals\": [\n            {\"color\": \"azure\"}\n        ]\n    },\n    {\n        \"color\": \"sky blue\",\n        \"originals\": [\n            {\"color\": \"sky blue\"},\n            {\"color\": \"sky blue\"}\n        ]\n    },\n    {\n        \"color\": \"cobalt blue\",\n        \"originals\": [\n            {\"color\": \"cobalt blue\"}\n        ]\n    },\n    {\n        \"color\": \"blue\",\n        \"originals\": [\n            {\"color\": \"blue\"}\n        ]\n    },\n    {\n        \"color\": \"royal blue\",\n        \"originals\": [\n            {\"color\": \"royal blue\"}\n        ]\n    }\n]"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 251,
+            "completion_tokens": 150,
+            "total_tokens": 401
+          },
+          "system_fingerprint": "fp_b28b39ffa8"
+        }
+  recorded_at: Mon, 08 Apr 2024 00:53:02 GMT
+recorded_with: VCR 6.1.0
