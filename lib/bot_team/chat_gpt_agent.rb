@@ -32,14 +32,16 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     temperature
   ].freeze
 
-  def initialize(config_path: nil, config: nil, callbacks: {}, ignore_unknown_configs: false)
-    raise ArgumentError, 'config_path and config cannot both be provided' if config_path && config
+  def initialize(**args)
+    config_path = args.delete(:config_path)
+    callbacks = args.delete(:callbacks) || {}
+    ignore_unknown_configs = args.delete(:ignore_unknown_configs)
 
-    config = YAML.load_file(config_path) if config_path
+    config = config_path ? YAML.load_file(config_path) : {}
 
     @callbacks = callbacks
     intiailize_defaults
-    initialize_from_config(config, ignore_unknown_configs:) if config
+    initialize_from_config(config.merge(args), ignore_unknown_configs:) if config
     @logger = BotTeam.logger
   end
 
@@ -49,7 +51,10 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def run(messages:, interpolations: {}, gateway: RestGateway.new)
+  # Supply message (String) to send a single user message
+  # Use messages (Array of Hashes) to send a history
+  def run(message = nil, messages: nil, interpolations: {}, gateway: RestGateway.new)
+    messages = setup_messages_for_run(message, messages)
     agent = runnable(interpolations:)
     @request = ChatGptRequest.new(agent:, messages:)
     @response = gateway.call(request)
@@ -60,29 +65,30 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     function_names_from_functions + function_names_from_state_map
   end
 
-  def add_function(name, description: nil, required: false, &block)
-    @functions ||= []
-    function = { name: name.to_s }
-    function[:description] = description if description
-    @functions << function
-    @function_procs[name.to_sym] = block if block
-    return function unless required
+  def add_function(name = nil, description: nil, required: false, method: nil, &block)
+    proc = pick_proc(method, block)
+    function = build_and_add_function(name:, description:, proc:)
+    name = function[:name].to_sym
+    @function_procs[name] = proc if proc
+    set_function_call(name) if required
+    build_parameters_from_proc(function, proc)
 
-    msg = "Cannot set required function when function_call is already defined (current value: #{function_call})"
-    raise ArgumentError, msg unless function_call == 'auto'
-
-    @function_call = { name: name.to_s }
     function
   end
 
-  def define_parameter(function, name, type:, description: nil, required: false, enum: nil) # rubocop:disable Metrics/ParameterLists
+  # This method can be used to define parameters for tools functions
+  # when the function wasn't initialized with a block or method. Or if
+  # it was, this allows you to set type, description, and enum
+  def define_parameter(function, name, type: nil, description: nil, required: false, enum: nil) # rubocop:disable Metrics/ParameterLists,Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     function = functions.find { |func| func[:name] == function }
     raise ArgumentError, "No function defined with name #{name}" unless function
 
-    params = function[:parameters] ||= { type: 'object', properties: {}, required: [] }
+    params = function[:parameters] ||= default_parameters
 
     params[:required] << name.to_s if required
-    prop = params[:properties][name.to_sym] = { type: }
+    params[:required].uniq!
+    prop = params[:properties][name.to_sym] ||= {}
+    prop[:type] = type if type
     prop[:description] = description if description
     prop[:enum] = enum if enum
     prop
@@ -129,17 +135,19 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   private
 
-  def intiailize_defaults
-    @model = BotTeam.configuration.model
-    @max_tokens = BotTeam.configuration.max_tokens
-    @modules = []
-    @num_choices = BotTeam.configuration.num_choices
-    @temperature = BotTeam.configuration.temperature
+  #### Initialization and Configuration ####
+  def intiailize_defaults # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    @model ||= BotTeam.configuration.model
+    @max_tokens ||= BotTeam.configuration.max_tokens
+    @modules ||= []
+    @num_choices ||= BotTeam.configuration.num_choices
+    @temperature ||= BotTeam.configuration.temperature
 
-    @forward_functions = nil
-    @functions = nil
-    @function_call = 'auto'
-    @function_procs = {}
+    @forward_functions ||= nil
+    @functions ||= nil
+    @function_call ||= 'auto'
+    @function_procs ||= {}
+    nil
   end
 
   def initialize_from_config(config, ignore_unknown_configs:)
@@ -152,6 +160,62 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     end
   end
 
+  #### Function and Parameter Definition ####
+  def pick_proc(method, block)
+    raise ArgumentError, 'Can only provide one of either a method or a block' if method && block
+
+    method || block
+  end
+
+  def build_and_add_function(name: nil, description: nil, proc: nil)
+    name = proc.name if name.nil? && proc && proc.respond_to?(:name)
+    raise ArgumentError, "No name provided for function" unless name
+
+    function = { name: name.to_s }
+    function[:description] = description if description
+    @functions ||= []
+    @functions << function
+
+    function
+  end
+
+  def set_function_call(name) # rubocop:disable Naming/AccessorMethodName
+    msg = "Cannot set required function when function_call is already defined (current value: #{function_call})"
+    raise ArgumentError, msg unless function_call == 'auto'
+
+    @function_call = { name: name.to_s }
+  end
+
+  def build_parameters_from_proc(function, proc) # rubocop:disable Metrics/MethodLength
+    return unless proc
+
+    proc.parameters.each do |param|
+      case param[0]
+      when :keyreq
+        create_parameter(function, param[1], required: true)
+      when :key
+        create_parameter(function, param[1])
+      when :keyrest
+        # do nothing
+      when :req, :opt, :rest, :block
+        raise ArgumentError,
+              "Positional arguments, splats, and blocks are not allowed in tool function, " \
+              "use keyword args and double splat only"
+      end
+    end
+  end
+
+  def create_parameter(function, name, required: false)
+    params = function[:parameters] ||= default_parameters
+
+    params[:required] << name.to_s if required
+    params[:properties][name.to_sym] = { type: 'string' }
+  end
+
+  def default_parameters
+    { type: 'object', properties: {}, required: [] }
+  end
+
   def function_names_from_functions
     return [] unless functions
 
@@ -159,6 +223,14 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
       .map { |func_def| func_def[:name] }
       .reject { |func_name| func_name == state_function.to_s }
       .map(&:to_sym) || []
+  end
+
+  def setup_messages_for_run(message, messages)
+    raise "run must be supplied with either message or messages" unless message || messages
+
+    messages ||= []
+    messages << { role: 'user', content: message } if message
+    messages
   end
 
   def function_names_from_state_map
@@ -187,10 +259,11 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     process_function_response(response)
   end
 
-  def process_function_response(response)
+  def process_function_response(response) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     args = response.function_arguments
     if args.nil?
-      @logger.error "Warning: got no arguments for function #{response.function_call} - JSON may have failed to parse – skipping"
+      @logger.error "Warning: got no arguments for function #{response.function_call} - " \
+                    "JSON may have failed to parse – skipping"
       return
     end
 
@@ -200,7 +273,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
       return process_state_function_response(state_function_action_params(params))
     end
 
-    response.function_calls.each do |function_call|
+    response.function_calls.map do |function_call|
       function_procs[function_call.name.to_sym].call(**function_call.arguments)
     end
   end

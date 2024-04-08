@@ -89,7 +89,7 @@ class ChatGptRequest
   def tools
     {
       tools: functions.map do |function|
-        { type: 'function', function: function }
+        { type: 'function', function: }
       end,
       tool_choice:
     }

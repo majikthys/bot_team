@@ -22,5 +22,5 @@ VCR.configure do |config|
   }
 
   # Filter sensitive information
-  config.filter_sensitive_data('<OPENAI_API_KEY>') { ENV['OPENAI_API_KEY'] }
+  config.filter_sensitive_data('<OPENAI_API_KEY>') { ENV.fetch('OPENAI_API_KEY', nil) }
 end

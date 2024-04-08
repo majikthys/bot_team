@@ -1,0 +1,117 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"You
+        are a duplicate detector. The user will give you a JSON array of objects.
+        There may be duplicates in the array. Your job is to return a JSON array of
+        objects with the duplicates removed. You can consider two objects to be duplicates
+        if they refer to the same thing.\n\nFor example, if two objects both have
+        an address attribute that is not identical, but means the same thing, you
+        can consider them duplicates.\n\nYour response should be an array of objects
+        that uses the most standard, proper, or error-free version of all the duplicates''
+        attributes. You should add an \"originals\" attribute that is an array of
+        all the original objects.\n\nPlease ensure that the JSON you return is parsable
+        and that each contained object has every required attribute or this operation
+        will fail.\n\nI''ll repeat this because it''s important: THE JSON YOU RETURN
+        MUST PARSE. WHAT YOU RETURN WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS
+        OF VERY CUTE CHILDREN WILL BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"[{\"name\":\"Jim
+        Morris\"},{\"name\":\"Jeff McDaniels\"},{\"name\":\"Charles Avery\"},{\"name\":\"Jenn
+        Jordan\"},{\"name\":\"James Morris\"},{\"name\":\"Jeffery Mcdaniels\"}]"}],"max_tokens":1000,"n":1,"temperature":0.2}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 06 Apr 2024 00:28:26 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-cache, must-revalidate
+      Openai-Model:
+      - gpt-3.5-turbo-0125
+      Openai-Organization:
+      - user-2tengpgl0r7srjx251kymz2a
+      Openai-Processing-Ms:
+      - '1641'
+      Openai-Version:
+      - '2020-10-01'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '160000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '158716'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 481ms
+      X-Request-Id:
+      - req_eec6836f11f8d9554f59d24970a55615
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=vQw68PQEweWZHvS3iEnQQ7w6vqdyaa52psW.sOmrlZI-1712363306-1.0.1.1-zREkADiTiVTqz4YX4uLnFDlrMuiqwUMHhDxbGW0q6FcUYtvXLOnkCk9fZG7DV05An5le5pzuvfsDas4zykV0nw;
+        path=/; expires=Sat, 06-Apr-24 00:58:26 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=K2E5tfn1VO4bguKhz3Dy46WgCGYORst2S4dogyufTHU-1712363306046-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 86fda85b695827ea-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-9AoCupYARJt90988cwdX09tVwQnvR",
+          "object": "chat.completion",
+          "created": 1712363304,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "[\n    {\n        \"name\": \"Jim Morris\",\n        \"originals\": [\n            {\"name\": \"Jim Morris\"},\n            {\"name\": \"James Morris\"}\n        ]\n    },\n    {\n        \"name\": \"Jeff McDaniels\",\n        \"originals\": [\n            {\"name\": \"Jeff McDaniels\"},\n            {\"name\": \"Jeffery Mcdaniels\"}\n        ]\n    },\n    {\n        \"name\": \"Charles Avery\",\n        \"originals\": [\n            {\"name\": \"Charles Avery\"}\n        ]\n    },\n    {\n        \"name\": \"Jenn Jordan\",\n        \"originals\": [\n            {\"name\": \"Jenn Jordan\"}\n        ]\n    }\n]"
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 258,
+            "completion_tokens": 140,
+            "total_tokens": 398
+          },
+          "system_fingerprint": "fp_b28b39ffa8"
+        }
+  recorded_at: Sat, 06 Apr 2024 00:28:26 GMT
+recorded_with: VCR 6.1.0
