@@ -6,9 +6,16 @@ AllCops:
 Metrics/BlockLength:
   Exclude:
     - 'test/**/*'
+    - 'bot_team.gemspec'
 Style/Documentation:
   Enabled: false
 Style/StringLiterals:
   Enabled: false
 Style/TrailingCommaInHashLiteral:
   Enabled: false
+Gemspec/DevelopmentDependencies:
+  Exclude:
+    - 'bot_team.gemspec'
+Style/ExpandPathArguments:
+  Exclude:
+    - 'bot_team.gemspec'
