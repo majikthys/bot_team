@@ -28,6 +28,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency "bundler", "~> 2.3.26"
+  s.add_development_dependency "guard", "~> 2.18.1"
+  s.add_development_dependency "guard-minitest", "~> 2.4.6"
+  s.add_development_dependency "guard-rubocop", "~> 1.5.0"
   s.add_development_dependency "minitest", "~> 5.0"
   s.add_development_dependency "minitest-focus", "~> 1.4.0"
   s.add_development_dependency "pry-byebug", "~> 3.10.1"
