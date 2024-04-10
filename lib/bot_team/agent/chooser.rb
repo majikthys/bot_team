@@ -25,7 +25,7 @@ module Agent
 
     def run(message = nil, **_rest)
       setup_agent_config_from_options
-      super
+      super&.first
     end
 
     private
