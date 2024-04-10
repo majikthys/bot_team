@@ -17,8 +17,8 @@ Gem::Specification.new do |s|
   end
   # s.files       = Dir['lib/**/*.rb'] + Dir['[A-Z]*']
 
-  s.homepage    = "https://github.com/majikthys/cascading_agents"
-  s.metadata    = { "source_code_uri" => "https://github.com/majikthys/cascading_agents",
+  s.homepage    = "https://github.com/majikthys/bot_team"
+  s.metadata    = { "source_code_uri" => "https://github.com/majikthys/bot_team",
                     'rubygems_mfa_required' => 'true' }
   s.license     = "GPL-3.0-or-later"
   s.post_install_message = "Art is anything you can get away with. -- Marshall McLuhan"
