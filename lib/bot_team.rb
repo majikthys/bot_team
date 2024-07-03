@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'logger'
-require 'pry'
 
 require_relative 'bot_team/agent_runner'
 require_relative 'bot_team/chat_gpt_agent'
