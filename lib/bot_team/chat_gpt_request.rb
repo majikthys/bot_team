@@ -61,7 +61,8 @@ class ChatGptRequest
 
   def initialize_from_agent(agent)
     # Do the simple attribute copy first
-    %i[model max_tokens num_choices functions function_call temperature].each do |key|
+    # max_tokens and temperature not used by 5
+    %i[model num_choices functions function_call].each do |key|
       send("#{key}=", agent.send(key)) if agent.send(key)
     end
     # Leave functions nil if possible
@@ -71,12 +72,11 @@ class ChatGptRequest
   end
 
   def to_hash(*_args)
+    # max_tokens and temperature not used by 5
     {
       model:,
       messages:,
-      max_tokens:,
-      n: num_choices,
-      temperature:,
+      n: num_choices
     }.merge(functions&.any? ? tools : {})
   end
 
