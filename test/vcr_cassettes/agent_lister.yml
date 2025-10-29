@@ -6,15 +6,15 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nYou
-        are a chef who knows many recipies and when the user tells you somwthing they
-        want to make, you give them the ingredient list\n\nYour response will be a
-        JSON array of objects. Here are the attributes the object in the array can
-        have:\n\n - \"ingredient\": (required) \n - \"amount\": (optional) \n\nPlease
-        ensure that the JSON you return is parsable and that each contained object
-        has every required attribute or this operation will fail.\n\nI''ll repeat
-        this because it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN
-        WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL
-        BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"Cookies"}],"max_tokens":300,"n":1,"temperature":0.9}'
+        are a Marx Brothers fan who is listing the brothers\n\nYour response will
+        be a JSON array of objects. Here are the attributes the object in the array
+        can have:\n\n - \"name\": The first name of a Marx Brother\n\nPlease ensure
+        that the JSON you return is parsable and that each contained object has every
+        required attribute or this operation will fail.\n\nI''ll repeat this because
+        it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN WILL BE PUT
+        DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL BE VERY SAD
+        IF IT DOESN''T PARSE\n"},{"role":"user","content":"Give me the first names
+        of the Marx Brothers"}],"n":1}'
     headers:
       Content-Type:
       - application/json
@@ -32,82 +32,99 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 05 Apr 2024 14:04:12 GMT
+      - Wed, 29 Oct 2025 18:48:50 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '2272'
+      - '557'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '580'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '160000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '159539'
+      - '9999849'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 172ms
+      - 0s
       X-Request-Id:
-      - req_9751f925048e825547a837aa07d92885
+      - req_b13458a4f289460eb14ec6448792e1a7
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=tMC9.G9XFdy7FBsWmC28O8DwGbORh_fQRcEB99LnlRo-1712325852-1.0.1.1-bcizJmxJwDiPu5DT09Ul20hKKw75tqDbKd4e6fKuo042HB8mQTw0YAZHmtnwjDM4KcAmxUSuO99kcG11tva1wA;
-        path=/; expires=Fri, 05-Apr-24 14:34:12 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=zzoFELtui5B9JL86ePF2k1Tx9rBx9QmF9U_W1H2rp9Q-1761763730-1.0.1.1-0gXOLa0dtdjTtDP5kRrqRqoppKo3H13Yh_q1s5lpnbzNL3CKUr1PdKTR7utjUkXZDypyJapk0f6J.YJIEUPWo66jgAwU1FvEaiTGLCzabCk;
+        path=/; expires=Wed, 29-Oct-25 19:18:50 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=1kFBzcEO6vy2MZpReS1XTQK5B8KuHJdrr.fAxVpGeB0-1712325852955-0.0.1.1-604800000;
+      - _cfuvid=KEJWmTEM_Bz85wbzvu6CF4CYnp3DF9bzrhBFdTi7KJc-1761763730398-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 86fa15f57f84c4b1-SEA
+      - 9964d96f1a89ba00-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-9AeSotl8EW6ogY4A1ZMZaaFyw6E2n",
+          "id": "chatcmpl-CW5VxG267YfvtChzjB7R9UDUaxcIA",
           "object": "chat.completion",
-          "created": 1712325850,
+          "created": 1761763729,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
               "index": 0,
               "message": {
                 "role": "assistant",
-                "content": "[\n    {\"ingredient\": \"flour\", \"amount\": \"2 cups\"},\n    {\"ingredient\": \"sugar\", \"amount\": \"1 cup\"},\n    {\"ingredient\": \"butter\", \"amount\": \"1 cup\"},\n    {\"ingredient\": \"eggs\", \"amount\": \"2\"},\n    {\"ingredient\": \"vanilla extract\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"baking soda\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"salt\", \"amount\": \"1/2 tsp\"},\n    {\"ingredient\": \"chocolate chips\", \"amount\": \"1 cup\"}\n]"
+                "content": "```json\n[\n  {\"name\": \"Groucho\"},\n  {\"name\": \"Harpo\"},\n  {\"name\": \"Chico\"},\n  {\"name\": \"Gummo\"},\n  {\"name\": \"Zeppo\"}\n]\n```",
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
             }
           ],
           "usage": {
-            "prompt_tokens": 158,
-            "completion_tokens": 125,
-            "total_tokens": 283
+            "prompt_tokens": 144,
+            "completion_tokens": 48,
+            "total_tokens": 192,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
           },
-          "system_fingerprint": "fp_b28b39ffa8"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Fri, 05 Apr 2024 14:04:13 GMT
+  recorded_at: Wed, 29 Oct 2025 18:48:50 GMT
 - request:
     method: post
     uri: https://api.openai.com/v1/chat/completions
@@ -126,7 +143,7 @@ http_interactions:
         kingdom of fluffypup, there was a doggy day care atop a hill overlooking the
         village.\nEveryday blue Jeremy would bring his sweet little brown dog Dingo
         to play with the other little guys.\nDingo''s favorite friend was young Rosa,
-        a red retreiver the same age as Dingo.\nThey loved to romp and play all day.\n"}],"max_tokens":300,"n":1,"temperature":0.2}'
+        a red retreiver the same age as Dingo.\nThey loved to romp and play all day.\n"}],"n":1}'
     headers:
       Content-Type:
       - application/json
@@ -144,69 +161,75 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 05 Apr 2024 14:04:14 GMT
+      - Wed, 29 Oct 2025 18:48:57 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '947'
+      - '581'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '674'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '160000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '159458'
+      - '9999757'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 203ms
+      - 1ms
       X-Request-Id:
-      - req_e4b115207ad4aad37027e310e7da3fd0
+      - req_6e839171bc0f45a0a49c2e62afa3b799
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=xXBdIEsChjjiobzeUaC5K7AG.e4n_TtZe7oi40dpuKo-1712325854-1.0.1.1-jOD_aro.bxIw16Dj40PhHfCzIEPE4vSpCfEB4fI5o8UxbvGX4mg44JwX_oD8roLAP20MsOgb2X9Dt6jEdawqVw;
-        path=/; expires=Fri, 05-Apr-24 14:34:14 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=EvP.RrmrH_CMMw22ZV__xqxhU.78h.XpN0wAUXVZuLI-1761763737-1.0.1.1-pTc8DfOPOmyK3HkiJ0ctkkkHnyar0MY2x1HM3xcYkrTL0MlXKnofwXjDLaTKGdpGZkH1HJfCd4ERS27YYU9Ge5ZFanRP1wwteOBPSkezHvs;
+        path=/; expires=Wed, 29-Oct-25 19:18:57 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=W4xpsuw9pbWxrtrr6OMQFhxeIhrIFumbFD4Vmaokuyc-1712325854233-0.0.1.1-604800000;
+      - _cfuvid=zj.w46pBFUU5RAJu713Gz.rEMsQi1xbwccShxcgCX6M-1761763737445-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 86fa1605ebe9ec6c-SEA
+      - 9964d99a8eacb9b2-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-9AeSrhpfJAU4mBQ11jKSpvvnkMzbL",
+          "id": "chatcmpl-CW5W46kQOmtBau367ys5nHoWsGNxX",
           "object": "chat.completion",
-          "created": 1712325853,
+          "created": 1761763736,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
               "index": 0,
               "message": {
                 "role": "assistant",
-                "content": "[\n    {\n        \"name\": \"Dingo\",\n        \"color\": \"brown\"\n    },\n    {\n        \"name\": \"Rosa\",\n        \"color\": \"red\"\n    }\n]"
+                "content": "[\n    {\n        \"name\": \"Dingo\",\n        \"color\": \"brown\"\n    },\n    {\n        \"name\": \"Rosa\",\n        \"color\": \"red\"\n    }\n]",
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
@@ -215,227 +238,22 @@ http_interactions:
           "usage": {
             "prompt_tokens": 234,
             "completion_tokens": 40,
-            "total_tokens": 274
-          },
-          "system_fingerprint": "fp_b28b39ffa8"
-        }
-  recorded_at: Fri, 05 Apr 2024 14:04:14 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nYou
-        are a chef who knows many recipies and when the user tells you something they
-        want to make, you give them the ingredient list\n\nYour response will be a
-        JSON array of objects. Here are the attributes the object in the array can
-        have:\n\n - \"ingredient\": (required) \n - \"amount\": (optional) \n\nPlease
-        ensure that the JSON you return is parsable and that each contained object
-        has every required attribute or this operation will fail.\n\nI''ll repeat
-        this because it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN
-        WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL
-        BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"Cookies"}],"max_tokens":300,"n":1,"temperature":0.9}'
-    headers:
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer <OPENAI_API_KEY>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Sun, 07 Apr 2024 22:39:28 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
-      Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
-      Openai-Processing-Ms:
-      - '1682'
-      Openai-Version:
-      - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-      X-Ratelimit-Limit-Requests:
-      - '5000'
-      X-Ratelimit-Limit-Tokens:
-      - '160000'
-      X-Ratelimit-Remaining-Requests:
-      - '4999'
-      X-Ratelimit-Remaining-Tokens:
-      - '159539'
-      X-Ratelimit-Reset-Requests:
-      - 12ms
-      X-Ratelimit-Reset-Tokens:
-      - 172ms
-      X-Request-Id:
-      - req_37e15f55684af1f71ce7c795ccbd54d7
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=iz0F10MhTIUjTfIl9mR5.dMim7YvKUCJxtRrBqwXveA-1712529568-1.0.1.1-amB_8K_40XHg.HRfeVUt2IYy37euXYNFhQkWuaI0heZeLZzacU3twrbPHj9P98Q3hxspSLlTsmHdoPR85TKqyQ;
-        path=/; expires=Sun, 07-Apr-24 23:09:28 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=5zYwOMyvWZJxmYUrsf2nGlBcn2yhuo__iDnE7aFzsjA-1712529568921-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 870d83818d942846-SEA
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        {
-          "id": "chatcmpl-9BVSZg4GekrJoPwXcSjlVlYnswoTL",
-          "object": "chat.completion",
-          "created": 1712529567,
-          "model": "gpt-3.5-turbo-0125",
-          "choices": [
-            {
-              "index": 0,
-              "message": {
-                "role": "assistant",
-                "content": "[\n    {\"ingredient\": \"flour\", \"amount\": \"2 cups\"},\n    {\"ingredient\": \"sugar\", \"amount\": \"1 cup\"},\n    {\"ingredient\": \"butter\", \"amount\": \"1 cup\"},\n    {\"ingredient\": \"eggs\", \"amount\": \"2\"},\n    {\"ingredient\": \"vanilla extract\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"baking soda\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"salt\", \"amount\": \"1/2 tsp\"},\n    {\"ingredient\": \"chocolate chips\", \"amount\": \"1 cup\"}\n]"
-              },
-              "logprobs": null,
-              "finish_reason": "stop"
+            "total_tokens": 274,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
             }
-          ],
-          "usage": {
-            "prompt_tokens": 156,
-            "completion_tokens": 125,
-            "total_tokens": 281
           },
-          "system_fingerprint": "fp_b28b39ffa8"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Sun, 07 Apr 2024 22:39:28 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nYou
-        are a Marx Brothers fan who is listing the brothers\n\nYour response will
-        be a JSON array of objects. Here are the attributes the object in the array
-        can have:\n\n - \"name\": The first name of a Marx Brother\n\nPlease ensure
-        that the JSON you return is parsable and that each contained object has every
-        required attribute or this operation will fail.\n\nI''ll repeat this because
-        it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN WILL BE PUT
-        DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL BE VERY SAD
-        IF IT DOESN''T PARSE\n"},{"role":"user","content":"Give me the first names
-        of the Marx Brothers"}],"max_tokens":300,"n":1,"temperature":0.9}'
-    headers:
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer <OPENAI_API_KEY>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Sun, 07 Apr 2024 23:54:32 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
-      Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
-      Openai-Processing-Ms:
-      - '656'
-      Openai-Version:
-      - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-      X-Ratelimit-Limit-Requests:
-      - '5000'
-      X-Ratelimit-Limit-Tokens:
-      - '160000'
-      X-Ratelimit-Remaining-Requests:
-      - '4999'
-      X-Ratelimit-Remaining-Tokens:
-      - '159550'
-      X-Ratelimit-Reset-Requests:
-      - 12ms
-      X-Ratelimit-Reset-Tokens:
-      - 168ms
-      X-Request-Id:
-      - req_f423e5cd2f167469de11d772733913a0
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=lVUuODajrLMyKRRxSYQ3hibBWAkVocVPdD8dLlOyG_k-1712534072-1.0.1.1-8HRGFdrukS0d4obt8fnCS7zB.6zwJEuC2Y4Ux7G3zqzIJ4CEJ7t4WDgAZlsOaT7H6PajHa5ZedBx7sp9Nvr.tg;
-        path=/; expires=Mon, 08-Apr-24 00:24:32 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=83Gb9k2oSkQRxIefeSXTsrbhybihs10IIip9bNyLYmg-1712534072265-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 870df17a6ab1ec84-SEA
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        {
-          "id": "chatcmpl-9BWdDRJWvFRwRxmwMnPedCGEQ3T68",
-          "object": "chat.completion",
-          "created": 1712534071,
-          "model": "gpt-3.5-turbo-0125",
-          "choices": [
-            {
-              "index": 0,
-              "message": {
-                "role": "assistant",
-                "content": "```json\n[\n    {\"name\": \"Groucho\"},\n    {\"name\": \"Harpo\"},\n    {\"name\": \"Chico\"},\n    {\"name\": \"Zeppo\"}\n]\n```"
-              },
-              "logprobs": null,
-              "finish_reason": "stop"
-            }
-          ],
-          "usage": {
-            "prompt_tokens": 144,
-            "completion_tokens": 39,
-            "total_tokens": 183
-          },
-          "system_fingerprint": "fp_b28b39ffa8"
-        }
-  recorded_at: Sun, 07 Apr 2024 23:54:32 GMT
+  recorded_at: Wed, 29 Oct 2025 18:48:57 GMT
 - request:
     method: post
     uri: https://api.openai.com/v1/chat/completions
@@ -450,7 +268,7 @@ http_interactions:
         it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN WILL BE PUT
         DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL BE VERY SAD
         IF IT DOESN''T PARSE\n"},{"role":"user","content":"Give me exactly three different
-        varieties of blue"}],"max_tokens":300,"n":2,"temperature":0.9}'
+        varieties of blue"}],"n":2}'
     headers:
       Content-Type:
       - application/json
@@ -468,69 +286,75 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 08 Apr 2024 00:37:52 GMT
+      - Wed, 29 Oct 2025 18:49:04 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '476'
+      - '1811'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '1908'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '160000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '159248'
+      - '9999846'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 282ms
+      - 0s
       X-Request-Id:
-      - req_ea11c2eef11c03fe013f4ad2d23cf230
+      - req_5ee9adbeb0e941d591fe0875dba264eb
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=YnKkT_BFIHzHCD5gmU0Uy_MZbEMljBb60HP9FfAu5.s-1712536672-1.0.1.1-53GYwDppcUYmT9mwLuyuccfOjySkb2nfmqUf1oW9_7G9ZUD8PemxMT3iQgZLAVr8CFUF_O2aV2ErdNowl8.OHQ;
-        path=/; expires=Mon, 08-Apr-24 01:07:52 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=xPp2NmlAkV1Z2s4pDcqn.Dk8Qfun4gHcGPjrmsLtYt0-1761763744-1.0.1.1-mAsem9YA4fwYLMZZK2rNgFaV7zgEIzPmRSnjaNJF5imYLAEkBwp17Ah0IWjxt_4weK4l1.B8BMIu8YNc_4oTcAafxLtilKESLhSYLRqseCI;
+        path=/; expires=Wed, 29-Oct-25 19:19:04 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=6zSH_Ep27diuFoxDYjNAP8YTmC.beKqY.vBkukD6SLM-1712536672389-0.0.1.1-604800000;
+      - _cfuvid=3lgWmUwUxFsXhYL.rLcDo9Yw5HxKe5avp2WyHfSVqUM-1761763744041-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 870e30f63f783076-SEA
+      - 9964d9bb88b2ad8d-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-9BXJ9Nou7s9R8WDJTm6KQzHxfconb",
+          "id": "chatcmpl-CW5WApchgbjjpvupMiORTAFlfqbTj",
           "object": "chat.completion",
-          "created": 1712536671,
+          "created": 1761763742,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
               "index": 0,
               "message": {
                 "role": "assistant",
-                "content": "[\n    {\"color\": \"azure\"},\n    {\"color\": \"sky blue\"},\n    {\"color\": \"cobalt blue\"}\n]"
+                "content": "[\n    {\n        \"color\": \"cerulean\"\n    },\n    {\n        \"color\": \"teal\"\n    },\n    {\n        \"color\": \"navy\"\n    }\n]",
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
@@ -539,7 +363,9 @@ http_interactions:
               "index": 1,
               "message": {
                 "role": "assistant",
-                "content": "[\n    { \"color\": \"blue\" },\n    { \"color\": \"sky blue\" },\n    { \"color\": \"royal blue\" }\n]"
+                "content": "[\n    {\n        \"color\": \"sky blue\"\n    },\n    {\n        \"color\": \"navy blue\"\n    },\n    {\n        \"color\": \"baby blue\"\n    }\n]",
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
@@ -547,12 +373,23 @@ http_interactions:
           ],
           "usage": {
             "prompt_tokens": 144,
-            "completion_tokens": 58,
-            "total_tokens": 202
+            "completion_tokens": 78,
+            "total_tokens": 222,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
           },
-          "system_fingerprint": "fp_b28b39ffa8"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Mon, 08 Apr 2024 00:37:52 GMT
+  recorded_at: Wed, 29 Oct 2025 18:49:03 GMT
 - request:
     method: post
     uri: https://api.openai.com/v1/chat/completions
@@ -571,9 +408,8 @@ http_interactions:
         and that each contained object has every required attribute or this operation
         will fail.\n\nI''ll repeat this because it''s important: THE JSON YOU RETURN
         MUST PARSE. WHAT YOU RETURN WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS
-        OF VERY CUTE CHILDREN WILL BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"[{\"color\":\"azure\"},{\"color\":\"sky
-        blue\"},{\"color\":\"cobalt blue\"},{\"color\":\"blue\"},{\"color\":\"sky
-        blue\"},{\"color\":\"royal blue\"}]"}],"max_tokens":1000,"n":1,"temperature":0.9}'
+        OF VERY CUTE CHILDREN WILL BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"[{\"color\":\"cerulean\"},{\"color\":\"teal\"},{\"color\":\"navy\"},{\"color\":\"sky
+        blue\"},{\"color\":\"navy blue\"},{\"color\":\"baby blue\"}]"}],"n":1}'
     headers:
       Content-Type:
       - application/json
@@ -591,80 +427,222 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 08 Apr 2024 00:53:02 GMT
+      - Wed, 29 Oct 2025 18:49:06 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '1436'
+      - '1428'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '1946'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '160000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '158723'
+      - '9999723'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 478ms
+      - 1ms
       X-Request-Id:
-      - req_967547879412c4066f6bdc7c781d7847
+      - req_6ef1f0f56175461db143e8ce5c464085
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=YBszpzl0h62ClKafAcXe3HZmBrnbLZJPDwb9kHdtPus-1712537582-1.0.1.1-XOOjSIjUBLiH_qjOVv3zrcC77jwO1HUGvLZvPVQzenMQ9Ukrw59F7b4wq6OW2QrjDYCZz1iLtVaz6KoRjpgYkQ;
-        path=/; expires=Mon, 08-Apr-24 01:23:02 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=J1EwAGa8dyVTXQ3jxGQPFNbfNhBku1JMK9ufcAyahdU-1761763746-1.0.1.1-Q9Gu.dttxMfNVGiDQ731YbzDzKZeUl6sDAxQdPOF5GsZmp6Eq02haykOO7RdoquFZXn52x.jSlxhJO7PD_vikBvNpVmM6kaYIfa_Kk1CxJE;
+        path=/; expires=Wed, 29-Oct-25 19:19:06 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=H2STRs3xIo2oXreu0LwdQNwvYsAWc8wINTcvZfJf2mQ-1712537582211-0.0.1.1-604800000;
+      - _cfuvid=97X2gddiUvfGvEMtokvanOIZLyVY.E3pa7PVf4U5MaQ-1761763746183-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 870e47272e1e6840-SEA
+      - 9964d9c8bd2523f8-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-9BXXohDuWCtXEOm7TCSOBvUAohkqo",
+          "id": "chatcmpl-CW5WCUtlcua45ic98sowPuRyxBU7F",
           "object": "chat.completion",
-          "created": 1712537580,
+          "created": 1761763744,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
               "index": 0,
               "message": {
                 "role": "assistant",
-                "content": "[\n    {\n        \"color\": \"azure\",\n        \"originals\": [\n            {\"color\": \"azure\"}\n        ]\n    },\n    {\n        \"color\": \"sky blue\",\n        \"originals\": [\n            {\"color\": \"sky blue\"},\n            {\"color\": \"sky blue\"}\n        ]\n    },\n    {\n        \"color\": \"cobalt blue\",\n        \"originals\": [\n            {\"color\": \"cobalt blue\"}\n        ]\n    },\n    {\n        \"color\": \"blue\",\n        \"originals\": [\n            {\"color\": \"blue\"}\n        ]\n    },\n    {\n        \"color\": \"royal blue\",\n        \"originals\": [\n            {\"color\": \"royal blue\"}\n        ]\n    }\n]"
+                "content": "[\n    {\n        \"color\": \"cerulean\",\n        \"originals\": [\n            {\"color\": \"cerulean\"}\n        ]\n    },\n    {\n        \"color\": \"teal\",\n        \"originals\": [\n            {\"color\": \"teal\"}\n        ]\n    },\n    {\n        \"color\": \"navy\",\n        \"originals\": [\n            {\"color\": \"navy\"},\n            {\"color\": \"navy blue\"}\n        ]\n    },\n    {\n        \"color\": \"sky blue\",\n        \"originals\": [\n            {\"color\": \"sky blue\"},\n            {\"color\": \"baby blue\"}\n        ]\n    }\n]",
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
             }
           ],
           "usage": {
-            "prompt_tokens": 251,
-            "completion_tokens": 150,
-            "total_tokens": 401
+            "prompt_tokens": 253,
+            "completion_tokens": 133,
+            "total_tokens": 386,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
           },
-          "system_fingerprint": "fp_b28b39ffa8"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Mon, 08 Apr 2024 00:53:02 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Wed, 29 Oct 2025 18:49:06 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nYou
+        are a chef who knows many recipies and when the user tells you something they
+        want to make, you give them the ingredient list\n\nYour response will be a
+        JSON array of objects. Here are the attributes the object in the array can
+        have:\n\n - \"ingredient\": (required) \n - \"amount\": (optional) \n\nPlease
+        ensure that the JSON you return is parsable and that each contained object
+        has every required attribute or this operation will fail.\n\nI''ll repeat
+        this because it''s important: THE JSON YOU RETURN MUST PARSE. WHAT YOU RETURN
+        WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS OF VERY CUTE CHILDREN WILL
+        BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"Cookies"}],"n":1}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 29 Oct 2025 18:49:08 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Expose-Headers:
+      - X-Request-ID
+      Openai-Organization:
+      - shipindexdev
+      Openai-Processing-Ms:
+      - '2008'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      Openai-Version:
+      - '2020-10-01'
+      X-Envoy-Upstream-Service-Time:
+      - '2040'
+      X-Ratelimit-Limit-Requests:
+      - '10000'
+      X-Ratelimit-Limit-Tokens:
+      - '10000000'
+      X-Ratelimit-Remaining-Requests:
+      - '9999'
+      X-Ratelimit-Remaining-Tokens:
+      - '9999838'
+      X-Ratelimit-Reset-Requests:
+      - 6ms
+      X-Ratelimit-Reset-Tokens:
+      - 0s
+      X-Request-Id:
+      - req_2f67bfb6112046619c274d861c2a1b82
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=fbiKR.uu.16anYFRf91WZqFEon2VUOqiMLqpSttfm6U-1761763748-1.0.1.1-4XOmQwD4WqWZASOTGhS7ndeoEq606hvpigA_tGgiOhuGTZiDK5AtH_fGYKDO897zBzpB9YhxEEswlIk2qIsOn2ot1yveC_S0LMMTgIuc65k;
+        path=/; expires=Wed, 29-Oct-25 19:19:08 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=P4S8nqbukAIGpF1Eipq7DH8RiPuhjOHTf1aXAi4Vqr0-1761763748399-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9964d9d63b4230b0-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-CW5WEJRbhYZgekbsRpVCW8GC33uNu",
+          "object": "chat.completion",
+          "created": 1761763746,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "[\n    {\"ingredient\": \"flour\", \"amount\": \"2 cups\"},\n    {\"ingredient\": \"sugar\", \"amount\": \"1 cup\"},\n    {\"ingredient\": \"butter\", \"amount\": \"1/2 cup\"},\n    {\"ingredient\": \"egg\", \"amount\": \"1\"},\n    {\"ingredient\": \"vanilla extract\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"baking powder\", \"amount\": \"1 tsp\"},\n    {\"ingredient\": \"salt\", \"amount\": \"1/2 tsp\"},\n    {\"ingredient\": \"chocolate chips\", \"amount\": \"1 cup\"}\n]",
+                "refusal": null,
+                "annotations": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 156,
+            "completion_tokens": 126,
+            "total_tokens": 282,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
+        }
+  recorded_at: Wed, 29 Oct 2025 18:49:08 GMT
+recorded_with: VCR 6.2.0

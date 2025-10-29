@@ -18,57 +18,57 @@ class ChatGptResponse
 
   def self.create_from_json(json)
     new(
-      source_id: json['id'],
-      created: json['created'],
-      object: json['object'],
-      model: json['model'],
-      system_fingerprint: json['system_fingerprint'],
-      usage: json['usage'],
-      choices: json['choices']
+      source_id: json["id"],
+      created: json["created"],
+      object: json["object"],
+      model: json["model"],
+      system_fingerprint: json["system_fingerprint"],
+      usage: json["usage"],
+      choices: json["choices"]
     )
   end
 
   def function_calls
     choices
-      .map { |choice| choice.dig('message', 'tool_calls') }
+      .map { |choice| choice.dig("message", "tool_calls") }
       .flatten
-      .map { |tool_call| tool_call['function'] }
+      .map { |tool_call| tool_call["function"] }
       .map do |f_call|
         Struct.new(:name, :arguments).new(
-          f_call['name'],
-          JSON.parse(f_call['arguments'], symbolize_names: true)
+          f_call["name"],
+          JSON.parse(f_call["arguments"], symbolize_names: true)
         )
       end
   end
 
   def function_call
-    choices[0]&.dig('message', 'tool_calls', 0, 'function')
+    choices[0]&.dig("message", "tool_calls", 0, "function")
   end
 
   def multiple_function_calls
     choices
-      .map { |choice| choice['message']['tool_calls'] }
-      .map { |tool_calls| tool_calls.map { |tool_call| tool_call['function'] } }
+      .map { |choice| choice["message"]["tool_calls"] }
+      .map { |tool_calls| tool_calls.map { |tool_call| tool_call["function"] } }
       .flatten
   end
 
   def function_name
-    function_call['name']
+    function_call["name"]
   end
 
   def multiple_function_names
-    multiple_function_calls.map { |function_call| function_call['name'] }
+    multiple_function_calls.map { |function_call| function_call["name"] }
   end
 
   def function_arguments
-    parse_function_arguments(function_call['arguments'])
+    parse_function_arguments(function_call["arguments"])
   end
 
   # Why does this function exist?
   # That 'compact' could get the size out of sync with the multiple_function_names
   def multiple_function_arguments
     multiple_function_calls.map do |function_call|
-      parse_function_arguments(function_call['arguments'])
+      parse_function_arguments(function_call["arguments"])
     end.compact
   end
 
@@ -80,7 +80,7 @@ class ChatGptResponse
   end
 
   def message
-    choices[0]&.dig('message', 'content')
+    choices[0]&.dig("message", "content")
   end
 
   def to_hash

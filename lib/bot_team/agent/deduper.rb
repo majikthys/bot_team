@@ -20,9 +20,9 @@ module Agent
         else
           super(message.to_json, **args)
         end
-      @result = @result.gsub(/^```.*/, '')
+      @result = @result.gsub(/^```.*/, "")
       @result = JSON.parse(@result).map do |obj|
-        obj['originals'] = obj['originals'].map { |o| o.transform_keys(&:to_sym) }
+        obj["originals"] = obj["originals"].map { |o| o.transform_keys(&:to_sym) }
         obj.transform_keys(&:to_sym)
       end
     end

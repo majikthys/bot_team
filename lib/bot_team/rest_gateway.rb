@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'httparty'
+require "httparty"
 
-require_relative 'chat_gpt_response'
+require_relative "chat_gpt_response"
 
 class RestGateway
   class NoResponseError < StandardError; end
@@ -23,8 +23,8 @@ class RestGateway
 
   def http_headers
     {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{api_key}"
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{api_key}"
     }
   end
 
@@ -37,14 +37,14 @@ class RestGateway
     raise NoResponseError unless response
 
     @logger.error "Error: #{JSON.pretty_generate(response)}"
-    raise response['error']['message']
+    raise JSON.pretty_generate(response)
   end
 
   def try_http_request(chat_completion_request)
     HTTParty.post(api_url, body: chat_completion_request.to_json, headers: http_headers,
                            timeout: BotTeam.configuration.request_timeout)
   rescue Net::ReadTimeout
-    exponent = [1.001, BotTeam.configuration.retry_rolloff_exponent].max
+    exponent = [ 1.001, BotTeam.configuration.retry_rolloff_exponent ].max
     delay ||= exponent
     @logger.info "Timeout error. Waiting #{delay} seconds then retrying..."
     sleep delay

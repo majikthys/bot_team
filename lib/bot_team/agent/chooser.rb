@@ -46,10 +46,10 @@ module Agent
       set_system_directives_from_options
       add_function(required: true, method: method(:classify_request))
       define_parameter(
-        'classify_request',
-        'result',
+        "classify_request",
+        "result",
         enum: options.keys,
-        description: 'Your guess at which option best fits the user input.'
+        description: "Your guess at which option best fits the user input."
       )
     end
 

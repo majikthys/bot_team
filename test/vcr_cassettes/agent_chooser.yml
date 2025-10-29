@@ -10,8 +10,7 @@ http_interactions:
         - requesting: User is requesting some information\n - unknown: The input is
         incomprehensible or the user is neither requesting nor offering information\n\nPlease
         provide your classification by calling the function `classify_request` with
-        the option that reflects the correct classification.\n"},{"role":"user","content":"Who
-        is the president of the United States?"}],"max_tokens":80,"n":1,"temperature":0.2,"tools":[{"type":"function","function":{"name":"classify_request","parameters":{"type":"object","properties":{"result":{"type":"string","description":"Your
+        the option that reflects the correct classification.\n"},{"role":"user","content":"Shabazoo"}],"n":1,"tools":[{"type":"function","function":{"name":"classify_request","parameters":{"type":"object","properties":{"result":{"type":"string","description":"Your
         guess at which option best fits the user input.","enum":["giving","requesting","unknown"]}},"required":["result"]}}}],"tool_choice":{"type":"function","function":{"name":"classify_request"}}}'
     headers:
       Content-Type:
@@ -30,62 +29,66 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 04 Apr 2024 00:20:24 GMT
+      - Wed, 29 Oct 2025 18:49:00 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '503'
+      - '239'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '269'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '160000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '159813'
+      - '9999901'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 70ms
+      - 0s
       X-Request-Id:
-      - req_460427d57c2cca8fdcab1f2aff1769b1
+      - req_219fc9a2527c4ea98d20494c7c81708d
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=m_7G4vMe5oZOSOf4JFzC6ZOJG3ilSKFYyfNXiXutpLk-1712190024-1.0.1.1-TYY.HqYi01CzFronkKcV440_lwTCMg1qN4k3rY50.GvcLllgVRVhYA3rBVwsqTBXUd5qLNw_g99_WwVYKYnrCA;
-        path=/; expires=Thu, 04-Apr-24 00:50:24 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=eLBh1dfu2D8cxxkW9JYsBy9VJYYUBdw1DqP_yxQQ32w-1761763740-1.0.1.1-DIYbGms_Yr3XlyjW7_q5m4sAAUcGs20UrIjyiODPzzdWK1xdnRPeL6gN1RILYaBr9Fe8Y_kYVeEmPEAI46ZR2LipcO.CatOZo14uMf3KxLM;
+        path=/; expires=Wed, 29-Oct-25 19:19:00 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=QXXSX5gJF4oBFQh3FbIalAU55XY2ONNB1wDi_PKf6QI-1712190024034-0.0.1.1-604800000;
+      - _cfuvid=udUwTD2dbdFPKeSZKdVl2NGXkOcVLCWBTn4ECO7Eq.0-1761763740659-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 86ed21dceb552792-SEA
+      - 9964d9b0993d7205-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-9A58318QINSuxbtePvAodyrgbAott",
+          "id": "chatcmpl-CW5W8MoKibJ3s3XTVJOQQebl6L846",
           "object": "chat.completion",
-          "created": 1712190023,
+          "created": 1761763740,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
@@ -95,14 +98,149 @@ http_interactions:
                 "content": null,
                 "tool_calls": [
                   {
-                    "id": "call_E9xrVUoydwLzl7DYnDyE1PxZ",
+                    "id": "call_uNSR0CooFM9w0qRhmu19rGMa",
+                    "type": "function",
+                    "function": {
+                      "name": "classify_request",
+                      "arguments": "{\"result\":\"unknown\"}"
+                    }
+                  }
+                ],
+                "refusal": null,
+                "annotations": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 141,
+            "completion_tokens": 5,
+            "total_tokens": 146,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
+        }
+  recorded_at: Wed, 29 Oct 2025 18:49:00 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nPlease
+        choose from the following options:\n\n - giving: User is giving some information\n
+        - requesting: User is requesting some information\n - unknown: The input is
+        incomprehensible or the user is neither requesting nor offering information\n\nPlease
+        provide your classification by calling the function `classify_request` with
+        the option that reflects the correct classification.\n"},{"role":"user","content":"Who
+        is the president of the United States?"}],"n":1,"tools":[{"type":"function","function":{"name":"classify_request","parameters":{"type":"object","properties":{"result":{"type":"string","description":"Your
+        guess at which option best fits the user input.","enum":["giving","requesting","unknown"]}},"required":["result"]}}}],"tool_choice":{"type":"function","function":{"name":"classify_request"}}}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 29 Oct 2025 18:49:01 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Expose-Headers:
+      - X-Request-ID
+      Openai-Organization:
+      - shipindexdev
+      Openai-Processing-Ms:
+      - '436'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      Openai-Version:
+      - '2020-10-01'
+      X-Envoy-Upstream-Service-Time:
+      - '484'
+      X-Ratelimit-Limit-Requests:
+      - '10000'
+      X-Ratelimit-Limit-Tokens:
+      - '10000000'
+      X-Ratelimit-Remaining-Requests:
+      - '9999'
+      X-Ratelimit-Remaining-Tokens:
+      - '9999892'
+      X-Ratelimit-Reset-Requests:
+      - 6ms
+      X-Ratelimit-Reset-Tokens:
+      - 0s
+      X-Request-Id:
+      - req_21ae55f17ec34eb28648f6b10e765ba2
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=kZBFi2NHyTlWX1EOitUqa4_1BUG0pS2WACiwSk8td9o-1761763741-1.0.1.1-b5ojdytfYC9jbVUM4FcK8B4oQsJksvcVveYqJY24sLjwbpGzTMKWFktTHYiVHQVtEQua.9RlJVCAqXGTn9e0NhXDEMsWxYT9dsPT7pdi7Nw;
+        path=/; expires=Wed, 29-Oct-25 19:19:01 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=tRdKQrBWJvmdjWZAqWFTlzcaKzEbgGbWE6EJzLK2h68-1761763741264-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9964d9b38f4dd44f-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-CW5W8CyGZhUV788tDpt6fn4TjoNQU",
+          "object": "chat.completion",
+          "created": 1761763740,
+          "model": "gpt-3.5-turbo-0125",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "call_dS9pOU7Hv5x1Bwcoj9JY1FUa",
                     "type": "function",
                     "function": {
                       "name": "classify_request",
                       "arguments": "{\"result\":\"requesting\"}"
                     }
                   }
-                ]
+                ],
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
@@ -111,11 +249,22 @@ http_interactions:
           "usage": {
             "prompt_tokens": 146,
             "completion_tokens": 6,
-            "total_tokens": 152
+            "total_tokens": 152,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
           },
-          "system_fingerprint": "fp_b28b39ffa8"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Thu, 04 Apr 2024 00:20:24 GMT
+  recorded_at: Wed, 29 Oct 2025 18:49:01 GMT
 - request:
     method: post
     uri: https://api.openai.com/v1/chat/completions
@@ -127,7 +276,7 @@ http_interactions:
         incomprehensible or the user is neither requesting nor offering information\n\nPlease
         provide your classification by calling the function `classify_request` with
         the option that reflects the correct classification.\n"},{"role":"user","content":"My
-        name is Bob"}],"max_tokens":80,"n":1,"temperature":0.2,"tools":[{"type":"function","function":{"name":"classify_request","parameters":{"type":"object","properties":{"result":{"type":"string","description":"Your
+        name is Bob"}],"n":1,"tools":[{"type":"function","function":{"name":"classify_request","parameters":{"type":"object","properties":{"result":{"type":"string","description":"Your
         guess at which option best fits the user input.","enum":["giving","requesting","unknown"]}},"required":["result"]}}}],"tool_choice":{"type":"function","function":{"name":"classify_request"}}}'
     headers:
       Content-Type:
@@ -146,62 +295,66 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 04 Apr 2024 00:20:25 GMT
+      - Wed, 29 Oct 2025 18:49:01 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '452'
+      - '533'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '555'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '160000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '159820'
+      - '9999899'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 67ms
+      - 0s
       X-Request-Id:
-      - req_361bdea67aafbdd663421a4b54dbc2e6
+      - req_4c6d529050fc48759dbbd5d0053ee048
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=dpqMYO9U.6XMncoaa8aP_.97UZP0sJcaYgIyw2X5H3Y-1712190025-1.0.1.1-4bV4twWbszwNm71Xqw2mrnRA2C6lYfpaDAfOV4.qIgV050rPoXSS6EZTiq_apt4QYcgTjHXXHmb3SdIpj_SivQ;
-        path=/; expires=Thu, 04-Apr-24 00:50:25 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=3Iyux.9fyO9ADd0m_dBFCgQ4cxAo3KfWtgFq8rXoWao-1761763741-1.0.1.1-2SXVvCz1vMFWab350WVqJWLfsyxe4dKF0aNQGErJaR1j1bdf4VvKGf1KqZ0KfahBvojNvcLhBIjnz_yWg.oYo0FtNG2yVpNdMy2xcfTvbUY;
+        path=/; expires=Wed, 29-Oct-25 19:19:01 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=bmi1iiM_cufmPy8lynKn0Plq0FyC7MeH1x.TO9mZ85g-1712190025073-0.0.1.1-604800000;
+      - _cfuvid=TPNQOlGJ2sz_F2eMsAAdDya_GSLkh404zLqhtfUbf3E-1761763741922-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 86ed21e3ac74ec1b-SEA
+      - 9964d9b74be9495b-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-9A5844hmBnrfKS9ggWxzvSJKb8av2",
+          "id": "chatcmpl-CW5W9x2bMtcOhO2BYRehhsLNJo3N1",
           "object": "chat.completion",
-          "created": 1712190024,
+          "created": 1761763741,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
@@ -211,14 +364,16 @@ http_interactions:
                 "content": null,
                 "tool_calls": [
                   {
-                    "id": "call_4Ru6cVjeOfODF2yOwlMTkcuR",
+                    "id": "call_vNWVaZWRR57AFcjU41KmMqgS",
                     "type": "function",
                     "function": {
                       "name": "classify_request",
                       "arguments": "{\"result\":\"giving\"}"
                     }
                   }
-                ]
+                ],
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
@@ -227,124 +382,20 @@ http_interactions:
           "usage": {
             "prompt_tokens": 141,
             "completion_tokens": 6,
-            "total_tokens": 147
-          },
-          "system_fingerprint": "fp_b28b39ffa8"
-        }
-  recorded_at: Thu, 04 Apr 2024 00:20:25 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-3.5-turbo","messages":[{"role":"system","content":"\nPlease
-        choose from the following options:\n\n - giving: User is giving some information\n
-        - requesting: User is requesting some information\n - unknown: The input is
-        incomprehensible or the user is neither requesting nor offering information\n\nPlease
-        provide your classification by calling the function `classify_request` with
-        the option that reflects the correct classification.\n"},{"role":"user","content":"Shabazoo"}],"max_tokens":80,"n":1,"temperature":0.2,"tools":[{"type":"function","function":{"name":"classify_request","parameters":{"type":"object","properties":{"result":{"type":"string","description":"Your
-        guess at which option best fits the user input.","enum":["giving","requesting","unknown"]}},"required":["result"]}}}],"tool_choice":{"type":"function","function":{"name":"classify_request"}}}'
-    headers:
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer <OPENAI_API_KEY>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 04 Apr 2024 00:20:25 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
-      Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
-      Openai-Processing-Ms:
-      - '364'
-      Openai-Version:
-      - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-      X-Ratelimit-Limit-Requests:
-      - '5000'
-      X-Ratelimit-Limit-Tokens:
-      - '160000'
-      X-Ratelimit-Remaining-Requests:
-      - '4999'
-      X-Ratelimit-Remaining-Tokens:
-      - '159822'
-      X-Ratelimit-Reset-Requests:
-      - 12ms
-      X-Ratelimit-Reset-Tokens:
-      - 66ms
-      X-Request-Id:
-      - req_7bd1c44fb3e9577c875b3e4f471955e9
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=Cjk5THCBHaxw7KoQL0HTduexpL8dL_lOWUSsZINTKhE-1712190025-1.0.1.1-rGbB8jDJXa0eNtN2uf572n0iydG9dibY7WiYN4BdwQmKT8KcgYNN4IC1ssw4enqksaMeOrKbNdPUlAuE1YSrQA;
-        path=/; expires=Thu, 04-Apr-24 00:50:25 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=i7Pz02KeKM5H5EiaZ8lW58gndUajIVWxQ2vYuxWVtTw-1712190025855-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 86ed21ea8b0dc519-SEA
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        {
-          "id": "chatcmpl-9A5859SawavbPs5xqCr3mVilQSzS8",
-          "object": "chat.completion",
-          "created": 1712190025,
-          "model": "gpt-3.5-turbo-0125",
-          "choices": [
-            {
-              "index": 0,
-              "message": {
-                "role": "assistant",
-                "content": null,
-                "tool_calls": [
-                  {
-                    "id": "call_7G8BPFsJVcpnDRZyt0tLh9kM",
-                    "type": "function",
-                    "function": {
-                      "name": "classify_request",
-                      "arguments": "{\"result\":\"unknown\"}"
-                    }
-                  }
-                ]
-              },
-              "logprobs": null,
-              "finish_reason": "stop"
+            "total_tokens": 147,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
             }
-          ],
-          "usage": {
-            "prompt_tokens": 141,
-            "completion_tokens": 5,
-            "total_tokens": 146
           },
-          "system_fingerprint": "fp_b28b39ffa8"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Thu, 04 Apr 2024 00:20:25 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Wed, 29 Oct 2025 18:49:01 GMT
+recorded_with: VCR 6.2.0
