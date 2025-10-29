@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"please
-        say hello"}],"max_tokens":80,"n":1,"temperature":0.9}'
+        say hello"}],"n":1}'
     headers:
       Content-Type:
       - application/json
@@ -24,69 +24,75 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sun, 18 Feb 2024 01:16:07 GMT
+      - Wed, 29 Oct 2025 18:48:56 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '229'
+      - '447'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '484'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '80000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '79915'
+      - '9999994'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 63ms
+      - 0s
       X-Request-Id:
-      - req_4364636fc48a2ae2cf18c96614966f78
+      - req_25e37fb4db044a72b03eb6e2755c0338
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=z9HfumTGqsSt7FDQOzH_cev8u_Lk7di1Vbg5.TNc9Zc-1708218967-1.0-AfbYvl9RkkBTTOSOlJYKHrS6WFTxbuq1sXnMnPLXP1rmvIksXI6zOrxX3hgdT2VxakC+cPEP3pOy1ddzdVr/wJg=;
-        path=/; expires=Sun, 18-Feb-24 01:46:07 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=lkO_9PrMdaS2fKNJXEwvHtj7ea5qXVjxzx98DjQ6mdw-1761763736-1.0.1.1-L5wy2tO4CAmVke2RugUVRc0E.Vz2CHP7BXZwDwFgamvrEzo9pFHXWD6N7SIE5.8BU9tUPxHwN9DsYwxufj7d2M7jNZBwztV_yM79RaZrqcs;
+        path=/; expires=Wed, 29-Oct-25 19:18:56 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=g9V1asBXPpWCycajqAKMHvsjVpqyE5pEhXbyZeREul0-1708218967095-0.0-604800000;
+      - _cfuvid=WbLUM1HmOtf0dy_vfD6ujuGoxwXE_kNE_byFw9Vbjvw-1761763736653-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 85726c3e4f8dec60-SEA
+      - 9964d9967894a328-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-8tQ4kL5MOz5P8MdN1FLBtDIg4l8OS",
+          "id": "chatcmpl-CW5W43ad1LJ9gXONUqB7VRAiojPCJ",
           "object": "chat.completion",
-          "created": 1708218966,
+          "created": 1761763736,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
               "index": 0,
               "message": {
                 "role": "assistant",
-                "content": "Hello! How can I assist you today?"
+                "content": "Hello! How can I assist you today?",
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
@@ -95,9 +101,20 @@ http_interactions:
           "usage": {
             "prompt_tokens": 10,
             "completion_tokens": 9,
-            "total_tokens": 19
+            "total_tokens": 19,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
           },
-          "system_fingerprint": "fp_69829325d0"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Sun, 18 Feb 2024 01:16:07 GMT
+  recorded_at: Wed, 29 Oct 2025 18:48:56 GMT
 recorded_with: VCR 6.2.0

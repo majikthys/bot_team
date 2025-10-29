@@ -67,7 +67,6 @@ describe ChatGptRequest do
     subject.initialize_from_agent(agent)
 
     assert_equal "model", subject.model
-    assert_equal 100, subject.max_tokens
     assert_equal %w[function1 function2 forward_function1 forward_function2], subject.functions
     assert_equal "function_call", subject.function_call
     assert_equal [ { role: "system", content: "system_directives" } ], subject.messages

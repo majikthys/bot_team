@@ -20,7 +20,7 @@ http_interactions:
         MUST PARSE. WHAT YOU RETURN WILL BE PUT DIRECTLY IN A JSON PARSER AND LOTS
         OF VERY CUTE CHILDREN WILL BE VERY SAD IF IT DOESN''T PARSE\n"},{"role":"user","content":"[{\"name\":\"Jim
         Morris\"},{\"name\":\"Jeff McDaniels\"},{\"name\":\"Charles Avery\"},{\"name\":\"Jenn
-        Jordan\"},{\"name\":\"James Morris\"},{\"name\":\"Jeffery Mcdaniels\"}]"}],"max_tokens":1000,"n":1,"temperature":0.2}'
+        Jordan\"},{\"name\":\"James Morris\"},{\"name\":\"Jeffery Mcdaniels\"}]"}],"n":1}'
     headers:
       Content-Type:
       - application/json
@@ -38,69 +38,75 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 06 Apr 2024 00:28:26 GMT
+      - Wed, 29 Oct 2025 18:49:00 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Cache-Control:
-      - no-cache, must-revalidate
-      Openai-Model:
-      - gpt-3.5-turbo-0125
+      Access-Control-Expose-Headers:
+      - X-Request-ID
       Openai-Organization:
-      - user-2tengpgl0r7srjx251kymz2a
+      - shipindexdev
       Openai-Processing-Ms:
-      - '1641'
+      - '2567'
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
       Openai-Version:
       - '2020-10-01'
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      X-Envoy-Upstream-Service-Time:
+      - '2587'
       X-Ratelimit-Limit-Requests:
-      - '5000'
+      - '10000'
       X-Ratelimit-Limit-Tokens:
-      - '160000'
+      - '10000000'
       X-Ratelimit-Remaining-Requests:
-      - '4999'
+      - '9999'
       X-Ratelimit-Remaining-Tokens:
-      - '158716'
+      - '9999715'
       X-Ratelimit-Reset-Requests:
-      - 12ms
+      - 6ms
       X-Ratelimit-Reset-Tokens:
-      - 481ms
+      - 1ms
       X-Request-Id:
-      - req_eec6836f11f8d9554f59d24970a55615
+      - req_2a179837954f4074b3cb4e1581ea4607
+      X-Openai-Proxy-Wasm:
+      - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=vQw68PQEweWZHvS3iEnQQ7w6vqdyaa52psW.sOmrlZI-1712363306-1.0.1.1-zREkADiTiVTqz4YX4uLnFDlrMuiqwUMHhDxbGW0q6FcUYtvXLOnkCk9fZG7DV05An5le5pzuvfsDas4zykV0nw;
-        path=/; expires=Sat, 06-Apr-24 00:58:26 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=cWyVdQeAn7E3_G3D4zlLMSbCuzK0jqyme0UWRF5945s-1761763740-1.0.1.1-1MRFh95doEgwZbnUnb6LDuYt91cvN_uVZhX_L0x0zYcCuDKkNeaSBwK8QgNNYJTT8RnPc6Cawu0GimmwjtiGKiMmU7kxdh6Tdn2J62HO15w;
+        path=/; expires=Wed, 29-Oct-25 19:19:00 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=K2E5tfn1VO4bguKhz3Dy46WgCGYORst2S4dogyufTHU-1712363306046-0.0.1.1-604800000;
+      - _cfuvid=wKMlkwzUtwWfFa50KNim7WUndSDCgCxjo2Nco3nTtUQ-1761763740171-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
       Server:
       - cloudflare
       Cf-Ray:
-      - 86fda85b695827ea-SEA
+      - 9964d99fa863ded4-SEA
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-9AoCupYARJt90988cwdX09tVwQnvR",
+          "id": "chatcmpl-CW5W5DNpWrnJ64yXmqE2rcr4gyJJS",
           "object": "chat.completion",
-          "created": 1712363304,
+          "created": 1761763737,
           "model": "gpt-3.5-turbo-0125",
           "choices": [
             {
               "index": 0,
               "message": {
                 "role": "assistant",
-                "content": "[\n    {\n        \"name\": \"Jim Morris\",\n        \"originals\": [\n            {\"name\": \"Jim Morris\"},\n            {\"name\": \"James Morris\"}\n        ]\n    },\n    {\n        \"name\": \"Jeff McDaniels\",\n        \"originals\": [\n            {\"name\": \"Jeff McDaniels\"},\n            {\"name\": \"Jeffery Mcdaniels\"}\n        ]\n    },\n    {\n        \"name\": \"Charles Avery\",\n        \"originals\": [\n            {\"name\": \"Charles Avery\"}\n        ]\n    },\n    {\n        \"name\": \"Jenn Jordan\",\n        \"originals\": [\n            {\"name\": \"Jenn Jordan\"}\n        ]\n    }\n]"
+                "content": "```json\n[\n    {\n        \"name\": \"Jim Morris\",\n        \"originals\": [\n            {\"name\": \"Jim Morris\"},\n            {\"name\": \"James Morris\"}\n        ]\n    },\n    {\n        \"name\": \"Jeff McDaniels\",\n        \"originals\": [\n            {\"name\": \"Jeff McDaniels\"},\n            {\"name\": \"Jeffery Mcdaniels\"}\n        ]\n    },\n    {\n        \"name\": \"Charles Avery\",\n        \"originals\": [\n            {\"name\": \"Charles Avery\"}\n        ]\n    },\n    {\n        \"name\": \"Jenn Jordan\",\n        \"originals\": [\n            {\"name\": \"Jenn Jordan\"}\n        ]\n    }\n]\n```",
+                "refusal": null,
+                "annotations": []
               },
               "logprobs": null,
               "finish_reason": "stop"
@@ -108,10 +114,21 @@ http_interactions:
           ],
           "usage": {
             "prompt_tokens": 258,
-            "completion_tokens": 140,
-            "total_tokens": 398
+            "completion_tokens": 144,
+            "total_tokens": 402,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
           },
-          "system_fingerprint": "fp_b28b39ffa8"
+          "service_tier": "default",
+          "system_fingerprint": null
         }
-  recorded_at: Sat, 06 Apr 2024 00:28:26 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Wed, 29 Oct 2025 18:49:00 GMT
+recorded_with: VCR 6.2.0

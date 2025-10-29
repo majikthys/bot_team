@@ -68,7 +68,6 @@ describe AgentRunner do
       request = subject.create_request(agent_name: "leaf")
 
       assert_equal BotTeam.configuration.model, request.model
-      assert_equal 80, request.max_tokens
       assert_equal 1, request.messages.count
       assert_equal 1, request.functions.count
     end
@@ -78,7 +77,6 @@ describe AgentRunner do
 
       assert_equal BotTeam.configuration.model, request.model
       assert_equal ({ name: "set_request_type" }), request.function_call
-      assert_equal 80, request.max_tokens
       assert_equal 1, request.messages.count
       assert_equal 1, request.functions.count
     end
