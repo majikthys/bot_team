@@ -24,35 +24,35 @@ class ChatGptRequest
 
   ##### Functions for manipulating ChatGPT message stack #####
   def replace_system_directives(content)
-    messages.reject! { |message| message[:role] == 'system' }
+    messages.reject! { |message| message[:role] == "system" }
     add_system_message(content)
   end
 
   def append_system_directives(content)
-    last_directive = messages.rindex { |message| message[:role] == 'system' }
+    last_directive = messages.rindex { |message| message[:role] == "system" }
 
     if last_directive
       messages[last_directive][:content] += "\n#{content}"
     else
-      messages.append({ role: 'system', content: })
+      messages.append({ role: "system", content: })
     end
   end
 
   def add_system_message(content, before_last_user: true)
-    last_user = messages.rindex { |message| message[:role] == 'user' }
+    last_user = messages.rindex { |message| message[:role] == "user" }
     if before_last_user && last_user
-      messages.insert(last_user, { role: 'system', content: })
+      messages.insert(last_user, { role: "system", content: })
     else
-      add_message('system', content)
+      add_message("system", content)
     end
   end
 
   def add_agent_message(content)
-    add_message('assistant', content)
+    add_message("assistant", content)
   end
 
   def add_user_message(content)
-    add_message('user', content)
+    add_message("user", content)
   end
 
   def add_message(role, content)
@@ -89,7 +89,7 @@ class ChatGptRequest
   def tools
     {
       tools: functions.map do |function|
-        { type: 'function', function: }
+        { type: "function", function: }
       end,
       tool_choice:
     }
@@ -97,11 +97,11 @@ class ChatGptRequest
 
   def tool_choice
     if function_call.nil?
-      functions.any? ? 'auto' : 'none'
+      functions.any? ? "auto" : "none"
     elsif %w[auto none].include?(function_call)
       function_call
     else
-      { type: 'function', function: function_call }
+      { type: "function", function: function_call }
     end
   end
 end

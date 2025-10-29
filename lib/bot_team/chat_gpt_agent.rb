@@ -145,7 +145,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
     @forward_functions ||= nil
     @functions ||= nil
-    @function_call ||= 'auto'
+    @function_call ||= "auto"
     @function_procs ||= {}
     nil
   end
@@ -162,7 +162,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   #### Function and Parameter Definition ####
   def pick_proc(method, block)
-    raise ArgumentError, 'Can only provide one of either a method or a block' if method && block
+    raise ArgumentError, "Can only provide one of either a method or a block" if method && block
 
     method || block
   end
@@ -181,7 +181,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   def set_function_call(name) # rubocop:disable Naming/AccessorMethodName
     msg = "Cannot set required function when function_call is already defined (current value: #{function_call})"
-    raise ArgumentError, msg unless function_call == 'auto'
+    raise ArgumentError, msg unless function_call == "auto"
 
     @function_call = { name: name.to_s }
   end
@@ -209,11 +209,11 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     params = function[:parameters] ||= default_parameters
 
     params[:required] << name.to_s if required
-    params[:properties][name.to_sym] = { type: 'string' }
+    params[:properties][name.to_sym] = { type: "string" }
   end
 
   def default_parameters
-    { type: 'object', properties: {}, required: [] }
+    { type: "object", properties: {}, required: [] }
   end
 
   def function_names_from_functions
@@ -229,7 +229,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     raise "run must be supplied with either message or messages" unless message || messages
 
     messages ||= []
-    messages << { role: 'user', content: message } if message
+    messages << { role: "user", content: message } if message
     messages
   end
 
@@ -254,7 +254,7 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
   def process_response(response)
     return response.message if response&.message
 
-    raise 'No useful response from agent' unless response&.function_call
+    raise "No useful response from agent" unless response&.function_call
 
     process_function_response(response)
   end

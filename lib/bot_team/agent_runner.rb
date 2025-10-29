@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'yaml'
-require_relative 'chat_gpt_agent'
+require "yaml"
+require_relative "chat_gpt_agent"
 class AgentRunner
   attr_accessor :config_root, :initial_agent_name, :initial_messages
   attr_reader :current_agent_config, :interpolations, :functions

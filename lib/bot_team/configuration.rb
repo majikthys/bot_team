@@ -18,12 +18,12 @@ module BotTeam
       :log_level
 
     def initialize # rubocop:disable Metrics/MethodLength
-      @api_key = ENV.fetch('OPENAI_API_KEY', nil)
-      @api_url = 'https://api.openai.com/v1/chat/completions'
+      @api_key = ENV.fetch("OPENAI_API_KEY", nil)
+      @api_url = "https://api.openai.com/v1/chat/completions"
       @log_level = :info
       @logger = Logger.new($stdout).tap { |l| l.level = @log_level }
       @max_tokens = 80
-      @model = 'gpt-3.5-turbo'
+      @model = "gpt-3.5-turbo"
       @num_choices = 1
       @retry_rolloff_exponent = 1.5
       @retry_longest_wait = 25

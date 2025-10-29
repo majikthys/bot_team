@@ -114,7 +114,7 @@ module Agent
 
     def listify_results(choices)
       choices.map do |choice|
-        JSON.parse(choice.dig('message', 'content').gsub(/^```.*/, '')).map { |obj| obj.transform_keys(&:to_sym) }
+        JSON.parse(choice.dig("message", "content").gsub(/^```.*/, "")).map { |obj| obj.transform_keys(&:to_sym) }
       end
     end
 
