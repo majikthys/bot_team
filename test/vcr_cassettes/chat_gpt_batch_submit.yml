@@ -1,0 +1,190 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/files
+    body:
+      encoding: UTF-8
+      string: "--------------------------6CwkXhv9HhPw8F4i\r\nContent-Disposition:
+        form-data; name=\"file\"; filename=\"batch_input20251109-23998-uhx3xw.jsonl\"\r\nContent-Type:
+        application/octet-stream\r\n\r\n{\"custom_id\":\"req_1\",\"method\":\"POST\",\"url\":\"/v1/chat/completions\",\"body\":{\"model\":\"gpt-4o-mini\",\"messages\":[{\"role\":\"user\",\"content\":\"Say
+        hello\"}]}}\r\n--------------------------6CwkXhv9HhPw8F4i\r\nContent-Disposition:
+        form-data; name=\"purpose\"\r\n\r\nbatch\r\n--------------------------6CwkXhv9HhPw8F4i--\r\n"
+    headers:
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - multipart/form-data; boundary=------------------------6CwkXhv9HhPw8F4i
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 09 Nov 2025 21:00:30 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Request-Id:
+      - req_f9727a4ff00e431dbf884133dc006719
+      Openai-Processing-Ms:
+      - '573'
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - shipindexdev
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Envoy-Upstream-Service-Time:
+      - '586'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=kiDjJxI_V9Gkvg_EurccP3zF5gPfbvR2hoVvN62xYRU-1762722030-1.0.1.1-HAtNzTIF3686Z.z0_e264uOH78zXxo1YwdyMSpbkQqXt6ecZa8GPEwN2Zvgy4nyxfLFXuE9LTsBCFSYUMTQL1kcqWw0HBgmrsVfUSPV5yPc;
+        path=/; expires=Sun, 09-Nov-25 21:30:30 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=FLHEGliLsvxh9vMPiX7OvvvNXm0oXjXFWRq_dudgA94-1762722030308-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99c03d6d3dada368-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "object": "file",
+          "id": "file-HPk9ZogaPb5xZhhEG6XjxT",
+          "purpose": "batch",
+          "filename": "batch_input20251109-23998-uhx3xw.jsonl",
+          "bytes": 148,
+          "created_at": 1762722029,
+          "expires_at": 1765314029,
+          "status": "processed",
+          "status_details": null
+        }
+  recorded_at: Sun, 09 Nov 2025 21:00:30 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/batches
+    body:
+      encoding: UTF-8
+      string: '{"input_file_id":"file-HPk9ZogaPb5xZhhEG6XjxT","endpoint":"/v1/chat/completions","completion_window":"24h"}'
+    headers:
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 09 Nov 2025 21:00:30 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - shipindexdev
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      X-Request-Id:
+      - req_988dbe0b28994404b29934fa346b56d3
+      Openai-Processing-Ms:
+      - '328'
+      X-Envoy-Upstream-Service-Time:
+      - '331'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=3.XKH1AgaEWiVlSkts287gxUx7zEedMzFOTrarLtob8-1762722030-1.0.1.1-qEClcRSukN7ckgyYRrMbIY2Wget1qo42jEpi4jBmT.O.u3HICr0V17lb7VI5rhuus0ZUbClxsF45C9Rdh5AczDAYAwdnmpmyZja63XwojJI;
+        path=/; expires=Sun, 09-Nov-25 21:30:30 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=JbGYGlbFUl7BJoDLS2_gJGzgTHVCYIho5aLjHOpnWhs-1762722030771-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99c03d71bce8ba1b-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "id": "batch_691100ee6bf08190bebdf4721defcd4b",
+          "object": "batch",
+          "endpoint": "/v1/chat/completions",
+          "model": null,
+          "errors": null,
+          "input_file_id": "file-HPk9ZogaPb5xZhhEG6XjxT",
+          "completion_window": "24h",
+          "status": "validating",
+          "output_file_id": null,
+          "error_file_id": null,
+          "created_at": 1762722030,
+          "in_progress_at": null,
+          "expires_at": 1762808430,
+          "finalizing_at": null,
+          "completed_at": null,
+          "failed_at": null,
+          "expired_at": null,
+          "cancelling_at": null,
+          "cancelled_at": null,
+          "request_counts": {
+            "total": 0,
+            "completed": 0,
+            "failed": 0
+          },
+          "usage": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "metadata": null
+        }
+  recorded_at: Sun, 09 Nov 2025 21:00:30 GMT
+recorded_with: VCR 6.2.0
