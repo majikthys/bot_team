@@ -23,7 +23,9 @@ class AgentRunner
   end
 
   def run_team
-    run_agent(agent_name: initial_agent_name, messages: initial_messages)
+    result = run_agent(agent_name: initial_agent_name, messages: initial_messages)
+    log_cumulative_usage
+    result
   end
 
   def run_agent(agent_name:, messages: nil)
@@ -166,5 +168,15 @@ class AgentRunner
     @usage_stats[model][tier][:input_cached] += tokens[:input_cached]
     @usage_stats[model][tier][:output] += tokens[:output]
     @usage_stats[model][tier][:total] += tokens[:total]
+  end
+
+  def log_cumulative_usage
+    return if usage_stats.empty?
+
+    @logger.debug format(
+      "Runner completed: total_tokens=%d total_cost=$%.6f",
+      usage_stats.values.flat_map(&:values).sum { |tokens| tokens[:total] },
+      total_cost
+    )
   end
 end
