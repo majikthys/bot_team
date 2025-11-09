@@ -207,4 +207,35 @@ describe ChatGptAgent do
       agent.add_function { |bar:| bar }
     end.must_raise(ArgumentError)
   end
+
+  describe "usage and cost convenience methods" do
+    it "returns usage from response after run" do
+      agent = ChatGptAgent.new
+      agent.run("Say hello")
+
+      _(agent.usage).wont_be_nil
+      _(agent.usage).must_equal agent.response.usage
+    end
+
+    it "returns cost from response after run" do
+      agent = ChatGptAgent.new
+      agent.run("Say hello")
+
+      _(agent.cost).wont_be_nil
+      _(agent.cost).must_equal 0.000018 # magic number from derived from vcr usage
+      _(agent.cost).must_be_kind_of Float
+    end
+
+    it "returns nil for usage when agent has not run" do
+      agent = ChatGptAgent.new
+
+      _(agent.usage).must_be_nil
+    end
+
+    it "returns nil for cost when agent has not run" do
+      agent = ChatGptAgent.new
+
+      _(agent.cost).must_be_nil
+    end
+  end
 end

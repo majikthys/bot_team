@@ -133,6 +133,14 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     response_params.reject { |k, _v| k.to_sym == state_function_argument }.transform_keys(&:to_sym)
   end
 
+  def usage
+    response&.usage
+  end
+
+  def cost
+    response&.cost
+  end
+
   private
 
   #### Initialization and Configuration ####
