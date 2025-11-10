@@ -1,0 +1,292 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/files
+    body:
+      encoding: UTF-8
+      string: "--------------------------dahVYBasSFV5QKmE\r\nContent-Disposition:
+        form-data; name=\"file\"; filename=\"batch_input20251109-23998-p11s9a.jsonl\"\r\nContent-Type:
+        application/octet-stream\r\n\r\n{\"custom_id\":\"req_1\",\"method\":\"POST\",\"url\":\"/v1/chat/completions\",\"body\":{\"model\":\"gpt-4o-mini\",\"messages\":[{\"role\":\"user\",\"content\":\"Say
+        hello\"}]}}\r\n--------------------------dahVYBasSFV5QKmE\r\nContent-Disposition:
+        form-data; name=\"purpose\"\r\n\r\nbatch\r\n--------------------------dahVYBasSFV5QKmE--\r\n"
+    headers:
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - multipart/form-data; boundary=------------------------dahVYBasSFV5QKmE
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 09 Nov 2025 21:00:32 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Request-Id:
+      - req_af25139533a2422fb5b9111deee1e0d6
+      Openai-Processing-Ms:
+      - '580'
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - shipindexdev
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Envoy-Upstream-Service-Time:
+      - '589'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=uxau1Qw8KrBaxVDUFF1J8m7ANPJiIFWipoaxYjY87fk-1762722032-1.0.1.1-542mH.76yBfFxQmtCqr8CkQXsTvf9aVgnaJ0KXxS4le1P5dl8fJF3skPw_eN10hSd9GnaUT_zK7.77Meh7psh1_A2ZT_AP56JeT1DxGBk9Q;
+        path=/; expires=Sun, 09-Nov-25 21:30:32 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=zFUMQT9IMoY93QfBfTHAUPKRUZVwFzWMEG_IDEqwndw-1762722032818-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99c03d7ce9d0b9d3-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "object": "file",
+          "id": "file-SVzDkQLYZJhxdUNjnpurEi",
+          "purpose": "batch",
+          "filename": "batch_input20251109-23998-p11s9a.jsonl",
+          "bytes": 148,
+          "created_at": 1762722032,
+          "expires_at": 1765314032,
+          "status": "processed",
+          "status_details": null
+        }
+  recorded_at: Sun, 09 Nov 2025 21:00:32 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/batches
+    body:
+      encoding: UTF-8
+      string: '{"input_file_id":"file-SVzDkQLYZJhxdUNjnpurEi","endpoint":"/v1/chat/completions","completion_window":"24h"}'
+    headers:
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 09 Nov 2025 21:00:33 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - shipindexdev
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      X-Request-Id:
+      - req_f17a0631abb64da6aa045d3f7122f9ca
+      Openai-Processing-Ms:
+      - '205'
+      X-Envoy-Upstream-Service-Time:
+      - '212'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=PyCKJjZqXEeLZAEssFhTs6d33A7FYgGSe66yVyNLccM-1762722033-1.0.1.1-IDRsHvWDf2B8iLcsSkx93ibHOsi.z9DhM1.imQrb1amj3ZbaXaErWChPHAQotanEtodmgJQzLcchDVud0U39ozp4aUrwKgw26k0tkEqEN6s;
+        path=/; expires=Sun, 09-Nov-25 21:30:33 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=BcTmPW4.K62aRJ8MbEjqEnIHa42qNX58hAvepfUYJyg-1762722033165-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99c03d817d6d30bc-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "id": "batch_691100f0f0cc81909bd5508e3c45d35f",
+          "object": "batch",
+          "endpoint": "/v1/chat/completions",
+          "model": null,
+          "errors": null,
+          "input_file_id": "file-SVzDkQLYZJhxdUNjnpurEi",
+          "completion_window": "24h",
+          "status": "validating",
+          "output_file_id": null,
+          "error_file_id": null,
+          "created_at": 1762722032,
+          "in_progress_at": null,
+          "expires_at": 1762808432,
+          "finalizing_at": null,
+          "completed_at": null,
+          "failed_at": null,
+          "expired_at": null,
+          "cancelling_at": null,
+          "cancelled_at": null,
+          "request_counts": {
+            "total": 0,
+            "completed": 0,
+            "failed": 0
+          },
+          "usage": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "metadata": null
+        }
+  recorded_at: Sun, 09 Nov 2025 21:00:33 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/batches/batch_691100f0f0cc81909bd5508e3c45d35f
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 09 Nov 2025 21:00:33 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - shipindexdev
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      X-Request-Id:
+      - req_84aa4f8367f3418891409f64347df35f
+      Openai-Processing-Ms:
+      - '24'
+      X-Envoy-Upstream-Service-Time:
+      - '26'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=f.aCj7daClzY0xjYndvng.oF24gAWqEKfIyP7u2lFY0-1762722033-1.0.1.1-.MM7YIliWqy5c.O_f6rKGO77fsEJnV_L.kyARoojovk4VYYyQE76k2B4WPtvv9wQxGjfCqG7EBiN.QOU58tIziZ1KyOJq23JVcV08Aj7i24;
+        path=/; expires=Sun, 09-Nov-25 21:30:33 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=Wku6M5JfsbVveh1EJqKAbGXUOXu5OkFYYP7TsZb3y2o-1762722033317-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99c03d839e3cc586-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "id": "batch_691100f0f0cc81909bd5508e3c45d35f",
+          "object": "batch",
+          "endpoint": "/v1/chat/completions",
+          "model": null,
+          "errors": null,
+          "input_file_id": "file-SVzDkQLYZJhxdUNjnpurEi",
+          "completion_window": "24h",
+          "status": "validating",
+          "output_file_id": null,
+          "error_file_id": null,
+          "created_at": 1762722032,
+          "in_progress_at": null,
+          "expires_at": 1762808432,
+          "finalizing_at": null,
+          "completed_at": null,
+          "failed_at": null,
+          "expired_at": null,
+          "cancelling_at": null,
+          "cancelled_at": null,
+          "request_counts": {
+            "total": 0,
+            "completed": 0,
+            "failed": 0
+          },
+          "usage": {
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "metadata": null
+        }
+  recorded_at: Sun, 09 Nov 2025 21:00:33 GMT
+recorded_with: VCR 6.2.0
