@@ -25,13 +25,13 @@ describe AgentRunner do
     subject do
       AgentRunner.new(
         config_root: "test/config/test_agents/",
-        modules: [ Leaf, Switchboard ]
+        modules: [Leaf, Switchboard]
       )
     end
 
     it "should run team of agents" do
       subject.initial_agent_name = "switchboard"
-      subject.initial_messages = [ { role: "user", content: "set test value to 99" } ]
+      subject.initial_messages = [{ role: "user", content: "set test value to 99" }]
       result = subject.run_team
 
       # Demonstrates that switchboard called leaf
@@ -40,7 +40,7 @@ describe AgentRunner do
 
     it "should call module function" do
       subject.initial_agent_name = "switchboard"
-      subject.initial_messages = [ { role: "user", content: "THANKS!!!" } ]
+      subject.initial_messages = [{ role: "user", content: "THANKS!!!" }]
       result = subject.run_team
 
       assert_match(/^OUTPUT FROM THE SB THANKS FUNCTION SENTIMENT/, result)
@@ -48,14 +48,14 @@ describe AgentRunner do
 
     it "should call ignore function" do
       subject.initial_agent_name = "switchboard"
-      subject.initial_messages = [ { role: "user", content: "IGNORE ME" } ]
+      subject.initial_messages = [{ role: "user", content: "IGNORE ME" }]
       result = subject.run_team
 
       assert_nil result
     end
 
     it "should run single agent" do
-      result = subject.run_agent(agent_name: "leaf", messages: [ { role: "user", content: "set test value to 99" } ])
+      result = subject.run_agent(agent_name: "leaf", messages: [{ role: "user", content: "set test value to 99" }])
 
       assert_equal "OUTPUT FROM THE LEAF FUNCTION", result
     end
@@ -90,7 +90,7 @@ describe AgentRunner do
         system_directives: "You are a bot that repeats what the user says in the voice of a pirate"
       )
       subject.add_agent("pirate", pirate)
-      result = subject.run_agent(agent_name: "pirate", messages: [ { role: "user", content: "Hello there" } ])
+      result = subject.run_agent(agent_name: "pirate", messages: [{ role: "user", content: "Hello there" }])
       _(result).must_match(/^A/) # Tends to be Ahoy, Avast, or Arr
     end
   end
@@ -102,7 +102,7 @@ describe AgentRunner do
     interpolations = { products: pretty_print_products, session_id: "Session 141241" }
     runner = AgentRunner.new(
       config_root: "test/config/test_agents/",
-      modules: [ Product ],
+      modules: [Product],
       interpolations:
     )
 
@@ -119,7 +119,7 @@ describe AgentRunner do
     interpolations = { products: pretty_print_products, session_id: "Session 141241" }
     runner = AgentRunner.new(
       config_root: "test/config/test_agents/",
-      modules: [ Product ],
+      modules: [Product],
       interpolations:
     )
 
@@ -147,8 +147,80 @@ describe AgentRunner do
     runner = AgentRunner.new(config_root: "test/config/test_agents/")
 
     refute_respond_to runner, :set_test_value, "subject should not respond to :change_state"
-    runner.load_modules([ Leaf ])
+    runner.load_modules([Leaf])
 
     assert_respond_to runner, :set_test_value, "subject should respond to :change_state"
+  end
+
+  describe "usage tracking and cost calculation" do
+    it "tracks usage stats for single agent run" do
+      runner = AgentRunner.new(
+        config_root: "test/config/test_agents/",
+        modules: [Leaf, Switchboard]
+      )
+      runner.run_agent(agent_name: "leaf", messages: [{ role: "user", content: "set test value to 99" }])
+
+      refute_nil runner.usage_stats
+      refute_empty runner.usage_stats
+      assert_instance_of Hash, runner.usage_stats
+
+      # Check specific token counts (values from VCR cassette)
+      model = runner.usage_stats.keys.first
+      tier = runner.usage_stats[model].keys.first
+      tokens = runner.usage_stats[model][tier]
+
+      assert_equal 162, tokens[:input]
+      assert_equal 0, tokens[:input_cached]
+      assert_equal 15, tokens[:output]
+      assert_equal 177, tokens[:total]
+    end
+
+    it "aggregates usage stats across cascading agent calls" do
+      runner = AgentRunner.new(
+        config_root: "test/config/test_agents/",
+        modules: [Leaf, Switchboard]
+      )
+      runner.initial_agent_name = "switchboard"
+      runner.initial_messages = [{ role: "user", content: "set test value to 99" }]
+      runner.run_team
+
+      refute_nil runner.usage_stats
+      refute_empty runner.usage_stats
+
+      # Check that tokens are aggregated across multiple agent calls
+      # Switchboard calls leaf, so we should see tokens from both
+      model = runner.usage_stats.keys.first
+      tier = runner.usage_stats[model].keys.first
+      tokens = runner.usage_stats[model][tier]
+
+      assert_equal 443, tokens[:input]
+      assert_equal 0, tokens[:input_cached]
+      assert_equal 34, tokens[:output]
+      assert_equal 477, tokens[:total]
+    end
+
+    it "calculates total cost correctly" do
+      runner = AgentRunner.new(
+        config_root: "test/config/test_agents/",
+        modules: [Leaf, Switchboard]
+      )
+      runner.initial_agent_name = "switchboard"
+      runner.initial_messages = [{ role: "user", content: "set test value to 99" }]
+      runner.run_team
+
+      cost = runner.total_cost
+
+      assert_in_delta(0.0002725, cost)
+    end
+
+    it "starts with empty usage stats" do
+      runner = AgentRunner.new(
+        config_root: "test/config/test_agents/",
+        modules: [Leaf, Switchboard]
+      )
+
+      assert_empty runner.usage_stats
+      assert_in_delta(0.0, runner.total_cost)
+    end
   end
 end

@@ -53,3 +53,54 @@ agent.run("Say something alarming")
 #=> [nil]
 ```
 
+## Usage Tracking and Cost Calculation
+
+BotTeam automatically tracks token usage and calculates costs for OpenAI API calls. Access usage information at both the individual agent and runner levels.
+
+### Individual Agent Usage
+
+After running an agent, access usage stats and cost:
+
+```ruby
+agent = ChatGptAgent.new
+agent.run("Say hello")
+
+agent.usage
+#=> {"prompt_tokens" => 10, "completion_tokens" => 5, "total_tokens" => 15, ...}
+
+agent.cost
+#=> 0.000015
+```
+
+### AgentRunner Cumulative Usage
+
+When using AgentRunner with cascading agents, usage is automatically aggregated across all agent calls:
+
+```ruby
+runner = AgentRunner.new(
+  config_root: "config/agents/",
+  modules: [MyModule]
+)
+runner.initial_agent_name = "switchboard"
+runner.initial_messages = [{ role: "user", content: "Process this request" }]
+runner.run_team
+
+runner.usage_stats
+#=> {"gpt-4o" => {"default" => {input: 443, input_cached: 0, output: 34, total: 477}}}
+
+runner.total_cost
+#=> 0.000272
+```
+
+The `usage_stats` hash tracks token counts by model and service tier, breaking down:
+- `input`: Uncached prompt tokens
+- `input_cached`: Cached prompt tokens
+- `output`: Completion tokens
+- `total`: Total tokens used
+
+AgentRunner automatically logs cumulative usage at DEBUG level when `run_team` completes.
+
+### Pricing Data
+
+Pricing information is stored in `lib/bot_team/chat_gpt_cost.csv` and covers all OpenAI models and service tiers (batch, flex, standard, priority). You can override this by placing a custom CSV at `config/chat_gpt_cost.csv` in your project.
+

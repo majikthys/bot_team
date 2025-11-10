@@ -4,7 +4,7 @@ require "yaml"
 require_relative "chat_gpt_agent"
 class AgentRunner
   attr_accessor :config_root, :initial_agent_name, :initial_messages
-  attr_reader :current_agent_config, :interpolations, :functions
+  attr_reader :current_agent_config, :interpolations, :functions, :usage_stats
 
   def initialize(config_root: nil, modules: [], interpolations: {}, initial_agent_name: nil, initial_messages: nil)
     @rest_gateway = RestGateway.new
@@ -13,6 +13,7 @@ class AgentRunner
     @initial_messages = initial_messages
     @interpolations = interpolations
     @agents = {}
+    @usage_stats = {}
     load_modules(modules)
     @logger = BotTeam.logger
   end
@@ -22,12 +23,16 @@ class AgentRunner
   end
 
   def run_team
-    run_agent(agent_name: initial_agent_name, messages: initial_messages)
+    result = run_agent(agent_name: initial_agent_name, messages: initial_messages)
+    log_cumulative_usage
+    result
   end
 
   def run_agent(agent_name:, messages: nil)
     create_request(agent_name:, messages:)
     response = @rest_gateway.call(@chat_gpt_request)
+
+    accumulate_usage(response)
 
     return response.message if response&.message
 
@@ -103,5 +108,75 @@ class AgentRunner
 
   def log_action(message)
     @logger.debug "ACTION -> #{message}"
+  end
+
+  def total_cost
+    cost_calculator = ChatGptCost.new
+    total = 0.0
+
+    usage_stats.each do |model, tiers|
+      tiers.each do |tier, tokens|
+        input_cost = cost_calculator.lookup(model:, tier:, token_type: "input") * tokens[:input]
+        cached_cost = (cost_calculator.lookup(model:, tier:, token_type: "input_cached") || 0.0) * tokens[:input_cached]
+        output_cost = cost_calculator.lookup(model:, tier:, token_type: "output") * tokens[:output]
+
+        total += (input_cost + cached_cost + output_cost) / 1_000_000.0
+      end
+    end
+
+    total
+  end
+
+  private
+
+  def accumulate_usage(response)
+    return unless usage_data_available?(response)
+
+    model = response.model
+    tier = response.service_tier || "standard"
+
+    ensure_usage_stats_initialized(model, tier)
+    tokens = extract_response_tokens(response)
+    add_tokens_to_stats(model, tier, tokens)
+  end
+
+  def usage_data_available?(response)
+    response&.usage && response&.model && response&.service_tier
+  end
+
+  def ensure_usage_stats_initialized(model, tier)
+    @usage_stats[model] ||= {}
+    @usage_stats[model][tier] ||= { input: 0, input_cached: 0, output: 0, total: 0 }
+  end
+
+  def extract_response_tokens(response)
+    prompt_tokens = response.usage["prompt_tokens"] || 0
+    completion_tokens = response.usage["completion_tokens"] || 0
+    cached_tokens = response.usage.dig("prompt_tokens_details", "cached_tokens") || 0
+    total_tokens = response.usage["total_tokens"] || 0
+
+    {
+      input: prompt_tokens - cached_tokens,
+      input_cached: cached_tokens,
+      output: completion_tokens,
+      total: total_tokens
+    }
+  end
+
+  def add_tokens_to_stats(model, tier, tokens)
+    @usage_stats[model][tier][:input] += tokens[:input]
+    @usage_stats[model][tier][:input_cached] += tokens[:input_cached]
+    @usage_stats[model][tier][:output] += tokens[:output]
+    @usage_stats[model][tier][:total] += tokens[:total]
+  end
+
+  def log_cumulative_usage
+    return if usage_stats.empty?
+
+    @logger.debug format(
+      "Runner completed: total_tokens=%d total_cost=$%.6f",
+      usage_stats.values.flat_map(&:values).sum { |tokens| tokens[:total] },
+      total_cost
+    )
   end
 end
