@@ -117,7 +117,15 @@ class ChatGptBatch
 
     # Extract error message if present
     if batch_data["errors"] && batch_data["errors"].any?
-      @error_message = batch_data["errors"].map { |e| e["message"] }.join("; ")
+      @error_message = extract_error_message(batch_data["errors"])
+    end
+  end
+
+  def extract_error_message(error_data)
+    if error_data.is_a?(Array)
+      error_data.map { |e| e["message"] }.join("; ")
+    elsif error_data.is_a?(Hash)
+      error_data["data"].map { |e| e["message"] }.join("; ")
     end
   end
 
