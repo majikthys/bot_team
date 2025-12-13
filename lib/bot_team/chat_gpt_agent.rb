@@ -51,14 +51,44 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
     end
   end
 
-  # Supply message (String) to send a single user message
-  # Use messages (Array of Hashes) to send a history
-  def run(message = nil, messages: nil, interpolations: {}, gateway: RestGateway.new)
+  # Prepares a ChatGPT request without sending it
+  # This allows batch mode to build requests for later submission
+  #
+  # @param message [String, nil] Single message to send
+  # @param messages [Array<Hash>, nil] Array of message hashes
+  # @param interpolations [Hash] Values to interpolate into system directives
+  # @return [ChatGptRequest] The prepared request object
+  def prepare_request(message = nil, messages: nil, interpolations: {})
     messages = setup_messages_for_run(message, messages)
     agent = runnable(interpolations:)
     @request = ChatGptRequest.new(agent:, messages:)
+    @request
+  end
+
+  # Supply message (String) to send a single user message
+  # Use messages (Array of Hashes) to send a history
+  def run(message = nil, messages: nil, interpolations: {}, gateway: RestGateway.new)
+    # Prepare the request (without sending)
+    prepare_request(message, messages:, interpolations:)
+
+    # Send the request
     @response = gateway.call(request)
+
+    # Process the response (invoking callbacks)
     process_response(response)
+  end
+
+  # Processes a ChatGPT response, invoking callbacks for function calls
+  # This allows batch mode to process responses after retrieval
+  #
+  # @param response [ChatGptResponse] The response from ChatGPT
+  # @return [String, Array] The response message or function call results
+  def process_response(response)
+    return response.message if response&.message
+
+    raise "No useful response from agent" unless response&.function_call
+
+    process_function_response(response)
   end
 
   def implied_functions
@@ -249,14 +279,6 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
       result.gsub!("%{#{key}}", val.is_a?(Proc) ? val.call : val.to_s)
     end
     result
-  end
-
-  def process_response(response)
-    return response.message if response&.message
-
-    raise "No useful response from agent" unless response&.function_call
-
-    process_function_response(response)
   end
 
   def process_function_response(response) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength

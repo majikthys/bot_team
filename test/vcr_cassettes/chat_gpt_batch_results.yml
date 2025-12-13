@@ -1,0 +1,185 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openai.com/v1/batches/batch_691100653714819085a1d9b57a239d50
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 09 Nov 2025 20:59:16 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - shipindexdev
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      X-Request-Id:
+      - req_47688b32775f4907be4f0ae26f3f0e84
+      Openai-Processing-Ms:
+      - '32'
+      X-Envoy-Upstream-Service-Time:
+      - '38'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=s_mzSfZekmd4LO9BbqCmD4ZevfNabiNW3jBWs843aCY-1762721956-1.0.1.1-KHDXduXEs1gUNnmyjuomigLzaYqJnLvh2IGKn1gfXLsSqkV6n71k4TPzv8Xz.x389n.nVTj49PXGCme.lgbMxeLPbkqFU10ybXk8uUkb7g0;
+        path=/; expires=Sun, 09-Nov-25 21:29:16 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=LOwU68NPuWs.rdZyw_sFwHFk..bzMy69E7qo6ghbqjg-1762721956443-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99c03ba31b98eb40-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "id": "batch_691100653714819085a1d9b57a239d50",
+          "object": "batch",
+          "endpoint": "/v1/chat/completions",
+          "model": "gpt-4o-mini-2024-07-18",
+          "errors": null,
+          "input_file_id": "file-Som5T374iv5zXUQf1LEA3x",
+          "completion_window": "24h",
+          "status": "completed",
+          "output_file_id": "file-HAWhMt4ueSfJhmFDEjKauK",
+          "error_file_id": null,
+          "created_at": 1762721893,
+          "in_progress_at": 1762721894,
+          "expires_at": 1762808293,
+          "finalizing_at": 1762721932,
+          "completed_at": 1762721937,
+          "failed_at": null,
+          "expired_at": null,
+          "cancelling_at": null,
+          "cancelled_at": null,
+          "request_counts": {
+            "total": 1,
+            "completed": 1,
+            "failed": 0
+          },
+          "usage": {
+            "input_tokens": 9,
+            "output_tokens": 9,
+            "total_tokens": 18,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "metadata": null
+        }
+  recorded_at: Sun, 09 Nov 2025 20:59:16 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/files/file-HAWhMt4ueSfJhmFDEjKauK/content
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 09 Nov 2025 20:59:17 GMT
+      Content-Type:
+      - application/octet-stream
+      Content-Length:
+      - '854'
+      Connection:
+      - keep-alive
+      Content-Disposition:
+      - attachment; filename="batch_691100653714819085a1d9b57a239d50_output.jsonl"
+      X-Request-Id:
+      - req_f7474663ef3249a7a379b5b71f55c94c
+      Openai-Processing-Ms:
+      - '479'
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - shipindexdev
+      Openai-Project:
+      - proj_fA4L65B2NRtcZUU2Ys8oTg5Q
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Envoy-Upstream-Service-Time:
+      - '490'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=q71o5nbcoRBke3pnaLKLUwQzt1Ynt6pXZlAZkIQ1N8Q-1762721957-1.0.1.1-mJn_hgO3B0qYJTj7WpTo0exLN4w9VXsmlpw23fCj3B_NrXgDYqSsg5pYSitUoe5qtT.mg10tAACn1tHBY5VSTRTIGZQPtptWiq5CR15xARw;
+        path=/; expires=Sun, 09-Nov-25 21:29:17 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=PSJdSpUI.AZz.HcyS5fLpoCO3pmLoydMR3pwrZblA_M-1762721957058-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99c03ba4095a2844-SEA
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: '{"id": "batch_req_69110090936481909a2a20a46eac1ba9", "custom_id": "req_1",
+        "response": {"status_code": 200, "request_id": "57b71aeb18808560538a3496ec368a1d",
+        "body": {"id": "chatcmpl-Ca6mKgzL5VBjco7MYFaAMgAX7yeRI", "object": "chat.completion",
+        "created": 1762721900, "model": "gpt-4o-mini-2024-07-18", "choices": [{"index":
+        0, "message": {"role": "assistant", "content": "Hello! How can I assist you
+        today?", "refusal": null, "annotations": []}, "logprobs": null, "finish_reason":
+        "stop"}], "usage": {"prompt_tokens": 9, "completion_tokens": 9, "total_tokens":
+        18, "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0}, "completion_tokens_details":
+        {"reasoning_tokens": 0, "audio_tokens": 0, "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0}}, "service_tier": "default", "system_fingerprint":
+        "fp_560af6e559"}}, "error": null}
+
+        '
+  recorded_at: Sun, 09 Nov 2025 20:59:17 GMT
+recorded_with: VCR 6.2.0
