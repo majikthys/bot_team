@@ -80,7 +80,8 @@ class ChatGptResponse
   end
 
   def message
-    choices[0]&.dig("message", "content")
+    content = choices[0]&.dig("message", "content")
+    content.nil? || content.empty? ? nil : content
   end
 
   def to_hash
