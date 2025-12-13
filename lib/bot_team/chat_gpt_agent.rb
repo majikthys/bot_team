@@ -3,6 +3,8 @@
 ## ChatGptAgent stores the configuration for a single-task agent's behavior and settings
 class ChatGptAgent # rubocop:disable Metrics/ClassLength
   attr_accessor \
+    :api_key,
+    :api_url,
     :callbacks,
     :forward_functions,
     :function_call,
@@ -67,7 +69,9 @@ class ChatGptAgent # rubocop:disable Metrics/ClassLength
 
   # Supply message (String) to send a single user message
   # Use messages (Array of Hashes) to send a history
-  def run(message = nil, messages: nil, interpolations: {}, gateway: RestGateway.new)
+  def run(message = nil, messages: nil, interpolations: {}, gateway: nil)
+    gateway ||= RestGateway.new(api_key: api_key, api_url: api_url)
+
     # Prepare the request (without sending)
     prepare_request(message, messages:, interpolations:)
 

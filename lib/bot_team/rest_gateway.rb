@@ -9,16 +9,18 @@ class RestGateway
 
   include HTTParty
 
-  def initialize
+  def initialize(api_key: nil, api_url: nil)
+    @api_key_override = api_key
+    @api_url_override = api_url
     @logger = BotTeam.logger
   end
 
   def api_key
-    BotTeam.configuration.api_key
+    @api_key_override || BotTeam.configuration.api_key
   end
 
   def api_url
-    BotTeam.configuration.api_url
+    @api_url_override || BotTeam.configuration.api_url
   end
 
   def http_headers
