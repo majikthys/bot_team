@@ -34,13 +34,13 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest", "~> 5.0"
   s.add_development_dependency "minitest-focus", "~> 1.4.0"
   s.add_development_dependency "pry-byebug", "~> 3.10.1"
-  s.add_development_dependency "rake", "~> 10.0"
+  s.add_development_dependency "rake", "~> 12.3"
   s.add_development_dependency "rubocop", "~> 1.62.1"
   s.add_development_dependency "rubocop-minitest", "~> 0.35.0"
   s.add_development_dependency "ruby-lsp", "~> 0.13.4"
   s.add_development_dependency "vcr", "~> 6.2.0"
   s.add_development_dependency "webmock", "~> 3.20.0"
 
-  s.add_dependency "httparty", "~> 0.21.0"
+  s.add_dependency "httparty", "~> 0.24.0"
   s.add_dependency "logger", "~> 1.5.0"
 end
