@@ -42,5 +42,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "webmock", "~> 3.20.0"
 
   s.add_dependency "httparty", "~> 0.24.0"
-  s.add_dependency "logger", "~> 1.5.0"
+  s.add_dependency "logger", ">= 1.5.0"
 end
