@@ -101,7 +101,7 @@ class ChatGptRequest
     elsif %w[auto none].include?(function_call)
       function_call
     else
-      { type: "function", function: function_call }
+      { type: "function", name: function_call[:name], function: function_call }
     end
   end
 end
